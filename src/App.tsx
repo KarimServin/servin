@@ -61,18 +61,18 @@ export default function App() {
         <div className="w-full h-full flex flex-col items-center justify-center p-6 md:p-12 text-left">
           <div className="max-w-5xl w-full flex flex-col items-start translate-y-0 md:translate-y-0 overflow-visible">
             <motion.h1 
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
+              transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
               className="text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-black tracking-[-0.06em] leading-[0.85] mb-4 md:mb-6 text-white will-change-transform"
             >
               ANALISTA DE <br/>SISTEMAS <span className="opacity-30 font-light text-[0.8em]">()</span>
             </motion.h1>
             
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
+              transition={{ duration: 1.2, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
               className="max-w-md text-[12px] md:text-[15px] tracking-[0.2em] uppercase leading-relaxed opacity-80 font-medium text-white"
             >
               Desarrollo web y sistemas de información.
@@ -88,9 +88,9 @@ export default function App() {
         rel="noreferrer"
         whileHover={{ scale: 1.05, y: -5 }}
         whileTap={{ scale: 0.95 }}
-        initial={{ opacity: 0, y: 15 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
+        transition={{ duration: 1.2, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
         className="fixed bottom-10 md:bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center justify-center gap-3 bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.3)] pointer-events-auto group transition-all duration-300 hover:bg-[#25D366] hover:text-white border-2 border-transparent hover:border-white/20"
       >
         <div className="relative">
@@ -229,7 +229,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < connectionDist) {
-            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / connectionDist) * (isMobile ? 0.3 : 0.6)})`;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / connectionDist) * (isMobile ? 0.5 : 0.8)})`;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
@@ -321,7 +321,6 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
 
   const floatingY = useMotionValue(0);
   useEffect(() => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     let start = Date.now();
     let frameId: number;
     const animate = () => {
@@ -329,7 +328,7 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
       floatingY.set(Math.sin(time * 1.5 + x * y) * 10);
       frameId = requestAnimationFrame(animate);
     };
-    if (!isMobile) frameId = requestAnimationFrame(animate);
+    frameId = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(frameId);
   }, [x, y]);
 
