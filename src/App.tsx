@@ -32,37 +32,27 @@ export default function App() {
     <div 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="h-screen w-screen relative overflow-hidden select-none font-sans bg-black"
-    >
-      {/* Subtle Scan Effect - optimized and smaller */}
-      <motion.div 
-        animate={{ 
-          top: ["-100%", "200%"],
-        }}
-        transition={{ 
-          duration: 8, 
-          repeat: Infinity, 
-          ease: "linear",
-        }}
-        className="absolute w-full h-[20vh] z-0 opacity-20 pointer-events-none"
+      className="h-screen w-screen relative overflow-hidden select-none font-sans bg-black [isolation:isolate]"
+    >      {/* Diagonal Inversion Scanner - Wider and CSS-animated for maximum performance */}
+      <div 
+        className="absolute inset-0 z-5 pointer-events-none will-change-transform animate-scanner"
         style={{
-          background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.8), transparent)",
-          transform: "skewY(-12deg)"
+          background: "linear-gradient(105deg, transparent 5%, rgba(200,200,200,0.3) 15%, white 30%, white 70%, rgba(200,200,200,0.3) 85%, transparent 95%)",
         }}
       />
 
-      {/* Content wrapper - Removed mix-blend-difference for performance */}
-      <div className="relative z-10 w-full h-full pointer-events-none">
+      {/* Content wrapper - Single point of blending */}
+      <div className="relative z-10 w-full h-full pointer-events-none mix-blend-difference">
         {/* Interactive Background Elements - in white so they flip to black over white bg */}
         <AntigravityScene mouseX={mouseX} mouseY={mouseY} />
 
         {/* Navigation - Ultra Minimalist and Clear */}
         <nav className="fixed top-0 left-0 w-full z-50 px-8 md:px-12 py-8 md:py-8 flex flex-col items-center pointer-events-auto">
           {/* Brand Center */}
-          <span translate="no" className="font-brand text-[48px] md:text-[40px] tracking-tighter uppercase whitespace-nowrap text-white font-black leading-none">SERVIN</span>
+          <span translate="no" className="font-brand text-[60px] md:text-[90px] tracking-tighter uppercase whitespace-nowrap text-white font-black leading-none">SERVIN</span>
           
           {/* Location Subtitle */}
-          <div className="text-[9px] md:text-[10px] tracking-[0.6em] uppercase font-mono opacity-40 text-white text-center mt-1.5 ml-[0.6em]">
+          <div className="text-[14px] md:text-[16px] tracking-[0.8em] uppercase font-mono opacity-50 text-white text-center mt-2 ml-[0.8em]">
             SANTA FE
           </div>
         </nav>
@@ -74,7 +64,7 @@ export default function App() {
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.4, ease: [0.19, 1, 0.22, 1] }}
-              className="text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-black tracking-[-0.06em] leading-[0.85] mb-4 md:mb-6 text-white"
+              className="text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-black tracking-[-0.06em] leading-[0.85] mb-4 md:mb-6 text-white will-change-transform"
             >
               ANALISTA DE <br/>SISTEMAS <span className="opacity-30 font-light text-[0.8em]">()</span>
             </motion.h1>
@@ -83,7 +73,7 @@ export default function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 2, delay: 0.8 }}
-              className="max-w-md text-[10px] md:text-[12px] tracking-[0.2em] uppercase leading-relaxed opacity-80 font-medium text-white"
+              className="max-w-md text-[12px] md:text-[15px] tracking-[0.2em] uppercase leading-relaxed opacity-80 font-medium text-white"
             >
               Desarrollo web y sistemas de información.
             </motion.div>
@@ -91,20 +81,31 @@ export default function App() {
         </div>
       </div>
 
-      {/* WhatsApp Floating Button - Simplified and contrast-ready */}
+      {/* WhatsApp Floating Button - Enhanced Button Style */}
       <motion.a 
         href={WHATSAPP_LINK}
         target="_blank"
         rel="noreferrer"
-        whileHover={{ scale: 1.05 }}
+        whileHover={{ scale: 1.05, y: -5 }}
         whileTap={{ scale: 0.95 }}
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5 }}
-        className="fixed bottom-10 md:bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center justify-center gap-4 bg-white text-black px-8 py-3 md:px-10 md:py-4 rounded-full shadow-2xl pointer-events-auto group transition-all duration-500 hover:shadow-[0_20px_60px_rgba(255,255,255,0.4)]"
+        transition={{ 
+          delay: 1.5,
+          duration: 0.8,
+          ease: [0.19, 1, 0.22, 1]
+        }}
+        className="fixed bottom-10 md:bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center justify-center gap-3 bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.3)] pointer-events-auto group transition-all duration-300 hover:bg-[#25D366] hover:text-white border-2 border-transparent hover:border-white/20"
       >
-        <MessageCircle size={22} className="flex-none group-hover:scale-110 transition-transform" />
-        <span className="text-[12px] font-black tracking-[0.4em] uppercase">WhatsApp</span>
+        <div className="relative">
+          <MessageCircle size={20} className="relative z-10 group-hover:animate-pulse" />
+          <motion.div 
+            animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0, 0.3] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute inset-0 bg-current rounded-full blur-md -z-0 opacity-0 group-hover:opacity-100"
+          />
+        </div>
+        <span className="text-[14px] font-black tracking-[0.3em] uppercase">Contactar</span>
       </motion.a>
     </div>
   );
@@ -162,9 +163,10 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       flickerSpeed: number;
     }
 
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     let particles: Particle[] = [];
-    const particleCount = 60; 
-    const connectionDist = 120;
+    const particleCount = isMobile ? 18 : 80; 
+    const connectionDist = isMobile ? 70 : 250;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -190,8 +192,17 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
 
     let animationId: number;
     let time = 0;
+    let lastTime = 0;
+    const fpsLimit = isMobile ? 30 : 60;
+    const frameInterval = 1000 / fpsLimit;
 
-    const animate = () => {
+    const animate = (now: number) => {
+      animationId = requestAnimationFrame(animate);
+      
+      const delta = now - lastTime;
+      if (delta < frameInterval) return;
+      lastTime = now - (delta % frameInterval);
+
       time += 0.01;
       ctx.fillStyle = 'black';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -199,19 +210,20 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       const curMouseX = mouseX.get();
       const curMouseY = mouseY.get();
 
-      // Update and draw connections
+      // Draw particles and connections
       ctx.lineWidth = 0.5;
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
         
-        // Mouse interaction with particles
+        // Mouse interaction (simplified for mobile)
         const mdx = p1.x - curMouseX;
         const mdy = p1.y - curMouseY;
         const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+        
         if (mdist < 150) {
           const force = (150 - mdist) / 150;
-          p1.x += (mdx / mdist) * force * 2;
-          p1.y += (mdy / mdist) * force * 2;
+          p1.x += (mdx / mdist) * force * (isMobile ? 1 : 2);
+          p1.y += (mdy / mdist) * force * (isMobile ? 1 : 2);
         }
 
         for (let j = i + 1; j < particles.length; j++) {
@@ -221,7 +233,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < connectionDist) {
-            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / connectionDist) * 0.12})`;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / connectionDist) * (isMobile ? 0.3 : 0.6)})`;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
@@ -230,7 +242,6 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
         }
       }
 
-      // Draw particles
       particles.forEach(p => {
         p.x += p.speedX;
         p.y += p.speedY;
@@ -251,13 +262,11 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
         }
         ctx.fill();
       });
-
-      animationId = requestAnimationFrame(animate);
     };
 
     window.addEventListener('resize', resize);
     resize();
-    animate();
+    animationId = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('resize', resize);
@@ -284,22 +293,25 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
   const springY = useSpring(mY, springConfig);
 
   useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) return; // Disable interactive physics on mobile for performance
+
     const unsubscribeX = mouseX.on("change", (latestX) => {
       if (!elementRef.current) return;
-      const elRect = elementRef.current.getBoundingClientRect();
-      const elCenterX = elRect.left + elRect.width / 2;
-      const dx = elCenterX - latestX;
+      // Use cached/estimated position to avoid getBoundingClientRect reflows
+      const elCenterX = (x / 100) * window.innerWidth;
+      const elCenterY = (y / 100) * window.innerHeight;
       
+      const dx = elCenterX - latestX;
       const latestY = mouseY.get();
-      const elCenterY = elRect.top + elRect.height / 2;
       const dy = elCenterY - latestY;
       
       const distance = Math.sqrt(dx * dx + dy * dy);
-      const maxDist = 250;
+      const maxDist = 200;
       
       if (distance < maxDist) {
         const force = (maxDist - distance) / maxDist;
-        const repulsion = force * 150 * (1 / mass);
+        const repulsion = force * 100 * (1 / mass);
         mX.set((dx / distance) * repulsion);
         mY.set((dy / distance) * repulsion);
       } else {
@@ -309,18 +321,20 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
     });
 
     return () => unsubscribeX();
-  }, [mouseX, mouseY, mass, mX, mY]);
+  }, [mouseX, mouseY, mass, mX, mY, x, y]);
 
   const floatingY = useMotionValue(0);
   useEffect(() => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     let start = Date.now();
+    let frameId: number;
     const animate = () => {
       const time = (Date.now() - start) / 1000;
-      floatingY.set(Math.sin(time * 1.5 + x * y) * 12);
-      requestAnimationFrame(animate);
+      floatingY.set(Math.sin(time * 1.5 + x * y) * 10);
+      frameId = requestAnimationFrame(animate);
     };
-    const frame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frame);
+    if (!isMobile) frameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frameId);
   }, [x, y]);
 
   return (
