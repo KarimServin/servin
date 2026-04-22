@@ -32,10 +32,10 @@ export default function App() {
     <div 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="h-screen w-screen relative overflow-hidden select-none font-sans bg-black [isolation:isolate]"
+      className="min-h-screen w-full relative select-none font-sans bg-black [isolation:isolate]"
     >      {/* Diagonal Inversion Scanner - Wider and CSS-animated for maximum performance */}
       <div 
-        className="absolute inset-0 z-5 pointer-events-none will-change-transform animate-scanner"
+        className="fixed inset-0 z-5 pointer-events-none will-change-transform animate-scanner"
         style={{
           background: "linear-gradient(105deg, transparent 5%, rgba(200,200,200,0.3) 15%, white 30%, white 70%, rgba(200,200,200,0.3) 85%, transparent 95%)",
         }}
@@ -57,8 +57,8 @@ export default function App() {
           </div>
         </nav>
 
-        {/* Main Content Area */}
-        <div className="w-full h-full flex flex-col items-center justify-center p-6 md:p-12 text-left">
+        {/* Main Hero Area */}
+        <section className="min-h-screen w-full flex flex-col items-center justify-center p-6 md:p-12 text-left">
           <div className="max-w-5xl w-full flex flex-col items-start translate-y-0 md:translate-y-0 overflow-visible">
             <motion.h1 
               initial={{ opacity: 0, y: 30 }}
@@ -78,7 +78,43 @@ export default function App() {
               Desarrollo web y sistemas de información.
             </motion.div>
           </div>
-        </div>
+        </section>
+
+        {/* New Services Section */}
+        <section className="w-full max-w-7xl mx-auto px-6 py-32 md:py-48 flex flex-col gap-24 relative z-10">
+          <div className="flex flex-col gap-6">
+            <h2 className="text-[12px] tracking-[0.6em] uppercase opacity-40 font-mono">Servicios</h2>
+            <div className="h-[1px] w-full bg-white/10" />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+            <ServiceCard 
+              title="Desarrollo Web" 
+              desc="Aplicaciones web modernas, escalables y optimizadas para cualquier dispositivo."
+              index={0}
+            />
+            <ServiceCard 
+              title="E-commerce" 
+              desc="Tiendas online de alto rendimiento diseñadas para maximizar tus ventas."
+              index={1}
+            />
+            <ServiceCard 
+              title="Sistemas" 
+              desc="Soluciones a medida para la gestión y automatización de procesos complejos."
+              index={2}
+            />
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="w-full px-12 py-20 mt-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 opacity-40 text-[10px] tracking-[0.2em] uppercase font-mono relative z-10">
+          <div>© 2026 KARIM SERVIN</div>
+          <div className="flex gap-8">
+            <a href="#" className="hover:text-white transition-colors">Linkedin</a>
+            <a href="#" className="hover:text-white transition-colors">Github</a>
+          </div>
+          <div>SANTA FE, ARGENTINA</div>
+        </footer>
       </div>
 
       {/* WhatsApp Floating Button - Enhanced Button Style */}
@@ -116,12 +152,14 @@ function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
 
   return (
     <>
-      <ParticleField mouseX={mouseX} mouseY={mouseY} />
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <ParticleField mouseX={mouseX} mouseY={mouseY} />
+      </div>
       
       <motion.div 
         animate={{ opacity: [0.1, 0.3, 0.1] }}
         transition={{ duration: 4, repeat: Infinity }}
-        className="absolute inset-0 pointer-events-none"
+        className="fixed inset-0 pointer-events-none z-0"
       >
         <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-current rounded-full blur-[120px] opacity-10"></div>
         <div className="absolute bottom-1/4 right-1/3 w-[400px] h-[400px] bg-current rounded-full blur-[100px] opacity-10"></div>
@@ -136,6 +174,21 @@ function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
         />
       ))}
     </>
+  );
+}
+
+function ServiceCard({ title, desc, index }: { title: string, desc: string, index: number }) {
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: index * 0.1 }}
+      viewport={{ once: true }}
+      className="p-10 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-3xl hover:border-white/20 transition-colors group cursor-default"
+    >
+      <h3 className="text-xl md:text-2xl font-black mb-4 tracking-tighter group-hover:translate-x-2 transition-transform duration-500">{title}</h3>
+      <p className="text-[11px] md:text-[12px] opacity-40 leading-relaxed tracking-wider uppercase">{desc}</p>
+    </motion.div>
   );
 }
 
