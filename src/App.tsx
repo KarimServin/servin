@@ -61,9 +61,9 @@ export default function App() {
         <div className="w-full h-full flex flex-col items-center justify-center p-6 md:p-12 text-left">
           <div className="max-w-5xl w-full flex flex-col items-start translate-y-0 md:translate-y-0 overflow-visible">
             <motion.h1 
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.4, ease: [0.19, 1, 0.22, 1] }}
+              transition={{ duration: 0.6, ease: [0.19, 1, 0.22, 1] }}
               className="text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-black tracking-[-0.06em] leading-[0.85] mb-4 md:mb-6 text-white will-change-transform"
             >
               ANALISTA DE <br/>SISTEMAS <span className="opacity-30 font-light text-[0.8em]">()</span>
@@ -72,7 +72,7 @@ export default function App() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 2, delay: 0.8 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
               className="max-w-md text-[12px] md:text-[15px] tracking-[0.2em] uppercase leading-relaxed opacity-80 font-medium text-white"
             >
               Desarrollo web y sistemas de información.
@@ -88,11 +88,11 @@ export default function App() {
         rel="noreferrer"
         whileHover={{ scale: 1.05, y: -5 }}
         whileTap={{ scale: 0.95 }}
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ 
-          delay: 1.5,
-          duration: 0.8,
+          delay: 0.4,
+          duration: 0.5,
           ease: [0.19, 1, 0.22, 1]
         }}
         className="fixed bottom-10 md:bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center justify-center gap-3 bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.3)] pointer-events-auto group transition-all duration-300 hover:bg-[#25D366] hover:text-white border-2 border-transparent hover:border-white/20"
