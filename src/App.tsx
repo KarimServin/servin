@@ -212,10 +212,8 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       flickerSpeed: number;
     }
 
-    const isMobile = window.innerWidth < 768;
+    const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     let particles: Particle[] = [];
-    const particleCount = isMobile ? 30 : 80; 
-    const connectionDist = isMobile ? 120 : 250;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -225,7 +223,13 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
 
     const init = () => {
       particles = [];
-      for (let i = 0; i < particleCount; i++) {
+      // Mathematically guarantee consistent density across all screen sizes
+      const area = canvas.width * canvas.height;
+      // 1 particle per 25,000 sq pixels (approx 80 particles on a 1920x1080 screen)
+      // Cap at 80 max, 10 min.
+      const dynamicParticleCount = Math.max(10, Math.min(80, Math.floor(area / 25000)));
+
+      for (let i = 0; i < dynamicParticleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
@@ -242,7 +246,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
     let animationId: number;
     let time = 0;
     let lastTime = 0;
-    const fpsLimit = isMobile ? 30 : 60;
+    const fpsLimit = isMobileDevice ? 30 : 60;
     const frameInterval = 1000 / fpsLimit;
 
     const animate = (now: number) => {
@@ -259,8 +263,13 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       const curMouseX = mouseX.get();
       const curMouseY = mouseY.get();
 
+      // Dynamic connection distance based on screen width (max 250px)
+      const dynamicConnectionDist = Math.min(250, Math.max(80, canvas.width * 0.15));
+      const currentLineWidth = canvas.width < 768 ? 0.8 : 1.2;
+      const currentMaxOpacity = canvas.width < 768 ? 0.6 : 0.9;
+
       // Draw particles and connections
-      ctx.lineWidth = isMobile ? 0.8 : 1.2;
+      ctx.lineWidth = currentLineWidth;
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
         
@@ -271,8 +280,8 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
         
         if (mdist < 150) {
           const force = (150 - mdist) / 150;
-          p1.x += (mdx / mdist) * force * (isMobile ? 1 : 2);
-          p1.y += (mdy / mdist) * force * (isMobile ? 1 : 2);
+          p1.x += (mdx / mdist) * force * (isMobileDevice ? 1 : 2);
+          p1.y += (mdy / mdist) * force * (isMobileDevice ? 1 : 2);
         }
 
         for (let j = i + 1; j < particles.length; j++) {
@@ -281,8 +290,8 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
           const dy = p1.y - p2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
-          if (dist < connectionDist) {
-            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / connectionDist) * (isMobile ? 0.6 : 0.9)})`;
+          if (dist < dynamicConnectionDist) {
+            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / dynamicConnectionDist) * currentMaxOpacity})`;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
