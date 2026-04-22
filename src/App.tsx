@@ -260,7 +260,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       const curMouseY = mouseY.get();
 
       // Draw particles and connections
-      ctx.lineWidth = 0.5;
+      ctx.lineWidth = isMobile ? 0.7 : 1.2;
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
         
@@ -282,7 +282,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < connectionDist) {
-            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / connectionDist) * (isMobile ? 0.5 : 0.8)})`;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / connectionDist) * (isMobile ? 0.6 : 0.9)})`;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
