@@ -225,9 +225,9 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       particles = [];
       // Mathematically guarantee consistent density across all screen sizes
       const area = canvas.width * canvas.height;
-      // 1 particle per 25,000 sq pixels (approx 80 particles on a 1920x1080 screen)
-      // Cap at 80 max, 10 min.
-      const dynamicParticleCount = Math.max(10, Math.min(80, Math.floor(area / 25000)));
+      // 1 particle per 25,000 sq pixels on desktop, but slightly denser (1 per 15,000) on mobile
+      const pixelRatio = canvas.width < 768 ? 15000 : 25000;
+      const dynamicParticleCount = Math.max(12, Math.min(80, Math.floor(area / pixelRatio)));
 
       for (let i = 0; i < dynamicParticleCount; i++) {
         particles.push({
@@ -264,9 +264,10 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       const curMouseY = mouseY.get();
 
       // Dynamic connection distance based on screen width (max 250px)
-      const dynamicConnectionDist = Math.min(250, Math.max(80, canvas.width * 0.15));
-      const currentLineWidth = canvas.width < 768 ? 0.8 : 1.2;
-      const currentMaxOpacity = canvas.width < 768 ? 0.6 : 0.9;
+      // Slightly larger minimum distance for mobile to allow more connections
+      const dynamicConnectionDist = Math.min(250, Math.max(100, canvas.width * 0.15));
+      const currentLineWidth = canvas.width < 768 ? 1.0 : 1.2;
+      const currentMaxOpacity = canvas.width < 768 ? 0.75 : 0.9;
 
       // Draw particles and connections
       ctx.lineWidth = currentLineWidth;
