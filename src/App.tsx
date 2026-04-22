@@ -212,10 +212,10 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       flickerSpeed: number;
     }
 
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const isMobile = window.innerWidth < 768;
     let particles: Particle[] = [];
-    const particleCount = isMobile ? 18 : 80; 
-    const connectionDist = isMobile ? 70 : 250;
+    const particleCount = isMobile ? 15 : 80; 
+    const connectionDist = isMobile ? 90 : 250;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -260,7 +260,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       const curMouseY = mouseY.get();
 
       // Draw particles and connections
-      ctx.lineWidth = isMobile ? 0.7 : 1.2;
+      ctx.lineWidth = isMobile ? 0.3 : 1.2;
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
         
@@ -282,7 +282,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < connectionDist) {
-            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / connectionDist) * (isMobile ? 0.6 : 0.9)})`;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / connectionDist) * (isMobile ? 0.25 : 0.9)})`;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
