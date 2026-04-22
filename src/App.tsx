@@ -42,7 +42,7 @@ export default function App() {
       />
 
       {/* Content wrapper - Single point of blending */}
-      <div className="relative z-10 w-full h-full pointer-events-none mix-blend-difference">
+      <div className="relative z-10 w-full min-h-full pointer-events-none mix-blend-difference">
         {/* Interactive Background Elements - in white so they flip to black over white bg */}
         <AntigravityScene mouseX={mouseX} mouseY={mouseY} />
 
