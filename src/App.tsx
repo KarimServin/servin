@@ -17,15 +17,15 @@ import {
 
 const WHATSAPP_LINK = `https://wa.me/543424216870?text=Hola+Karim!+Me+gustaría+consultar+por+tus+servicios.`;
 export default function App() {
-  const [mouseX, setMouseX] = useState(0);
-  const [mouseY, setMouseY] = useState(0);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
-    setMouseX(e.clientX - rect.left);
-    setMouseY(e.clientY - rect.top);
+    mouseX.set(e.clientX - rect.left);
+    mouseY.set(e.clientY - rect.top);
   };
 
   return (
@@ -34,41 +34,32 @@ export default function App() {
       onMouseMove={handleMouseMove}
       className="h-screen w-screen relative overflow-hidden select-none font-sans bg-black"
     >
-      {/* Colossal analytical scan layer - Surgical precision and premium motion */}
+      {/* Subtle Scan Effect - optimized and smaller */}
       <motion.div 
         animate={{ 
-          x: ["-350%", "-12%", "12%", "350%"],
-          y: ["-350%", "-12%", "12%", "350%"],
+          top: ["-100%", "200%"],
         }}
         transition={{ 
-          duration: 12, 
-          times: [0, 0.15, 0.85, 1],
+          duration: 8, 
           repeat: Infinity, 
-          repeatDelay: 0.5,
-          ease: [0.45, 0, 0.55, 1],
+          ease: "linear",
         }}
-        className="absolute w-[600vw] h-[600vh] z-0 top-[-250vh] left-[-250vw] opacity-95 pointer-events-none"
+        className="absolute w-full h-[20vh] z-0 opacity-20 pointer-events-none"
         style={{
-          background: `linear-gradient(135deg, 
-            transparent 25%, 
-            rgba(255,255,255,0.5) 28%, 
-            white 35%, 
-            white 65%, 
-            rgba(255,255,255,0.5) 72%, 
-            transparent 75%
-          )`
+          background: "linear-gradient(to bottom, transparent, rgba(255,255,255,0.8), transparent)",
+          transform: "skewY(-12deg)"
         }}
       />
 
-      {/* Content wrapper with mix-blend-difference to handle auto-contrast without grays */}
-      <div className="relative z-10 w-full h-full mix-blend-difference pointer-events-none">
+      {/* Content wrapper - Removed mix-blend-difference for performance */}
+      <div className="relative z-10 w-full h-full pointer-events-none">
         {/* Interactive Background Elements - in white so they flip to black over white bg */}
         <AntigravityScene mouseX={mouseX} mouseY={mouseY} />
 
         {/* Navigation - Ultra Minimalist and Clear */}
         <nav className="fixed top-0 left-0 w-full z-50 px-8 md:px-12 py-8 md:py-8 flex flex-col items-center pointer-events-auto">
           {/* Brand Center */}
-          <span className="font-brand text-[48px] md:text-[40px] tracking-tighter uppercase whitespace-nowrap text-white font-black leading-none">SERVIN</span>
+          <span translate="no" className="font-brand text-[48px] md:text-[40px] tracking-tighter uppercase whitespace-nowrap text-white font-black leading-none">SERVIN</span>
           
           {/* Location Subtitle */}
           <div className="text-[9px] md:text-[10px] tracking-[0.6em] uppercase font-mono opacity-40 text-white text-center mt-1.5 ml-[0.6em]">
@@ -100,7 +91,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* WhatsApp Floating Button - Enhanced and Centered for All Devices */}
+      {/* WhatsApp Floating Button - Simplified and contrast-ready */}
       <motion.a 
         href={WHATSAPP_LINK}
         target="_blank"
@@ -110,7 +101,7 @@ export default function App() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 1.5 }}
-        className="fixed bottom-10 md:bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center justify-center gap-4 bg-white text-black px-8 py-3 md:px-10 md:py-4 rounded-full shadow-[0_20px_50px_rgba(255,255,255,0.2)] pointer-events-auto group mix-blend-difference transition-all duration-500 hover:shadow-[0_20px_60px_rgba(255,255,255,0.4)]"
+        className="fixed bottom-10 md:bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center justify-center gap-4 bg-white text-black px-8 py-3 md:px-10 md:py-4 rounded-full shadow-2xl pointer-events-auto group transition-all duration-500 hover:shadow-[0_20px_60px_rgba(255,255,255,0.4)]"
       >
         <MessageCircle size={22} className="flex-none group-hover:scale-110 transition-transform" />
         <span className="text-[12px] font-black tracking-[0.4em] uppercase">WhatsApp</span>
@@ -119,8 +110,7 @@ export default function App() {
   );
 }
 
-function AntigravityScene({ mouseX, mouseY }: { mouseX: number, mouseY: number }) {
-  // A much smaller, more curated set of elements that don't crowd the text
+function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
   const elements = [
     { id: 1, type: 'text', content: 'E-commerce', x: 15, y: 20, mass: 1 },
     { id: 2, type: 'icon', icon: ShoppingBag, x: 80, y: 25, mass: 1.5 },
@@ -129,9 +119,8 @@ function AntigravityScene({ mouseX, mouseY }: { mouseX: number, mouseY: number }
 
   return (
     <>
-      <ParticleField />
+      <ParticleField mouseX={mouseX} mouseY={mouseY} />
       
-      {/* Subtle background circles for some depth without clutter - cycling opacity */}
       <motion.div 
         animate={{ opacity: [0.1, 0.3, 0.1] }}
         transition={{ duration: 4, repeat: Infinity }}
@@ -153,13 +142,13 @@ function AntigravityScene({ mouseX, mouseY }: { mouseX: number, mouseY: number }
   );
 }
 
-function ParticleField() {
+function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: false });
     if (!ctx) return;
 
     interface Particle {
@@ -174,8 +163,8 @@ function ParticleField() {
     }
 
     let particles: Particle[] = [];
-    const particleCount = 80; // Reduced count to improve network line performance
-    const connectionDist = 150;
+    const particleCount = 60; 
+    const connectionDist = 120;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -190,9 +179,9 @@ function ParticleField() {
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           size: Math.random() * 2 + 0.5,
-          speedX: (Math.random() - 0.5) * 0.4,
-          speedY: (Math.random() - 0.5) * 0.4,
-          opacity: Math.random() * 0.5 + 0.2,
+          speedX: (Math.random() - 0.5) * 0.3,
+          speedY: (Math.random() - 0.5) * 0.3,
+          opacity: Math.random() * 0.4 + 0.1,
           shape: Math.random() > 0.8 ? 'square' : 'circle',
           flickerSpeed: Math.random() * 0.05 + 0.01
         });
@@ -204,29 +193,44 @@ function ParticleField() {
 
     const animate = () => {
       time += 0.01;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.strokeStyle = 'white';
-      ctx.fillStyle = 'white';
+      ctx.fillStyle = 'black';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      const curMouseX = mouseX.get();
+      const curMouseY = mouseY.get();
 
-      // Draw connections
+      // Update and draw connections
+      ctx.lineWidth = 0.5;
       for (let i = 0; i < particles.length; i++) {
+        const p1 = particles[i];
+        
+        // Mouse interaction with particles
+        const mdx = p1.x - curMouseX;
+        const mdy = p1.y - curMouseY;
+        const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+        if (mdist < 150) {
+          const force = (150 - mdist) / 150;
+          p1.x += (mdx / mdist) * force * 2;
+          p1.y += (mdy / mdist) * force * 2;
+        }
+
         for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
+          const p2 = particles[j];
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < connectionDist) {
-            ctx.globalAlpha = (1 - dist / connectionDist) * 0.15;
-            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / connectionDist) * 0.12})`;
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
           }
         }
       }
 
-      // Update and draw particles
+      // Draw particles
       particles.forEach(p => {
         p.x += p.speedX;
         p.y += p.speedY;
@@ -236,9 +240,8 @@ function ParticleField() {
         if (p.y < 0) p.y = canvas.height;
         if (p.y > canvas.height) p.y = 0;
 
-        // Subtle flicker
-        const currentOpacity = p.opacity * (0.6 + Math.sin(time / p.flickerSpeed) * 0.4);
-        ctx.globalAlpha = currentOpacity;
+        const currentOpacity = p.opacity * (0.7 + Math.sin(time / p.flickerSpeed) * 0.3);
+        ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity})`;
         
         ctx.beginPath();
         if (p.shape === 'square') {
@@ -260,12 +263,12 @@ function ParticleField() {
       window.removeEventListener('resize', resize);
       cancelAnimationFrame(animationId);
     };
-  }, []);
+  }, [mouseX, mouseY]);
 
   return (
     <canvas 
       ref={canvasRef} 
-      className="absolute inset-0 z-0 pointer-events-none opacity-80"
+      className="absolute inset-0 z-0 pointer-events-none"
     />
   );
 }
@@ -281,31 +284,31 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
   const springY = useSpring(mY, springConfig);
 
   useEffect(() => {
-    const updatePhysics = () => {
+    const unsubscribeX = mouseX.on("change", (latestX) => {
       if (!elementRef.current) return;
-      
       const elRect = elementRef.current.getBoundingClientRect();
       const elCenterX = elRect.left + elRect.width / 2;
+      const dx = elCenterX - latestX;
+      
+      const latestY = mouseY.get();
       const elCenterY = elRect.top + elRect.height / 2;
-
-      const dx = elCenterX - mouseX;
-      const dy = elCenterY - mouseY;
+      const dy = elCenterY - latestY;
+      
       const distance = Math.sqrt(dx * dx + dy * dy);
-
-      const maxDist = 300;
-      const force = Math.max(0, (maxDist - distance) / maxDist);
-      const repulsion = force * 180 * (1 / mass);
-
+      const maxDist = 250;
+      
       if (distance < maxDist) {
+        const force = (maxDist - distance) / maxDist;
+        const repulsion = force * 150 * (1 / mass);
         mX.set((dx / distance) * repulsion);
         mY.set((dy / distance) * repulsion);
       } else {
         mX.set(0);
         mY.set(0);
       }
-    };
+    });
 
-    updatePhysics();
+    return () => unsubscribeX();
   }, [mouseX, mouseY, mass, mX, mY]);
 
   const floatingY = useMotionValue(0);
