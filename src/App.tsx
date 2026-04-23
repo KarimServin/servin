@@ -36,7 +36,7 @@ export default function App() {
   return (
     <div 
       onMouseMove={handleMouseMove}
-      className="min-h-screen w-full relative select-none font-sans bg-black [isolation:isolate]"
+      className="min-h-screen w-full overflow-x-hidden pb-[env(safe-area-inset-bottom)] relative select-none font-sans bg-black [isolation:isolate]"
     >      {/* Diagonal wipe color inversion */}
       <div 
         className="fixed z-5 pointer-events-none bg-white animate-inversion"
@@ -76,7 +76,7 @@ export default function App() {
         </nav>
 
         {/* Main Hero Area */}
-        <section className="w-full flex flex-col items-center justify-center p-6 md:p-12 text-left" style={{ minHeight: '100dvh' }}>
+        <section className="w-full flex flex-col items-center justify-center p-6 md:p-12 text-left min-h-[100svh]">
           <div className="max-w-5xl w-full flex flex-col items-start translate-y-0 md:translate-y-0 overflow-visible">
             <motion.h1 
               initial={{ opacity: 0, y: 30 }}
@@ -401,9 +401,10 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
   const springX = useSpring(mX, springConfig);
   const springY = useSpring(mY, springConfig);
 
+  const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
   useEffect(() => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) return; // Disable interactive physics on mobile for performance
+    if (isMobileDevice) return; // Disable interactive physics on mobile for performance
 
     const unsubscribeX = mouseX.on("change", (latestX: number) => {
       // Use cached/estimated position to avoid getBoundingClientRect reflows
@@ -437,7 +438,7 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
   return (
     <motion.div
       ref={elementRef}
-      drag
+      drag={!isMobileDevice}
       dragConstraints={{ left: -100, right: 100, top: -100, bottom: 100 }}
       style={{ 
         left: `${x}%`, 
