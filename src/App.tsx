@@ -155,11 +155,22 @@ export default function App() {
 }
 
 function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const elements = [
-    { id: 1, type: 'text', content: 'E-commerce', x: 15, y: 20, mass: 1 },
+    { id: 1, type: 'text', content: 'E-commerce', x: 15, y: 10, mass: 1 },
     { id: 2, type: 'icon', icon: ShoppingBag, x: 80, y: 25, mass: 1.5 },
     { id: 5, type: 'icon', icon: Code2, x: 85, y: 75, mass: 0.8 },
   ];
+
+  // On mobile, hide text elements to prevent overlap with the title
+  const visibleElements = isMobile ? elements.filter(el => el.type !== 'text') : elements;
 
   return (
     <>
@@ -176,7 +187,7 @@ function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
         <div className="absolute bottom-1/4 right-1/3 w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-current rounded-full blur-[50px] md:blur-[100px] opacity-10"></div>
       </motion.div>
       
-      {elements.map((el) => (
+      {visibleElements.map((el) => (
         <PhysicsElement 
           key={el.id} 
           {...el} 

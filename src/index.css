@@ -24,12 +24,17 @@
 }
 
 @keyframes scanner-move {
-  0% { transform: translateX(-150%) scale(2) skewX(-20deg); }
-  100% { transform: translateX(150%) scale(2) skewX(-20deg); }
+  0% { transform: translateX(-150%) scale(2) skewX(-20deg); opacity: 0; }
+  3% { opacity: 1; }
+  15% { transform: translateX(-5%) scale(2) skewX(-20deg); }
+  20% { transform: translateX(5%) scale(2) skewX(-20deg); }
+  33% { opacity: 1; }
+  38% { transform: translateX(150%) scale(2) skewX(-20deg); opacity: 0; }
+  100% { transform: translateX(150%) scale(2) skewX(-20deg); opacity: 0; }
 }
 
 .animate-scanner {
-  animation: scanner-move 6s linear infinite;
+  animation: scanner-move 20s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 .glass-panel {
