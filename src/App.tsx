@@ -3,15 +3,11 @@ import {
   motion, 
   useMotionValue, 
   useSpring, 
-  useTransform, 
-  AnimatePresence 
 } from "motion/react";
 import { 
   MessageCircle, 
   Code2, 
   ShoppingBag, 
-  Terminal, 
-  Zap,
   MoreHorizontal
 } from "lucide-react";
 
@@ -19,8 +15,6 @@ const WHATSAPP_LINK = `https://wa.me/543424216870?text=Hola+Karim!+Me+gustaría+
 export default function App() {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-
   const [effectsLoaded, setEffectsLoaded] = useState(false);
 
   useEffect(() => {
@@ -31,16 +25,16 @@ export default function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Usar clientX/clientY directamente: el canvas y los elementos flotantes
+  // usan coordenadas de viewport, no de contenedor. Evita getBoundingClientRect
+  // (layout thrashing) y corrige el offset cuando el usuario hace scroll.
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    mouseX.set(e.clientX - rect.left);
-    mouseY.set(e.clientY - rect.top);
+    mouseX.set(e.clientX);
+    mouseY.set(e.clientY);
   };
 
   return (
     <div 
-      ref={containerRef}
       onMouseMove={handleMouseMove}
       className="min-h-screen w-full relative select-none font-sans bg-black [isolation:isolate]"
     >      {/* Diagonal Inversion Scanner - Wider and CSS-animated for maximum performance */}
@@ -54,14 +48,14 @@ export default function App() {
       {/* Content wrapper - Single point of blending */}
       <div className="relative z-10 w-full min-h-screen pointer-events-none mix-blend-difference">
         {/* Interactive Background Elements - in white so they flip to black over white bg */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: effectsLoaded ? 1 : 0 }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="absolute inset-0 z-0 pointer-events-none"
+        {/* Usar div nativo con CSS transition en vez de motion.div:
+            Framer Motion puede agregar transforms internos durante la animación
+            de opacity, lo cual rompe el position:fixed de los hijos (canvas, glows) */}
+        <div
+          className={`absolute inset-0 z-0 pointer-events-none transition-opacity duration-[1500ms] ease-out ${effectsLoaded ? 'opacity-100' : 'opacity-0'}`}
         >
           {effectsLoaded && <AntigravityScene mouseX={mouseX} mouseY={mouseY} />}
-        </motion.div>
+        </div>
 
         {/* Navigation - Ultra Minimalist and Clear */}
         <nav className="fixed top-0 left-0 w-full z-50 px-8 md:px-12 py-8 md:py-8 flex flex-col items-center pointer-events-auto">
@@ -201,7 +195,7 @@ function ServiceCard({ title, desc, index }: { title: string, desc: string, inde
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: index * 0.1 }}
       viewport={{ once: true }}
-      className="p-10 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-3xl hover:border-white/20 transition-colors group cursor-default pointer-events-auto"
+      className="p-10 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-md md:backdrop-blur-3xl hover:border-white/20 transition-colors group cursor-default pointer-events-auto"
     >
       <h3 className="text-xl md:text-2xl font-black mb-4 tracking-tighter group-hover:translate-x-2 transition-transform duration-500">{title}</h3>
       <p className="text-[11px] md:text-[12px] opacity-40 leading-relaxed tracking-wider uppercase">{desc}</p>
@@ -232,17 +226,9 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
     const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     let particles: Particle[] = [];
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      init();
-    };
-
     const init = () => {
       particles = [];
-      // Mathematically guarantee consistent density across all screen sizes
       const area = canvas.width * canvas.height;
-      // 1 particle per 25,000 sq pixels on desktop, but denser (1 per 11,000) on mobile
       const pixelRatio = canvas.width < 768 ? 11000 : 25000;
       const dynamicParticleCount = Math.max(12, Math.min(80, Math.floor(area / pixelRatio)));
 
@@ -260,11 +246,30 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       }
     };
 
+    // Debounce resize para evitar recrear particulas repetidamente
+    // (ej: rotacion de pantalla en movil dispara multiples resize)
+    let resizeTimeout: ReturnType<typeof setTimeout>;
+    const resize = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        init();
+      }, 150);
+    };
+
+    // Inicializar inmediatamente la primera vez
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    init();
+
     let animationId: number;
     let time = 0;
     let lastTime = 0;
     const fpsLimit = isMobileDevice ? 30 : 60;
     const frameInterval = 1000 / fpsLimit;
+    const MOUSE_RADIUS = 150;
+    const MOUSE_RADIUS_SQ = MOUSE_RADIUS * MOUSE_RADIUS;
 
     const animate = (now: number) => {
       animationId = requestAnimationFrame(animate);
@@ -280,35 +285,37 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       const curMouseX = mouseX.get();
       const curMouseY = mouseY.get();
 
-      // Dynamic connection distance based on screen width (max 250px)
-      // Slightly larger minimum distance for mobile to allow more connections
       const dynamicConnectionDist = Math.min(250, Math.max(110, canvas.width * 0.15));
+      const connectionDistSq = dynamicConnectionDist * dynamicConnectionDist;
       const currentLineWidth = canvas.width < 768 ? 1.1 : 1.2;
       const currentMaxOpacity = canvas.width < 768 ? 0.85 : 0.9;
+      const mouseForceMult = isMobileDevice ? 1 : 2;
 
-      // Draw particles and connections
       ctx.lineWidth = currentLineWidth;
       for (let i = 0; i < particles.length; i++) {
         const p1 = particles[i];
         
-        // Mouse interaction (simplified for mobile)
+        // Mouse interaction - usar distancia al cuadrado para evitar sqrt
         const mdx = p1.x - curMouseX;
         const mdy = p1.y - curMouseY;
-        const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+        const mdistSq = mdx * mdx + mdy * mdy;
         
-        if (mdist < 150) {
-          const force = (150 - mdist) / 150;
-          p1.x += (mdx / mdist) * force * (isMobileDevice ? 1 : 2);
-          p1.y += (mdy / mdist) * force * (isMobileDevice ? 1 : 2);
+        if (mdistSq < MOUSE_RADIUS_SQ && mdistSq > 0) {
+          const mdist = Math.sqrt(mdistSq);
+          const force = (MOUSE_RADIUS - mdist) / MOUSE_RADIUS;
+          p1.x += (mdx / mdist) * force * mouseForceMult;
+          p1.y += (mdy / mdist) * force * mouseForceMult;
         }
 
+        // Conexiones entre particulas - sqrt solo cuando estan cerca
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx = p1.x - p2.x;
           const dy = p1.y - p2.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < dynamicConnectionDist) {
+          if (distSq < connectionDistSq) {
+            const dist = Math.sqrt(distSq);
             ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / dynamicConnectionDist) * currentMaxOpacity})`;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
@@ -341,11 +348,11 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
     };
 
     window.addEventListener('resize', resize);
-    resize();
     animationId = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('resize', resize);
+      clearTimeout(resizeTimeout);
       cancelAnimationFrame(animationId);
     };
   }, [mouseX, mouseY]);
@@ -372,8 +379,7 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) return; // Disable interactive physics on mobile for performance
 
-    const unsubscribeX = mouseX.on("change", (latestX) => {
-      if (!elementRef.current) return;
+    const unsubscribeX = mouseX.on("change", (latestX: number) => {
       // Use cached/estimated position to avoid getBoundingClientRect reflows
       const elCenterX = (x / 100) * window.innerWidth;
       const elCenterY = (y / 100) * window.innerHeight;
