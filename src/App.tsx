@@ -76,7 +76,7 @@ export default function App() {
         </nav>
 
         {/* Main Hero Area */}
-        <section className="min-h-screen w-full flex flex-col items-center justify-center p-6 md:p-12 text-left">
+        <section className="w-full flex flex-col items-center justify-center p-6 md:p-12 text-left" style={{ minHeight: '100dvh' }}>
           <div className="max-w-5xl w-full flex flex-col items-start translate-y-0 md:translate-y-0 overflow-visible">
             <motion.h1 
               initial={{ opacity: 0, y: 30 }}
@@ -145,7 +145,8 @@ export default function App() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
-        className="fixed bottom-10 md:bottom-8 left-1/2 -translate-x-1/2 z-50 flex items-center justify-center gap-3 bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.3)] pointer-events-auto group transition-all duration-300 hover:bg-[#25D366] hover:text-white border-2 border-transparent hover:border-white/20"
+        className="fixed left-1/2 -translate-x-1/2 z-50 flex items-center justify-center gap-3 bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.3)] pointer-events-auto group transition-all duration-300 hover:bg-[#25D366] hover:text-white border-2 border-transparent hover:border-white/20"
+        style={{ bottom: 'max(2.5rem, calc(1.5rem + env(safe-area-inset-bottom)))' }}
       >
         <div className="relative">
           <MessageCircle size={20} className="relative z-10 group-hover:animate-pulse" />
