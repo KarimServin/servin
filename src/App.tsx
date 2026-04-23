@@ -21,6 +21,16 @@ export default function App() {
   const mouseY = useMotionValue(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const [effectsLoaded, setEffectsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Retrasar efectos pesados para priorizar FCP/LCP en moviles
+    const timer = setTimeout(() => {
+      setEffectsLoaded(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
@@ -44,7 +54,14 @@ export default function App() {
       {/* Content wrapper - Single point of blending */}
       <div className="relative z-10 w-full min-h-screen pointer-events-none mix-blend-difference">
         {/* Interactive Background Elements - in white so they flip to black over white bg */}
-        <AntigravityScene mouseX={mouseX} mouseY={mouseY} />
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: effectsLoaded ? 1 : 0 }}
+          transition={{ duration: 1.5, ease: "easeOut" }}
+          className="absolute inset-0 z-0 pointer-events-none"
+        >
+          {effectsLoaded && <AntigravityScene mouseX={mouseX} mouseY={mouseY} />}
+        </motion.div>
 
         {/* Navigation - Ultra Minimalist and Clear */}
         <nav className="fixed top-0 left-0 w-full z-50 px-8 md:px-12 py-8 md:py-8 flex flex-col items-center pointer-events-auto">
@@ -161,8 +178,8 @@ function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
         transition={{ duration: 4, repeat: Infinity }}
         className="fixed inset-0 pointer-events-none z-0"
       >
-        <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-current rounded-full blur-[120px] opacity-10"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-[400px] h-[400px] bg-current rounded-full blur-[100px] opacity-10"></div>
+        <div className="absolute top-1/4 left-1/3 w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-current rounded-full blur-[60px] md:blur-[120px] opacity-10"></div>
+        <div className="absolute bottom-1/4 right-1/3 w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-current rounded-full blur-[50px] md:blur-[100px] opacity-10"></div>
       </motion.div>
       
       {elements.map((el) => (
@@ -382,18 +399,8 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
     return () => unsubscribeX();
   }, [mouseX, mouseY, mass, mX, mY, x, y]);
 
-  const floatingY = useMotionValue(0);
-  useEffect(() => {
-    let start = Date.now();
-    let frameId: number;
-    const animate = () => {
-      const time = (Date.now() - start) / 1000;
-      floatingY.set(Math.sin(time * 1.5 + x * y) * 10);
-      frameId = requestAnimationFrame(animate);
-    };
-    frameId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(frameId);
-  }, [x, y]);
+  // Use a deterministic seed for the delay based on x and y
+  const animationDelay = (x + y) % 3;
 
   return (
     <motion.div
@@ -408,7 +415,15 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
       }}
       className="absolute antigravity-element z-20 pointer-events-auto"
     >
-      <motion.div style={{ y: floatingY }}>
+      <motion.div 
+        animate={{ y: [-8, 8, -8] }}
+        transition={{ 
+          duration: 3 + (x % 2), 
+          repeat: Infinity, 
+          ease: "easeInOut",
+          delay: animationDelay
+        }}
+      >
         {title ? (
           <motion.div 
             animate={{ 
