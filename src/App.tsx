@@ -37,13 +37,20 @@ export default function App() {
     <div 
       onMouseMove={handleMouseMove}
       className="min-h-screen w-full relative select-none font-sans bg-black [isolation:isolate]"
-    >      {/* Diagonal Inversion Scanner - Wider and CSS-animated for maximum performance */}
+    >      {/* Diagonal wipe color inversion */}
       <div 
-        className="fixed inset-0 z-5 pointer-events-none will-change-transform animate-scanner"
+        className="fixed z-5 pointer-events-none bg-white animate-inversion"
         style={{
-          background: "linear-gradient(105deg, transparent 5%, rgba(200,200,200,0.3) 15%, white 30%, white 70%, rgba(200,200,200,0.3) 85%, transparent 95%)",
+          top: '-20%',
+          left: '-50%',
+          width: '300%',
+          height: '140%',
+          transformOrigin: 'center center',
+          transform: 'skewX(-15deg) translateX(-200%)',
         }}
       />
+
+
 
       {/* Content wrapper - Single point of blending */}
       <div className="relative z-10 w-full min-h-screen pointer-events-none mix-blend-difference">
@@ -178,14 +185,7 @@ function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
         <ParticleField mouseX={mouseX} mouseY={mouseY} />
       </div>
       
-      <motion.div 
-        animate={{ opacity: [0.1, 0.3, 0.1] }}
-        transition={{ duration: 4, repeat: Infinity }}
-        className="fixed inset-0 pointer-events-none z-0"
-      >
-        <div className="absolute top-1/4 left-1/3 w-[250px] h-[250px] md:w-[500px] md:h-[500px] bg-current rounded-full blur-[60px] md:blur-[120px] opacity-10"></div>
-        <div className="absolute bottom-1/4 right-1/3 w-[200px] h-[200px] md:w-[400px] md:h-[400px] bg-current rounded-full blur-[50px] md:blur-[100px] opacity-10"></div>
-      </motion.div>
+
       
       {visibleElements.map((el) => (
         <PhysicsElement 
@@ -318,7 +318,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
           p1.y += (mdy / mdist) * force * mouseForceMult;
         }
 
-        // Conexiones entre particulas - sqrt solo cuando estan cerca
+        // Conexiones entre particulas con efecto de brillo intermitente
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
           const dx = p1.x - p2.x;
@@ -327,13 +327,27 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
 
           if (distSq < connectionDistSq) {
             const dist = Math.sqrt(distSq);
-            ctx.strokeStyle = `rgba(255, 255, 255, ${(1 - dist / dynamicConnectionDist) * currentMaxOpacity})`;
+            const baseAlpha = (1 - dist / dynamicConnectionDist) * currentMaxOpacity;
+            
+            // Intermittent flicker: each edge gets a unique seed from particle indices
+            const seed = i * 31 + j * 17;
+            const flickerA = Math.sin(time * 3.5 + seed) * 0.5 + 0.5;
+            const flickerB = Math.sin(time * 7.1 + seed * 0.7) * 0.5 + 0.5;
+            const flicker = flickerA * flickerB; // Combined creates irregular pattern
+            
+            // Some edges flash bright, others stay dim
+            const alpha = baseAlpha * (0.3 + flicker * 0.7);
+            const lineWidth = currentLineWidth + flicker * 1.5;
+            
+            ctx.lineWidth = lineWidth;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
             ctx.beginPath();
             ctx.moveTo(p1.x, p1.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
           }
         }
+
       }
 
       particles.forEach(p => {

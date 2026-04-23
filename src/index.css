@@ -23,18 +23,32 @@
   @apply pointer-events-auto cursor-grab active:cursor-grabbing;
 }
 
-@keyframes scanner-move {
-  0% { transform: translateX(-150%) scale(2) skewX(-20deg); opacity: 0; }
-  3% { opacity: 1; }
-  15% { transform: translateX(-5%) scale(2) skewX(-20deg); }
-  20% { transform: translateX(5%) scale(2) skewX(-20deg); }
-  33% { opacity: 1; }
-  38% { transform: translateX(150%) scale(2) skewX(-20deg); opacity: 0; }
-  100% { transform: translateX(150%) scale(2) skewX(-20deg); opacity: 0; }
+@keyframes inversion {
+  0% { transform: skewX(-15deg) translateX(-200%); }
+  15% { transform: skewX(-15deg) translateX(-200%); }
+  20% { transform: skewX(-15deg) translateX(-10%); }
+  40% { transform: skewX(-15deg) translateX(-10%); }
+  45% { transform: skewX(-15deg) translateX(200%); }
+  100% { transform: skewX(-15deg) translateX(200%); }
 }
 
-.animate-scanner {
-  animation: scanner-move 20s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+.animate-inversion {
+  animation: inversion 16s ease-in-out infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0; }
+  12% { opacity: 1; }
+  20% { opacity: 0.3; }
+  35% { opacity: 0.9; }
+  50% { opacity: 0.1; }
+  65% { opacity: 0.7; }
+  80% { opacity: 0; }
+  90% { opacity: 0.5; }
+}
+
+.animate-flicker {
+  animation: flicker 4s ease-in-out infinite;
 }
 
 .glass-panel {
