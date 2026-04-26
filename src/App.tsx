@@ -319,33 +319,35 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
           p1.y += (mdy / mdist) * force * mouseForceMult;
         }
 
-        // Conexiones entre particulas con efecto de brillo intermitente
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p1.x - p2.x;
-          const dy = p1.y - p2.y;
-          const distSq = dx * dx + dy * dy;
+        // Conexiones entre particulas con efecto de brillo intermitente (solo en desktop)
+        if (!isMobileDevice && canvas.width >= 768) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const distSq = dx * dx + dy * dy;
 
-          if (distSq < connectionDistSq) {
-            const dist = Math.sqrt(distSq);
-            const baseAlpha = (1 - dist / dynamicConnectionDist) * currentMaxOpacity;
-            
-            // Intermittent flicker: each edge gets a unique seed from particle indices
-            const seed = i * 31 + j * 17;
-            const flickerA = Math.sin(time * 3.5 + seed) * 0.5 + 0.5;
-            const flickerB = Math.sin(time * 7.1 + seed * 0.7) * 0.5 + 0.5;
-            const flicker = flickerA * flickerB; // Combined creates irregular pattern
-            
-            // Some edges flash bright, others stay dim
-            const alpha = baseAlpha * (0.3 + flicker * 0.7);
-            const lineWidth = currentLineWidth + flicker * 1.5;
-            
-            ctx.lineWidth = lineWidth;
-            ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
+            if (distSq < connectionDistSq) {
+              const dist = Math.sqrt(distSq);
+              const baseAlpha = (1 - dist / dynamicConnectionDist) * currentMaxOpacity;
+              
+              // Intermittent flicker: each edge gets a unique seed from particle indices
+              const seed = i * 31 + j * 17;
+              const flickerA = Math.sin(time * 3.5 + seed) * 0.5 + 0.5;
+              const flickerB = Math.sin(time * 7.1 + seed * 0.7) * 0.5 + 0.5;
+              const flicker = flickerA * flickerB; // Combined creates irregular pattern
+              
+              // Some edges flash bright, others stay dim
+              const alpha = baseAlpha * (0.3 + flicker * 0.7);
+              const lineWidth = currentLineWidth + flicker * 1.5;
+              
+              ctx.lineWidth = lineWidth;
+              ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
           }
         }
 
