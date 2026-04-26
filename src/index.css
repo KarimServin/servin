@@ -13,7 +13,7 @@
 
 @layer base {
   html, body {
-    overscroll-behavior-y: none;
+    /* Permitir comportamiento elástico natural */
   }
   html {
     background: #000000;
@@ -40,6 +40,7 @@
 
 .animate-inversion {
   animation: inversion 16s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes flicker {

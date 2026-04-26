@@ -207,7 +207,7 @@ function ServiceCard({ title, desc, index }: { title: string, desc: string, inde
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: index * 0.1 }}
       viewport={{ once: true }}
-      className="p-10 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-md md:backdrop-blur-3xl hover:border-white/20 transition-colors group cursor-default pointer-events-auto"
+      className="p-10 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-lg md:backdrop-blur-3xl hover:border-white/20 transition-colors group cursor-default pointer-events-auto"
     >
       <h3 className="text-xl md:text-2xl font-black mb-4 tracking-tighter group-hover:translate-x-2 transition-transform duration-500">{title}</h3>
       <p className="text-[11px] md:text-[12px] opacity-40 leading-relaxed tracking-wider uppercase">{desc}</p>
@@ -388,7 +388,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
   return (
     <canvas 
       ref={canvasRef} 
-      className="absolute inset-0 z-0 pointer-events-none"
+      className="absolute inset-0 z-0 pointer-events-none will-change-transform"
     />
   );
 }
