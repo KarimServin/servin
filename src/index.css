@@ -2,8 +2,9 @@
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Inter", sans-serif;
-  --font-brand: "Inter", sans-serif;
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-brand: "Plus Jakarta Sans", sans-serif;
+  --font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   
   --color-bg: #000000;
   --color-ink: #ffffff;
@@ -32,14 +33,14 @@
 @keyframes inversion {
   0% { transform: skewX(-15deg) translateX(-200%); }
   15% { transform: skewX(-15deg) translateX(-200%); }
-  20% { transform: skewX(-15deg) translateX(-10%); }
+  25% { transform: skewX(-15deg) translateX(-10%); }
   40% { transform: skewX(-15deg) translateX(-10%); }
-  45% { transform: skewX(-15deg) translateX(200%); }
+  50% { transform: skewX(-15deg) translateX(200%); }
   100% { transform: skewX(-15deg) translateX(200%); }
 }
 
 .animate-inversion {
-  animation: inversion 16s ease-in-out infinite;
+  animation: inversion 24s cubic-bezier(0.65, 0, 0.35, 1) infinite;
   will-change: transform;
 }
 

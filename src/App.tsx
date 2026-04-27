@@ -13,8 +13,10 @@ import {
 
 const WHATSAPP_LINK = `https://wa.me/543424216870?text=Hola+Karim!+Me+gustaría+consultar+por+tus+servicios.`;
 export default function App() {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const mouseX = useMotionValue(-1000);
+  const mouseY = useMotionValue(-1000);
+  const smoothMouseX = useSpring(mouseX, { damping: 50, stiffness: 400 });
+  const smoothMouseY = useSpring(mouseY, { damping: 50, stiffness: 400 });
   const [effectsLoaded, setEffectsLoaded] = useState(false);
 
   useEffect(() => {
@@ -33,20 +35,33 @@ export default function App() {
     mouseY.set(e.clientY);
   };
 
+  const handleTouchMove = (e: React.TouchEvent) => {
+    mouseX.set(e.touches[0].clientX);
+    mouseY.set(e.touches[0].clientY);
+  };
+
   return (
     <div 
       onMouseMove={handleMouseMove}
+      onTouchMove={handleTouchMove}
       className="min-h-screen w-full overflow-x-hidden pb-[env(safe-area-inset-bottom)] relative select-none font-sans bg-black [isolation:isolate]"
-    >      {/* Diagonal wipe color inversion */}
+    >
+      {/* Noise Overlay for Premium Texture */}
       <div 
-        className="fixed z-5 pointer-events-none bg-white animate-inversion"
+        className="fixed inset-0 z-0 pointer-events-none opacity-[0.04] mix-blend-screen"
+        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
+      />
+
+      {/* Interactive Mouse Reveal */}
+      <motion.div 
+        className="fixed z-5 pointer-events-none bg-white rounded-full hidden md:block"
         style={{
-          top: '-20%',
-          left: '-50%',
-          width: '300%',
-          height: '140%',
-          transformOrigin: 'center center',
-          transform: 'skewX(-15deg) translateX(-200%)',
+          top: '-300px',
+          left: '-300px',
+          width: '600px',
+          height: '600px',
+          x: smoothMouseX,
+          y: smoothMouseY,
         }}
       />
 
@@ -64,14 +79,15 @@ export default function App() {
           {effectsLoaded && <AntigravityScene mouseX={mouseX} mouseY={mouseY} />}
         </div>
 
-        {/* Navigation - Ultra Minimalist and Clear */}
-        <nav className="fixed top-0 left-0 w-full z-50 px-8 md:px-12 py-8 md:py-8 flex flex-col items-center pointer-events-auto">
-          {/* Brand Center */}
-          <span translate="no" className="font-brand text-[60px] md:text-[90px] tracking-tighter uppercase whitespace-nowrap text-white font-black leading-none">SERVIN</span>
+        {/* Navigation - Minimalist, Corners */}
+        <nav className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-8 md:py-10 flex justify-between items-start pointer-events-auto">
+          {/* Brand Left */}
+          <ScrambleText text="SERVIN" />
           
-          {/* Location Subtitle */}
-          <div className="text-[14px] md:text-[16px] tracking-[0.8em] uppercase font-mono opacity-50 text-white text-center mt-2 ml-[0.8em]">
-            SANTA FE
+          {/* Location Right */}
+          <div className="text-[10px] md:text-[11px] tracking-[0.4em] uppercase font-mono opacity-50 text-white text-right mt-1 leading-relaxed">
+            SANTA FE<br className="md:hidden" />
+            <span className="hidden md:inline">, </span>ARGENTINA
           </div>
         </nav>
 
@@ -82,7 +98,7 @@ export default function App() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
-              className="text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-black tracking-[-0.06em] leading-[0.85] mb-4 md:mb-6 text-white will-change-transform"
+              className="font-display text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-extrabold tracking-tight leading-[0.85] mb-4 md:mb-6 text-white will-change-transform"
             >
               ANALISTA DE <br/>SISTEMAS <span className="opacity-30 font-light text-[0.8em]">()</span>
             </motion.h1>
@@ -91,9 +107,9 @@ export default function App() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
-              className="max-w-md text-[12px] md:text-[15px] tracking-[0.2em] uppercase leading-relaxed opacity-80 font-medium text-white"
+              className="max-w-md text-[12px] md:text-[14px] tracking-[0.15em] uppercase leading-relaxed opacity-80 font-medium text-white"
             >
-              Desarrollo web y sistemas de información.
+              Soluciones web, e-commerce y sistemas de gestión para modernizar tu comercio.
             </motion.div>
           </div>
         </section>
@@ -135,30 +151,116 @@ export default function App() {
         </footer>
       </div>
 
-      {/* WhatsApp Floating Button - Enhanced Button Style */}
-      <motion.a 
-        href={WHATSAPP_LINK}
-        target="_blank"
-        rel="noreferrer"
-        whileHover={{ scale: 1.05, y: -5 }}
-        whileTap={{ scale: 0.95 }}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
-        className="fixed left-1/2 -translate-x-1/2 z-50 flex items-center justify-center gap-3 bg-white text-black px-8 py-4 md:px-10 md:py-5 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.3)] pointer-events-auto group transition-all duration-300 hover:bg-[#25D366] hover:text-white border-2 border-transparent hover:border-white/20"
-        style={{ bottom: 'max(2.5rem, calc(1.5rem + env(safe-area-inset-bottom)))' }}
+      {/* WhatsApp Floating Button - Enhanced Magnetic Style */}
+      <div 
+        className="fixed z-50 pointer-events-none"
+        style={{ 
+          bottom: 'max(2.5rem, calc(1.5rem + env(safe-area-inset-bottom)))',
+          left: '50%',
+          transform: 'translateX(-50%)'
+        }}
       >
-        <div className="relative">
-          <MessageCircle size={20} className="relative z-10 group-hover:animate-pulse" />
-          <motion.div 
-            animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0, 0.3] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="absolute inset-0 bg-current rounded-full blur-md -z-0 opacity-0 group-hover:opacity-100"
-          />
-        </div>
-        <span className="text-[14px] font-black tracking-[0.3em] uppercase">Contactar</span>
-      </motion.a>
+        <MagneticButton 
+          href={WHATSAPP_LINK}
+          className="flex items-center justify-center gap-4 bg-black/40 backdrop-blur-2xl text-white px-8 py-4 md:px-10 md:py-5 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] pointer-events-auto group transition-colors duration-300 border border-white/10 hover:bg-[#25D366] hover:border-[#25D366] hover:shadow-[0_0_40px_rgba(37,211,102,0.4)]"
+        >
+          {/* Status Dot */}
+          <div className="relative flex items-center justify-center w-2.5 h-2.5">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75 animate-ping group-hover:bg-white"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#25D366] group-hover:bg-white shadow-[0_0_10px_#25D366] group-hover:shadow-none"></span>
+          </div>
+
+          <span className="text-[13px] md:text-[14px] font-black tracking-[0.3em] uppercase mt-[2px]">Hablemos</span>
+          
+          <div className="relative flex items-center justify-center">
+            <MessageCircle size={20} className="relative z-10 group-hover:scale-110 transition-transform duration-300" />
+          </div>
+        </MagneticButton>
+      </div>
     </div>
+  );
+}
+function MagneticButton({ children, className, href }: { children: React.ReactNode, className: string, href: string }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 150, damping: 15, mass: 0.1 });
+  const springY = useSpring(y, { stiffness: 150, damping: 15, mass: 0.1 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const { clientX, clientY } = e;
+    const { height, width, left, top } = e.currentTarget.getBoundingClientRect();
+    const xPos = clientX - (left + width / 2);
+    const yPos = clientY - (top + height / 2);
+    x.set(xPos * 0.3); // Fuerza magnética
+    y.set(yPos * 0.3);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1.2, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.a>
+  );
+}
+
+function ScrambleText({ text }: { text: string }) {
+  const [displayText, setDisplayText] = useState(text);
+  const [isHovering, setIsHovering] = useState(false);
+  const chars = "!<>-_\\\\/[]{}—=+*^?#________";
+
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    if (isHovering) {
+      let iteration = 0;
+      interval = setInterval(() => {
+        setDisplayText((prev) =>
+          prev
+            .split("")
+            .map((letter, index) => {
+              if (index < iteration) {
+                return text[index];
+              }
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join("")
+        );
+        if (iteration >= text.length) {
+          clearInterval(interval);
+        }
+        iteration += 1 / 3;
+      }, 30);
+    } else {
+      setDisplayText(text);
+    }
+    return () => clearInterval(interval);
+  }, [isHovering, text]);
+
+  return (
+    <span 
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      translate="no" 
+      className="font-mono text-[20px] md:text-[24px] tracking-[0.2em] uppercase whitespace-nowrap text-white font-bold leading-none cursor-crosshair min-w-[120px] inline-block"
+    >
+      {displayText}
+    </span>
   );
 }
 
@@ -248,9 +350,9 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 2 + 0.5,
-          speedX: (Math.random() - 0.5) * 0.3,
-          speedY: (Math.random() - 0.5) * 0.3,
+          size: Math.random() * 1.5 + 0.2,
+          speedX: (Math.random() - 0.5) * 0.1,
+          speedY: (Math.random() - 0.5) * 0.1,
           opacity: Math.random() * 0.4 + 0.1,
           shape: Math.random() > 0.8 ? 'square' : 'circle',
           flickerSpeed: Math.random() * 0.05 + 0.01
@@ -301,7 +403,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       const connectionDistSq = dynamicConnectionDist * dynamicConnectionDist;
       const currentLineWidth = canvas.width < 768 ? 1.1 : 1.2;
       const currentMaxOpacity = canvas.width < 768 ? 0.85 : 0.9;
-      const mouseForceMult = isMobileDevice ? 1 : 2;
+      const mouseForceMult = isMobileDevice ? 0.5 : 1;
 
       ctx.lineWidth = currentLineWidth;
       for (let i = 0; i < particles.length; i++) {
@@ -319,38 +421,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
           p1.y += (mdy / mdist) * force * mouseForceMult;
         }
 
-        // Conexiones entre particulas con efecto de brillo intermitente (solo en desktop)
-        if (!isMobileDevice && canvas.width >= 768) {
-          for (let j = i + 1; j < particles.length; j++) {
-            const p2 = particles[j];
-            const dx = p1.x - p2.x;
-            const dy = p1.y - p2.y;
-            const distSq = dx * dx + dy * dy;
-
-            if (distSq < connectionDistSq) {
-              const dist = Math.sqrt(distSq);
-              const baseAlpha = (1 - dist / dynamicConnectionDist) * currentMaxOpacity;
-              
-              // Intermittent flicker: each edge gets a unique seed from particle indices
-              const seed = i * 31 + j * 17;
-              const flickerA = Math.sin(time * 3.5 + seed) * 0.5 + 0.5;
-              const flickerB = Math.sin(time * 7.1 + seed * 0.7) * 0.5 + 0.5;
-              const flicker = flickerA * flickerB; // Combined creates irregular pattern
-              
-              // Some edges flash bright, others stay dim
-              const alpha = baseAlpha * (0.3 + flicker * 0.7);
-              const lineWidth = currentLineWidth + flicker * 1.5;
-              
-              ctx.lineWidth = lineWidth;
-              ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
-              ctx.beginPath();
-              ctx.moveTo(p1.x, p1.y);
-              ctx.lineTo(p2.x, p2.y);
-              ctx.stroke();
-            }
-          }
-        }
-
+        // Las conexiones entre partículas fueron eliminadas para un efecto de "polvo estelar" más limpio
       }
 
       particles.forEach(p => {
@@ -399,7 +470,8 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
   const mX = useMotionValue(0);
   const mY = useMotionValue(0);
 
-  const springConfig = { damping: 45, stiffness: 90 };
+  // Viscous drag for a heavier, premium feel
+  const springConfig = { damping: 80, stiffness: 40, mass: 3 };
   const springX = useSpring(mX, springConfig);
   const springY = useSpring(mY, springConfig);
 
