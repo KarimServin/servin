@@ -270,9 +270,9 @@ function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
   }, []);
 
   const elements = [
-    { id: 1, type: 'text', content: 'E-commerce', x: 15, y: 10, mass: 1 },
-    { id: 2, type: 'icon', icon: ShoppingBag, x: 80, y: 25, mass: 1.5 },
-    { id: 5, type: 'icon', icon: Code2, x: 85, y: 75, mass: 0.8 },
+    { id: 1, type: 'text', content: 'E-commerce', x: 15, y: 8, mass: 1 },
+    { id: 2, type: 'icon', icon: ShoppingBag, x: 80, y: 12, mass: 1.5 },
+    { id: 5, type: 'icon', icon: Code2, x: 85, y: 28, mass: 0.8 },
   ];
 
   // On mobile, hide text elements to prevent overlap with the title
