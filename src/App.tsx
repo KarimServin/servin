@@ -143,10 +143,6 @@ export default function App() {
         {/* Footer */}
         <footer className="w-full px-12 py-20 mt-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 opacity-40 text-[10px] tracking-[0.2em] uppercase font-mono relative z-10">
           <div>© 2026 KARIM SERVIN</div>
-          <div className="flex gap-8">
-            <a href="#" className="hover:text-white transition-colors">Linkedin</a>
-            <a href="#" className="hover:text-white transition-colors">Github</a>
-          </div>
           <div>SANTA FE, ARGENTINA</div>
         </footer>
       </div>
