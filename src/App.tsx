@@ -56,8 +56,13 @@ export default function App() {
         />
       )}
 
-      {/* Ambient Color Glows — reduced blur on desktop, hidden on mobile */}
-      {!IS_MOBILE && (
+      {/* Ambient Color Glows — lightweight on mobile, full on desktop */}
+      {IS_MOBILE ? (
+        // Simple CSS gradient on mobile — no blur, zero GPU cost
+        <div className="fixed top-0 right-0 w-[70vw] h-[40vh] pointer-events-none z-0"
+          style={{ background: 'radial-gradient(ellipse at top right, rgba(5,150,105,0.07) 0%, transparent 70%)' }}
+        />
+      ) : (
         <>
           <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-green/8 blur-[80px] pointer-events-none z-0" />
           <div className="fixed top-[30%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-cyan/5 blur-[80px] pointer-events-none z-0" />
@@ -76,26 +81,52 @@ export default function App() {
           </div>
         )}
 
-        {/* Navigation - Transparent, Centered on Mobile */}
-        <nav className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-8 md:py-10 flex flex-col md:flex-row justify-center md:justify-between items-center pointer-events-auto gap-4 md:gap-0">
-          <div className="flex items-center">
+        {/* Navigation — compact on mobile, spread on desktop */}
+        <nav className="fixed top-0 left-0 w-full z-50 pointer-events-auto">
+          {/* Mobile nav: single compact bar with backdrop */}
+          <div className="flex md:hidden items-center justify-between px-5 py-4
+            bg-[#f8fafc]/80 backdrop-blur-md border-b border-slate-200/60">
             <ScrambleText text="SERVIN" />
+            <span className="text-[9px] tracking-[0.3em] uppercase font-mono text-slate-400">
+              Santa Fe
+            </span>
           </div>
-          
-          <div className="text-[10px] md:text-[11px] tracking-[0.4em] uppercase font-mono text-slate-400 text-center md:text-right leading-relaxed">
-            SANTA FE, ARGENTINA
+          {/* Desktop nav: transparent, full spread */}
+          <div className="hidden md:flex items-center justify-between px-12 py-10">
+            <ScrambleText text="SERVIN" />
+            <div className="text-[11px] tracking-[0.4em] uppercase font-mono text-slate-400">
+              SANTA FE, ARGENTINA
+            </div>
           </div>
         </nav>
 
         {/* Main Hero Area */}
-        <section className="w-full flex flex-col items-center justify-center p-6 md:p-12 text-left min-h-[100svh]">
-          <div className="max-w-5xl w-full flex flex-col items-start translate-y-0 md:translate-y-0 overflow-visible">
+        <section className="w-full flex flex-col justify-center px-5 pt-20 pb-8 md:p-12 min-h-[100svh]">
+          <div className="max-w-5xl w-full flex flex-col items-start">
+            
+            {/* Mobile: label chip above title */}
+            {IS_MOBILE && (
+              <div className="flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full
+                bg-brand-green/10 border border-brand-green/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
+                <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-brand-green font-semibold">
+                  Disponible
+                </span>
+              </div>
+            )}
+
             {IS_MOBILE ? (
-              <h1 className="font-display text-[clamp(3.7rem,15vw,7rem)] font-extrabold tracking-tight leading-[0.85] mb-6 text-slate-900">
-                ANALISTA DE <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-brand-green">SISTEMAS</span> <span className="text-brand-green font-mono font-light text-[0.8em]">[ ]</span>
+              <h1 className="font-display font-extrabold tracking-tight leading-[0.88] mb-5 text-slate-900"
+                style={{ fontSize: 'clamp(2.8rem, 13vw, 4.5rem)' }}>
+                ANALISTA
+                <br />
+                <span className="text-transparent bg-clip-text"
+                  style={{ backgroundImage: 'linear-gradient(135deg, #0f172a 30%, #059669 100%)' }}>
+                  DE SISTEMAS
+                </span>
               </h1>
             ) : (
-              <motion.h1 
+              <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
@@ -104,9 +135,10 @@ export default function App() {
                 ANALISTA DE <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-brand-green">SISTEMAS</span> <span className="text-brand-green font-mono font-light text-[0.8em]">[ ]</span>
               </motion.h1>
             )}
+
             {IS_MOBILE ? (
-              <p className="max-w-xl text-[12px] md:text-[14px] tracking-[0.1em] uppercase leading-relaxed text-slate-600 font-medium">
-                Soluciones de software a medida, e-commerce y facturación automática para simplificar el día a día de PyMEs y emprendedores locales.
+              <p className="text-[13px] leading-[1.7] text-slate-500 font-normal max-w-xs mb-6">
+                Software a medida, e-commerce y facturación automática para PyMEs y emprendedores de Santa Fe.
               </p>
             ) : (
               <motion.p
@@ -118,11 +150,31 @@ export default function App() {
                 Soluciones de software a medida, e-commerce y facturación automática para simplificar el día a día de PyMEs y emprendedores locales.
               </motion.p>
             )}
+
+            {/* Mobile: inline stats strip */}
+            {IS_MOBILE && (
+              <div className="flex gap-6 mt-2 mb-1">
+                <div className="flex flex-col">
+                  <span className="text-[22px] font-black text-slate-900 leading-none">9+</span>
+                  <span className="text-[9px] tracking-widest uppercase text-slate-400 font-mono mt-0.5">Servicios</span>
+                </div>
+                <div className="w-px bg-slate-200" />
+                <div className="flex flex-col">
+                  <span className="text-[22px] font-black text-brand-green leading-none">ARCA</span>
+                  <span className="text-[9px] tracking-widest uppercase text-slate-400 font-mono mt-0.5">Integrado</span>
+                </div>
+                <div className="w-px bg-slate-200" />
+                <div className="flex flex-col">
+                  <span className="text-[22px] font-black text-slate-900 leading-none">SF</span>
+                  <span className="text-[9px] tracking-widest uppercase text-slate-400 font-mono mt-0.5">Local</span>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
         {/* Services Section */}
-        <section id="servicios" className="w-full max-w-7xl mx-auto px-6 py-24 md:py-32 flex flex-col gap-24 relative z-10">
+        <section id="servicios" className="w-full max-w-7xl mx-auto px-5 md:px-6 py-10 md:py-32 flex flex-col gap-10 md:gap-24 relative z-10">
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between">
               <h2 className="text-[12px] tracking-[0.6em] uppercase text-muted font-mono">Servicios</h2>
