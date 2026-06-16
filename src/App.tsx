@@ -15,8 +15,6 @@ const WHATSAPP_LINK = `https://wa.me/543424216870?text=Hola+Karim!+Me+gustaría+
 export default function App() {
   const mouseX = useMotionValue(-1000);
   const mouseY = useMotionValue(-1000);
-  const smoothMouseX = useSpring(mouseX, { damping: 50, stiffness: 400 });
-  const smoothMouseY = useSpring(mouseY, { damping: 50, stiffness: 400 });
   const [effectsLoaded, setEffectsLoaded] = useState(false);
 
   useEffect(() => {
@@ -44,32 +42,20 @@ export default function App() {
     <div 
       onMouseMove={handleMouseMove}
       onTouchMove={handleTouchMove}
-      className="min-h-screen w-full overflow-x-hidden pb-[env(safe-area-inset-bottom)] relative select-none font-sans bg-black [isolation:isolate]"
+      className="min-h-screen w-full overflow-x-hidden pb-[env(safe-area-inset-bottom)] relative select-none font-sans bg-bg text-ink [isolation:isolate]"
     >
       {/* Noise Overlay for Premium Texture */}
       <div 
-        className="fixed inset-0 z-0 pointer-events-none opacity-[0.04] mix-blend-screen"
+        className="fixed inset-0 z-0 pointer-events-none opacity-[0.015] mix-blend-multiply"
         style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
       />
-
-      {/* Interactive Mouse Reveal */}
-      <motion.div 
-        className="fixed z-5 pointer-events-none bg-white rounded-full hidden md:block"
-        style={{
-          top: '-300px',
-          left: '-300px',
-          width: '600px',
-          height: '600px',
-          x: smoothMouseX,
-          y: smoothMouseY,
-        }}
-      />
-
-
-
-      {/* Content wrapper - Single point of blending */}
-      <div className="relative z-10 w-full min-h-screen pointer-events-none mix-blend-difference">
-        {/* Interactive Background Elements - in white so they flip to black over white bg */}
+      {/* Ambient Color Glows - Semantic Branding Scheme */}
+      <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-green/8 blur-[150px] pointer-events-none z-0" />
+      <div className="fixed top-[30%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-cyan/5 blur-[150px] pointer-events-none z-0" />
+      <div className="fixed bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-brand-indigo/8 blur-[180px] pointer-events-none z-0" />
+      {/* Content wrapper */}
+      <div className="relative z-10 w-full min-h-screen pointer-events-none">
+        {/* Interactive Background Elements */}
         {/* Usar div nativo con CSS transition en vez de motion.div:
             Framer Motion puede agregar transforms internos durante la animación
             de opacity, lo cual rompe el position:fixed de los hijos (canvas, glows) */}
@@ -80,14 +66,19 @@ export default function App() {
         </div>
 
         {/* Navigation - Minimalist, Corners */}
-        <nav className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-8 md:py-10 flex justify-between items-start pointer-events-auto">
+        <nav className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-8 md:py-10 flex justify-between items-center pointer-events-auto">
           {/* Brand Left */}
-          <ScrambleText text="SERVIN" />
+          <div className="flex items-center gap-4">
+            <ScrambleText text="SERVIN" />
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-[10px] tracking-widest text-brand-green uppercase font-mono">
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
+              Disponible
+            </div>
+          </div>
           
           {/* Location Right */}
-          <div className="text-[10px] md:text-[11px] tracking-[0.4em] uppercase font-mono opacity-50 text-white text-right mt-1 leading-relaxed">
-            SANTA FE<br className="md:hidden" />
-            <span className="hidden md:inline">, </span>ARGENTINA
+          <div className="text-[10px] md:text-[11px] tracking-[0.4em] uppercase font-mono text-muted text-right leading-relaxed">
+            SANTA FE, ARGENTINA
           </div>
         </nav>
 
@@ -98,56 +89,92 @@ export default function App() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
-              className="font-display text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-extrabold tracking-tight leading-[0.85] mb-4 md:mb-6 text-white will-change-transform"
+              className="font-display text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-extrabold tracking-tight leading-[0.85] mb-6 text-slate-900 will-change-transform"
             >
-              ANALISTA DE <br/>SISTEMAS <span className="opacity-30 font-light text-[0.8em]">()</span>
+              ANALISTA DE <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-brand-green">SISTEMAS</span> <span className="text-brand-green font-mono font-light text-[0.8em]">[ ]</span>
             </motion.h1>
-            
-            <motion.div
+                        <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
-              className="max-w-md text-[12px] md:text-[14px] tracking-[0.15em] uppercase leading-relaxed opacity-80 font-medium text-white"
+              className="max-w-xl text-[12px] md:text-[14px] tracking-[0.1em] uppercase leading-relaxed text-slate-600 font-medium"
             >
-              Soluciones web, e-commerce y sistemas de gestión para modernizar tu comercio.
-            </motion.div>
+              Soluciones de software a medida, e-commerce y facturación automática para simplificar el día a día de PyMEs y emprendedores locales.
+            </motion.p>
           </div>
         </section>
 
-        {/* New Services Section */}
-        <section className="w-full max-w-7xl mx-auto px-6 py-32 md:py-48 flex flex-col gap-24 relative z-10">
+        {/* Services Section */}
+        <section id="servicios" className="w-full max-w-7xl mx-auto px-6 py-24 md:py-32 flex flex-col gap-24 relative z-10">
           <div className="flex flex-col gap-6">
-            <h2 className="text-[12px] tracking-[0.6em] uppercase opacity-40 font-mono">Servicios</h2>
-            <div className="h-[1px] w-full bg-white/10" />
+            <div className="flex items-center justify-between">
+              <h2 className="text-[12px] tracking-[0.6em] uppercase text-muted font-mono">Servicios</h2>
+              <span className="text-[10px] tracking-widest text-brand-green uppercase font-mono">[ 9 soluciones ]</span>
+            </div>
+            <div className="h-[1px] w-full bg-gradient-to-r from-brand-green/30 via-slate-200 to-slate-100" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <ServiceCard 
               title="Desarrollo Web" 
-              desc="Aplicaciones web modernas, escalables y optimizadas para cualquier dispositivo."
+              desc="Sitios y aplicaciones web rápidas para posicionar tu marca y captar más clientes en la región."
               index={0}
             />
             <ServiceCard 
               title="E-commerce" 
-              desc="Tiendas online de alto rendimiento diseñadas para maximizar tus ventas."
+              desc="Tu local abierto las 24 horas. Tiendas online integradas con medios de pago y logística de envíos."
               index={1}
             />
             <ServiceCard 
-              title="Sistemas" 
-              desc="Soluciones a medida para la gestión y automatización de procesos complejos."
+              title="Páginas Institucionales" 
+              desc="Presencia profesional, limpia y confiable para empresas, cooperativas e instituciones locales."
               index={2}
+            />
+            <ServiceCard 
+              title="Sistemas de Gestión" 
+              desc="Automatizá tu stock, tus ventas y tus clientes con un software a medida diseñado según tu flujo diario."
+              index={3}
+            />
+            <ServiceCard 
+              title="Facturación (ARCA)" 
+              desc="Facturá en segundos sin entrar a la web de AFIP. Conectamos tus sistemas para emitir comprobantes de forma automática."
+              index={4}
+            />
+            <ServiceCard 
+              title="Integraciones" 
+              desc="Unimos tus sistemas existentes con Mercado Pago, APIs externas o planillas de cálculo. Todo coordinado en un solo lugar."
+              index={5}
+            />
+            <ServiceCard 
+              title="Análisis de Datos" 
+              desc="Entendé tus ventas, tus gastos y tus márgenes reales con tableros de control simples, interactivos y automatizados."
+              index={6}
+            />
+            <ServiceCard 
+              title="Aplicaciones IA y RAG" 
+              desc="Asistentes virtuales entrenados con tus manuales de producto para automatizar la atención al cliente sin perder ventas."
+              index={7}
+            />
+            <ServiceCard 
+              title="Asesoramiento Técnico" 
+              desc="Te ayudamos a elegir computadoras, servidores o infraestructura de red adecuada sin gastar de más. Inversión inteligente."
+              index={8}
             />
           </div>
         </section>
 
         {/* Footer */}
-        <footer className="w-full px-12 py-20 mt-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 opacity-40 text-[10px] tracking-[0.2em] uppercase font-mono relative z-10">
-          <div>© 2026 KARIM SERVIN</div>
-          <div>SANTA FE, ARGENTINA</div>
+        <footer className="w-full px-12 py-20 mt-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] tracking-[0.2em] uppercase font-mono relative z-10">
+          <div className="opacity-40">© 2026 KARIM SERVIN</div>
+          <div className="flex items-center gap-2 text-brand-green font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
+            Disponible para Proyectos
+          </div>
+          <div className="opacity-40">SANTA FE, ARGENTINA</div>
         </footer>
       </div>
 
-      {/* WhatsApp Floating Button - Enhanced Magnetic Style */}
+      {/* WhatsApp Floating Button - Green Background and Pop design */}
       <div 
         className="fixed z-50 pointer-events-none"
         style={{ 
@@ -158,25 +185,35 @@ export default function App() {
       >
         <MagneticButton 
           href={WHATSAPP_LINK}
-          className="flex items-center justify-center gap-4 bg-black/40 backdrop-blur-2xl text-white px-8 py-4 md:px-10 md:py-5 rounded-full shadow-[0_20px_50px_rgba(0,0,0,0.5)] pointer-events-auto group transition-colors duration-300 border border-white/10 hover:bg-[#25D366] hover:border-[#25D366] hover:shadow-[0_0_40px_rgba(37,211,102,0.4)]"
+          id="btn-contacto-whatsapp"
+          aria-label="Contactar a Karim Servin por WhatsApp"
+          title="Contactar a Karim Servin por WhatsApp"
+          className="flex items-center justify-center gap-3 bg-[#25D366] text-white px-8 py-4 md:px-10 md:py-5 rounded-full shadow-[0_15px_40px_rgba(37,211,102,0.3)] pointer-events-auto group transition-all duration-300 hover:bg-[#22c35e] hover:shadow-[0_20px_50px_rgba(37,211,102,0.5)] hover:scale-[1.03] border border-white/10"
         >
-          {/* Status Dot */}
-          <div className="relative flex items-center justify-center w-2.5 h-2.5">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75 animate-ping group-hover:bg-white"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#25D366] group-hover:bg-white shadow-[0_0_10px_#25D366] group-hover:shadow-none"></span>
-          </div>
-
-          <span className="text-[13px] md:text-[14px] font-black tracking-[0.3em] uppercase mt-[2px]">Hablemos</span>
-          
-          <div className="relative flex items-center justify-center">
-            <MessageCircle size={20} className="relative z-10 group-hover:scale-110 transition-transform duration-300" />
-          </div>
+          <svg 
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="0 0 24 24" 
+            className="w-5 h-5 text-white transition-transform duration-300 group-hover:scale-110"
+          >
+            {/* White speech bubble */}
+            <path 
+              fill="currentColor" 
+              d="M12.004 2C6.48 2 2.004 6.48 2.004 12c0 1.73.44 3.36 1.21 4.8l-1.28 4.78c-.06.24.03.49.22.65.13.11.3.17.47.17.06 0 .12-.01.18-.03l4.9-1.31c1.39.73 2.96 1.14 4.6 1.14 5.52 0 10-4.48 10-10S17.524 2 12.004 2z" 
+            />
+            {/* Handset shape filled with green to carve it out perfectly */}
+            <path 
+              fill="#25D366" 
+              className="group-hover:fill-[#22c35e] transition-colors duration-300"
+              d="M16.564 14.87c-.22.62-1.12 1.14-1.64 1.19-.46.04-.93.04-2.74-.61-2.28-.83-3.76-3.1-3.88-3.25-.11-.15-.93-1.21-.93-2.3 0-1.1.57-1.63.78-1.86.21-.22.45-.28.6-.28.15 0 .3.01.43.01.14 0 .31-.05.49.37.18.44.63 1.53.69 1.64.06.11.09.24.02.39-.07.15-.11.24-.22.37l-.34.39c-.11.13-.23.27-.1.49.13.22.58.95.82 1.37.81 1.39 1.49 1.83 1.74 1.95.25.13.4.1.55-.07.15-.17.64-.74.81-.99.17-.25.34-.21.57-.13.23.08 1.46.69 1.72.82.25.13.42.19.48.29.06.1.06.6-.17 1.22z"
+            />
+          </svg>
+          <span className="text-[13px] md:text-[14px] font-black tracking-[0.3em] uppercase mt-[2px]">Contacto</span>
         </MagneticButton>
       </div>
     </div>
   );
 }
-function MagneticButton({ children, className, href }: { children: React.ReactNode, className: string, href: string }) {
+function MagneticButton({ children, className, href, ...props }: { children: React.ReactNode, className: string, href: string, [key: string]: any }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const springX = useSpring(x, { stiffness: 150, damping: 15, mass: 0.1 });
@@ -210,6 +247,7 @@ function MagneticButton({ children, className, href }: { children: React.ReactNo
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1.2, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
       className={className}
+      {...props}
     >
       {children}
     </motion.a>
@@ -253,7 +291,7 @@ function ScrambleText({ text }: { text: string }) {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       translate="no" 
-      className="font-mono text-[20px] md:text-[24px] tracking-[0.2em] uppercase whitespace-nowrap text-white font-bold leading-none cursor-crosshair min-w-[120px] inline-block"
+      className="font-mono text-[20px] md:text-[24px] tracking-[0.2em] uppercase whitespace-nowrap text-ink font-bold leading-none cursor-crosshair min-w-[120px] inline-block"
     >
       {displayText}
     </span>
@@ -299,16 +337,68 @@ function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
 }
 
 function ServiceCard({ title, desc, index }: { title: string, desc: string, index: number }) {
+  // Curated premium accents grouped by category (Frontend/Digital, Backend/Systems, Data/AI/Advice)
+  const getAccent = (idx: number) => {
+    if (idx < 3) {
+      // Group 1: Frontend & Digital (Cyan/Blue gradient)
+      return {
+        border: "hover:border-brand-cyan/30",
+        shadow: "hover:shadow-[0_0_30px_rgba(0,240,255,0.08)]",
+        bg: "hover:bg-brand-cyan/[0.015]",
+        text: "group-hover:text-brand-cyan",
+        dot: "bg-brand-cyan",
+        tag: "Canal Digital",
+        tagColor: "text-brand-cyan/40 group-hover:text-brand-cyan/60"
+      };
+    } else if (idx < 6) {
+      // Group 2: Systems & Business (Teal/Emerald gradient)
+      return {
+        border: "hover:border-brand-green/30",
+        shadow: "hover:shadow-[0_0_30px_rgba(0,255,135,0.08)]",
+        bg: "hover:bg-brand-green/[0.015]",
+        text: "group-hover:text-brand-green",
+        dot: "bg-brand-green",
+        tag: "Sistemas & AFIP",
+        tagColor: "text-brand-green/40 group-hover:text-brand-green/60"
+      };
+    } else {
+      // Group 3: Data & Intelligence (Indigo/Violet gradient)
+      return {
+        border: "hover:border-brand-indigo/30",
+        shadow: "hover:shadow-[0_0_30px_rgba(112,0,255,0.08)]",
+        bg: "hover:bg-brand-indigo/[0.015]",
+        text: "group-hover:text-brand-indigo",
+        dot: "bg-brand-indigo",
+        tag: "Datos & Automatización",
+        tagColor: "text-brand-indigo/40 group-hover:text-brand-indigo/60"
+      };
+    }
+  };
+
+  const accent = getAccent(index);
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: index * 0.1 }}
       viewport={{ once: true }}
-      className="p-10 rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-lg md:backdrop-blur-3xl hover:border-white/20 transition-colors group cursor-default pointer-events-auto"
+      className={`p-10 rounded-2xl border border-slate-200/50 bg-white/40 shadow-[0_8px_30px_rgba(0,0,0,0.015)] backdrop-blur-lg md:backdrop-blur-3xl transition-all duration-500 group cursor-default pointer-events-auto flex flex-col justify-between min-h-[220px] hover:bg-white hover:border-slate-300 ${accent.border} ${accent.shadow} ${accent.bg}`}
     >
-      <h3 className="text-xl md:text-2xl font-black mb-4 tracking-tighter group-hover:translate-x-2 transition-transform duration-500">{title}</h3>
-      <p className="text-[11px] md:text-[12px] opacity-40 leading-relaxed tracking-wider uppercase">{desc}</p>
+      <div>
+        <div className="flex justify-between items-start mb-6">
+          <span className={`text-[9px] tracking-[0.25em] uppercase font-mono ${accent.tagColor} transition-colors duration-500`}>
+            {accent.tag}
+          </span>
+          <span className={`w-1.5 h-1.5 rounded-full ${accent.dot} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+        </div>
+        <h3 className={`text-xl md:text-2xl font-black tracking-tighter transition-all duration-500 group-hover:translate-x-1 mb-4 text-slate-900 ${accent.text}`}>
+          {title}
+        </h3>
+      </div>
+      <p className="text-[11px] md:text-[12px] text-slate-500 leading-relaxed tracking-wider uppercase group-hover:text-slate-800 transition-colors duration-500">
+        {desc}
+      </p>
     </motion.div>
   );
 }
@@ -319,7 +409,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d', { alpha: false });
+    const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
     interface Particle {
@@ -331,6 +421,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       opacity: number;
       shape: 'circle' | 'square';
       flickerSpeed: number;
+      color?: 'brand-green' | 'base';
     }
 
     const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -351,7 +442,8 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
           speedY: (Math.random() - 0.5) * 0.1,
           opacity: Math.random() * 0.4 + 0.1,
           shape: Math.random() > 0.8 ? 'square' : 'circle',
-          flickerSpeed: Math.random() * 0.05 + 0.01
+          flickerSpeed: Math.random() * 0.05 + 0.01,
+          color: Math.random() > 0.8 ? 'brand-green' : 'base'
         });
       }
     };
@@ -389,8 +481,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       lastTime = now - (delta % frameInterval);
 
       time += 0.01;
-      ctx.fillStyle = 'black';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       const curMouseX = mouseX.get();
       const curMouseY = mouseY.get();
@@ -430,7 +521,11 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
         if (p.y > canvas.height) p.y = 0;
 
         const currentOpacity = p.opacity * (0.7 + Math.sin(time / p.flickerSpeed) * 0.3);
-        ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity})`;
+        if (p.color === 'brand-green') {
+          ctx.fillStyle = `rgba(5, 150, 105, ${currentOpacity * 1.5})`;
+        } else {
+          ctx.fillStyle = `rgba(15, 23, 42, ${currentOpacity * 0.4})`;
+        }
         
         ctx.beginPath();
         if (p.shape === 'square') {
@@ -530,38 +625,38 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
         {title ? (
           <motion.div 
             animate={{ 
-              borderColor: ["rgba(255,255,255,0.1)", "rgba(0,0,0,0.1)", "rgba(255,255,255,0.1)"],
-              backgroundColor: ["rgba(255,255,255,0.03)", "rgba(0,0,0,0.03)", "rgba(255,255,255,0.03)"]
+              borderColor: ["rgba(79,70,229,0.35)", "rgba(5,150,105,0.35)", "rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)"],
+              backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
             }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="p-6 w-64 shadow-2xl backdrop-blur-xl rounded-2xl border"
+            className="p-6 w-64 shadow-xl backdrop-blur-xl rounded-2xl border"
           >
             <div className="flex justify-between items-start mb-4">
-              <span className="text-[10px] tracking-widest uppercase opacity-40">Core Concept</span>
-              <MoreHorizontal size={12} className="opacity-40" />
+              <span className="text-[10px] tracking-widest uppercase opacity-40 text-slate-900">Core Concept</span>
+              <MoreHorizontal size={12} className="opacity-40 text-slate-900" />
             </div>
-            <h3 className="text-sm font-bold mb-2 tracking-tight">{title}</h3>
-            <p className="text-[11px] opacity-60 leading-relaxed">{content}</p>
+            <h3 className="text-sm font-bold mb-2 tracking-tight text-slate-900">{title}</h3>
+            <p className="text-[11px] opacity-60 leading-relaxed text-slate-600">{content}</p>
           </motion.div>
         ) : Icon ? (
           <motion.div 
             animate={{ 
-              borderColor: ["rgba(255,255,255,0.1)", "rgba(0,0,0,0.1)", "rgba(255,255,255,0.1)"],
-              backgroundColor: ["rgba(255,255,255,0.03)", "rgba(0,0,0,0.03)", "rgba(255,255,255,0.03)"]
+              borderColor: ["rgba(5,150,105,0.35)", "rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)", "rgba(5,150,105,0.35)"],
+              backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
             }}
             transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
             className="p-4 flex items-center justify-center backdrop-blur-xl rounded-2xl border"
           >
-            <Icon size={24} className="opacity-80" />
+            <Icon size={24} className="opacity-80 text-slate-800" />
           </motion.div>
         ) : (
           <motion.span 
             animate={{ 
-              borderColor: ["rgba(255,255,255,0.1)", "rgba(0,0,0,0.1)", "rgba(255,255,255,0.1)"],
-              backgroundColor: ["rgba(255,255,255,0.03)", "rgba(0,0,0,0.03)", "rgba(255,255,255,0.03)"]
+              borderColor: ["rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)", "rgba(5,150,105,0.35)", "rgba(2,132,199,0.35)"],
+              backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
             }}
             transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            className="text-[11px] font-medium tracking-[0.2em] uppercase py-2 px-4 inline-block whitespace-nowrap backdrop-blur-xl rounded-2xl border"
+            className="text-[11px] font-medium tracking-[0.2em] uppercase py-2 px-4 inline-block whitespace-nowrap backdrop-blur-xl rounded-2xl border text-slate-800"
           >
             {content}
           </motion.span>
