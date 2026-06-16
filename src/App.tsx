@@ -51,7 +51,7 @@ export default function App() {
       {/* Noise Overlay — desktop only (GPU cost on mobile not worth it) */}
       {!IS_MOBILE && (
         <div 
-          className="fixed inset-0 z-0 pointer-events-none opacity-[0.015] mix-blend-multiply"
+          className="fixed inset-0 z-0 pointer-events-none opacity-[0.02] mix-blend-overlay"
           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
         />
       )}
@@ -60,13 +60,13 @@ export default function App() {
       {IS_MOBILE ? (
         // Simple CSS gradient on mobile — no blur, zero GPU cost
         <div className="fixed top-0 right-0 w-[70vw] h-[40vh] pointer-events-none z-0"
-          style={{ background: 'radial-gradient(ellipse at top right, rgba(5,150,105,0.07) 0%, transparent 70%)' }}
+          style={{ background: 'radial-gradient(ellipse at top right, rgba(200,145,22,0.08) 0%, transparent 70%)' }}
         />
       ) : (
         <>
-          <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-green/8 blur-[80px] pointer-events-none z-0" />
-          <div className="fixed top-[30%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-cyan/5 blur-[80px] pointer-events-none z-0" />
-          <div className="fixed bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-brand-indigo/8 blur-[100px] pointer-events-none z-0" />
+          <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-gold/8 blur-[80px] pointer-events-none z-0" />
+          <div className="fixed top-[30%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-gold-light/4 blur-[80px] pointer-events-none z-0" />
+          <div className="fixed bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-brand-gold-dark/6 blur-[100px] pointer-events-none z-0" />
         </>
       )}
 
@@ -85,9 +85,9 @@ export default function App() {
         <nav className="fixed top-0 left-0 w-full z-50 pointer-events-auto">
           {/* Mobile nav: single compact bar with backdrop */}
           <div className="flex md:hidden items-center justify-between px-5 py-4
-            bg-[#f8fafc]/80 backdrop-blur-md border-b border-slate-200/60">
+            bg-[#030712]/80 backdrop-blur-md border-b border-white/10">
             <ScrambleText text="SERVIN" />
-            <span className="text-[9px] tracking-[0.3em] uppercase font-mono text-slate-400">
+            <span className="text-[9px] tracking-[0.35em] uppercase font-mono text-slate-400">
               Santa Fe
             </span>
           </div>
@@ -107,21 +107,21 @@ export default function App() {
             {/* Mobile: label chip above title */}
             {IS_MOBILE && (
               <div className="flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full
-                bg-brand-green/10 border border-brand-green/20">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
-                <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-brand-green font-semibold">
+                bg-brand-gold/10 border border-brand-gold/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
+                <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-brand-gold font-semibold">
                   Disponible
                 </span>
               </div>
             )}
 
             {IS_MOBILE ? (
-              <h1 className="font-display font-extrabold tracking-tight leading-[0.88] mb-5 text-slate-900"
+              <h1 className="font-display font-extrabold tracking-tight leading-[0.88] mb-5 text-white"
                 style={{ fontSize: 'clamp(2.8rem, 13vw, 4.5rem)' }}>
                 ANALISTA
                 <br />
                 <span className="text-transparent bg-clip-text"
-                  style={{ backgroundImage: 'linear-gradient(135deg, #0f172a 30%, #059669 100%)' }}>
+                  style={{ backgroundImage: 'linear-gradient(135deg, #ffffff 30%, #c89116 100%)' }}>
                   DE SISTEMAS
                 </span>
               </h1>
@@ -130,14 +130,14 @@ export default function App() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
-                className="font-display text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-extrabold tracking-tight leading-[0.85] mb-6 text-slate-900 will-change-transform"
+                className="font-display text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-extrabold tracking-tight leading-[0.85] mb-6 text-white will-change-transform"
               >
-                ANALISTA DE <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-brand-green">SISTEMAS</span> <span className="text-brand-green font-mono font-light text-[0.8em]">[ ]</span>
+                ANALISTA DE <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-100 to-brand-gold">SISTEMAS</span> <span className="text-brand-gold font-mono font-light text-[0.8em]">[ ]</span>
               </motion.h1>
             )}
 
             {IS_MOBILE ? (
-              <p className="text-[13px] leading-[1.7] text-slate-500 font-normal max-w-xs mb-6">
+              <p className="text-[13px] leading-[1.7] text-slate-400 font-normal max-w-xs mb-6">
                 Software a medida, e-commerce y facturación automática para PyMEs y emprendedores de Santa Fe.
               </p>
             ) : (
@@ -145,7 +145,7 @@ export default function App() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1.2, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
-                className="max-w-xl text-[12px] md:text-[14px] tracking-[0.1em] uppercase leading-relaxed text-slate-600 font-medium"
+                className="max-w-xl text-[12px] md:text-[14px] tracking-[0.1em] uppercase leading-relaxed text-slate-400 font-medium"
               >
                 Soluciones de software a medida, e-commerce y facturación automática para simplificar el día a día de PyMEs y emprendedores locales.
               </motion.p>
@@ -158,9 +158,9 @@ export default function App() {
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between">
               <h2 className="text-[12px] tracking-[0.6em] uppercase text-muted font-mono">Servicios</h2>
-              <span className="text-[10px] tracking-widest text-brand-green uppercase font-mono">[ 9 soluciones ]</span>
+              <span className="text-[10px] tracking-widest text-brand-gold uppercase font-mono">[ 9 soluciones ]</span>
             </div>
-            <div className="h-[1px] w-full bg-gradient-to-r from-brand-green/30 via-slate-200 to-slate-100" />
+            <div className="h-[1px] w-full bg-gradient-to-r from-brand-gold/30 via-white/10 to-transparent" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -213,10 +213,10 @@ export default function App() {
         </section>
 
         {/* Footer */}
-        <footer className="w-full px-6 md:px-12 py-14 md:py-20 mt-16 md:mt-20 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8 text-[10px] tracking-[0.2em] uppercase font-mono relative z-10">
+        <footer className="w-full px-6 md:px-12 py-14 md:py-20 mt-16 md:mt-20 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8 text-[10px] tracking-[0.2em] uppercase font-mono relative z-10">
           <div className="opacity-40">© 2026 KARIM SERVIN</div>
-          <div className="flex items-center gap-2 text-brand-green font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
+          <div className="flex items-center gap-2 text-brand-gold font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
             Disponible para Proyectos
           </div>
           <div className="opacity-40">SANTA FE, ARGENTINA</div>
@@ -389,44 +389,44 @@ function ServiceCard({ title, desc, index }: { title: string, desc: string, inde
   // Curated premium accents grouped by category (Frontend/Digital, Backend/Systems, Data/AI/Advice)
   const getAccent = (idx: number) => {
     if (idx < 3) {
-      // Group 1: Frontend & Digital (Cyan/Blue gradient)
+      // Group 1: Frontend & Digital (Light Gold)
       return {
-        border: "hover:border-brand-cyan/30",
-        shadow: "hover:shadow-[0_0_30px_rgba(0,240,255,0.08)]",
-        bg: "hover:bg-brand-cyan/[0.015]",
-        text: "group-hover:text-brand-cyan",
-        dot: "bg-brand-cyan",
+        border: "hover:border-brand-gold-light/30",
+        shadow: "hover:shadow-[0_0_30px_rgba(245,194,82,0.06)]",
+        bg: "hover:bg-brand-gold-light/[0.015]",
+        text: "group-hover:text-brand-gold-light",
+        dot: "bg-brand-gold-light",
         tag: "Canal Digital",
-        tagColor: "text-brand-cyan/40 group-hover:text-brand-cyan/60"
+        tagColor: "text-brand-gold-light/40 group-hover:text-brand-gold-light/60"
       };
     } else if (idx < 6) {
-      // Group 2: Systems & Business (Teal/Emerald gradient)
+      // Group 2: Systems & Business (Pure Gold)
       return {
-        border: "hover:border-brand-green/30",
-        shadow: "hover:shadow-[0_0_30px_rgba(0,255,135,0.08)]",
-        bg: "hover:bg-brand-green/[0.015]",
-        text: "group-hover:text-brand-green",
-        dot: "bg-brand-green",
+        border: "hover:border-brand-gold/30",
+        shadow: "hover:shadow-[0_0_30px_rgba(200,145,22,0.06)]",
+        bg: "hover:bg-brand-gold/[0.015]",
+        text: "group-hover:text-brand-gold",
+        dot: "bg-brand-gold",
         tag: "Sistemas & AFIP",
-        tagColor: "text-brand-green/40 group-hover:text-brand-green/60"
+        tagColor: "text-brand-gold/40 group-hover:text-brand-gold/60"
       };
     } else {
-      // Group 3: Data & Intelligence (Indigo/Violet gradient)
+      // Group 3: Data & Intelligence (Bronze)
       return {
-        border: "hover:border-brand-indigo/30",
-        shadow: "hover:shadow-[0_0_30px_rgba(112,0,255,0.08)]",
-        bg: "hover:bg-brand-indigo/[0.015]",
-        text: "group-hover:text-brand-indigo",
-        dot: "bg-brand-indigo",
+        border: "hover:border-brand-gold-dark/30",
+        shadow: "hover:shadow-[0_0_30px_rgba(163,109,10,0.06)]",
+        bg: "hover:bg-brand-gold-dark/[0.015]",
+        text: "group-hover:text-brand-gold-dark",
+        dot: "bg-brand-gold-dark",
         tag: "Datos & Automatización",
-        tagColor: "text-brand-indigo/40 group-hover:text-brand-indigo/60"
+        tagColor: "text-brand-gold-dark/40 group-hover:text-brand-gold-dark/60"
       };
     }
   };
 
   const accent = getAccent(index);
 
-  const cardClass = `p-8 md:p-10 rounded-2xl border border-slate-200/50 bg-white/40 shadow-[0_8px_30px_rgba(0,0,0,0.015)] backdrop-blur-lg md:backdrop-blur-3xl transition-all duration-500 group cursor-default pointer-events-auto flex flex-col justify-between min-h-[200px] md:min-h-[220px] hover:bg-white hover:border-slate-300 ${accent.border} ${accent.shadow} ${accent.bg}`;
+  const cardClass = `p-8 md:p-10 rounded-2xl border border-white/[0.06] bg-white/[0.02] shadow-[0_8px_30px_rgba(0,0,0,0.2)] backdrop-blur-lg md:backdrop-blur-3xl transition-all duration-500 group cursor-default pointer-events-auto flex flex-col justify-between min-h-[200px] md:min-h-[220px] hover:bg-white/[0.05] hover:border-white/10 ${accent.border} ${accent.shadow} ${accent.bg}`;
 
   const cardContent = (
     <>
@@ -437,11 +437,11 @@ function ServiceCard({ title, desc, index }: { title: string, desc: string, inde
           </span>
           <span className={`w-1.5 h-1.5 rounded-full ${accent.dot} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
         </div>
-        <h3 className={`text-xl md:text-2xl font-black tracking-tighter transition-all duration-500 group-hover:translate-x-1 mb-4 text-slate-900 ${accent.text}`}>
+        <h3 className={`text-xl md:text-2xl font-black tracking-tighter transition-all duration-500 group-hover:translate-x-1 mb-4 text-white ${accent.text}`}>
           {title}
         </h3>
       </div>
-      <p className="text-[11px] md:text-[12px] text-slate-500 leading-relaxed tracking-wider uppercase group-hover:text-slate-800 transition-colors duration-500">
+      <p className="text-[11px] md:text-[12px] text-slate-400 leading-relaxed tracking-wider uppercase group-hover:text-slate-200 transition-colors duration-500">
         {desc}
       </p>
     </>
@@ -504,7 +504,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
           opacity: Math.random() * 0.4 + 0.1,
           shape: Math.random() > 0.8 ? 'square' : 'circle',
           flickerSpeed: Math.random() * 0.05 + 0.01,
-          color: Math.random() > 0.8 ? 'brand-green' : 'base'
+          color: Math.random() > 0.8 ? 'brand-gold' : 'base'
         });
       }
     };
@@ -582,10 +582,10 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
         if (p.y > canvas.height) p.y = 0;
 
         const currentOpacity = p.opacity * (0.7 + Math.sin(time / p.flickerSpeed) * 0.3);
-        if (p.color === 'brand-green') {
-          ctx.fillStyle = `rgba(5, 150, 105, ${currentOpacity * 1.5})`;
+        if (p.color === 'brand-gold') {
+          ctx.fillStyle = `rgba(200, 145, 22, ${currentOpacity * 1.5})`;
         } else {
-          ctx.fillStyle = `rgba(15, 23, 42, ${currentOpacity * 0.4})`;
+          ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity * 0.4})`;
         }
         
         ctx.beginPath();
@@ -686,38 +686,38 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
         {title ? (
           <motion.div 
             animate={{ 
-              borderColor: ["rgba(79,70,229,0.35)", "rgba(5,150,105,0.35)", "rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)"],
-              backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
+              borderColor: ["rgba(245,194,82,0.25)", "rgba(200,145,22,0.25)", "rgba(163,109,10,0.25)", "rgba(245,194,82,0.25)"],
+              backgroundColor: ["rgba(15,23,42,0.6)", "rgba(15,23,42,0.6)"]
             }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             className="p-6 w-64 shadow-xl backdrop-blur-xl rounded-2xl border"
           >
             <div className="flex justify-between items-start mb-4">
-              <span className="text-[10px] tracking-widest uppercase opacity-40 text-slate-900">Core Concept</span>
-              <MoreHorizontal size={12} className="opacity-40 text-slate-900" />
+              <span className="text-[10px] tracking-widest uppercase opacity-40 text-white">Core Concept</span>
+              <MoreHorizontal size={12} className="opacity-40 text-white" />
             </div>
-            <h3 className="text-sm font-bold mb-2 tracking-tight text-slate-900">{title}</h3>
-            <p className="text-[11px] opacity-60 leading-relaxed text-slate-600">{content}</p>
+            <h3 className="text-sm font-bold mb-2 tracking-tight text-white">{title}</h3>
+            <p className="text-[11px] opacity-60 leading-relaxed text-slate-300">{content}</p>
           </motion.div>
         ) : Icon ? (
           <motion.div 
             animate={{ 
-              borderColor: ["rgba(5,150,105,0.35)", "rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)", "rgba(5,150,105,0.35)"],
-              backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
+              borderColor: ["rgba(200,145,22,0.25)", "rgba(245,194,82,0.25)", "rgba(163,109,10,0.25)", "rgba(200,145,22,0.25)"],
+              backgroundColor: ["rgba(15,23,42,0.6)", "rgba(15,23,42,0.6)"]
             }}
             transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
             className="p-4 flex items-center justify-center backdrop-blur-xl rounded-2xl border"
           >
-            <Icon size={24} className="opacity-80 text-slate-800" />
+            <Icon size={24} className="opacity-80 text-brand-gold" />
           </motion.div>
         ) : (
           <motion.span 
             animate={{ 
-              borderColor: ["rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)", "rgba(5,150,105,0.35)", "rgba(2,132,199,0.35)"],
-              backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
+              borderColor: ["rgba(163,109,10,0.25)", "rgba(245,194,82,0.25)", "rgba(200,145,22,0.25)", "rgba(163,109,10,0.25)"],
+              backgroundColor: ["rgba(15,23,42,0.6)", "rgba(15,23,42,0.6)"]
             }}
             transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            className="text-[11px] font-medium tracking-[0.2em] uppercase py-2 px-4 inline-block whitespace-nowrap backdrop-blur-xl rounded-2xl border text-slate-800"
+            className="text-[11px] font-medium tracking-[0.2em] uppercase py-2 px-4 inline-block whitespace-nowrap backdrop-blur-xl rounded-2xl border text-slate-200"
           >
             {content}
           </motion.span>

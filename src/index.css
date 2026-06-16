@@ -6,14 +6,14 @@
   --font-brand: "Plus Jakarta Sans", sans-serif;
   --font-mono: "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   
-  --color-bg: #f8fafc;
-  --color-ink: #0f172a;
-  --color-muted: #64748b;
-  --color-brand: #0f172a;
+  --color-bg: #030712;
+  --color-ink: #f9fafb;
+  --color-muted: #9ca3af;
+  --color-brand: #c89116;
   
-  --color-brand-green: #059669;
-  --color-brand-cyan: #0284c7;
-  --color-brand-indigo: #4f46e5;
+  --color-brand-gold-light: #f5c252;
+  --color-brand-gold: #c89116;
+  --color-brand-gold-dark: #a36d0a;
 }
 
 @layer base {
@@ -21,7 +21,7 @@
     /* Permitir comportamiento elástico natural */
   }
   html {
-    background: #f8fafc;
+    background: #030712;
   }
   body {
     @apply bg-bg text-ink font-sans antialiased;
