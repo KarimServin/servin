@@ -76,18 +76,19 @@ export default function App() {
           </div>
         )}
 
-        {/* Navigation - Solid, Centered */}
-        <nav className="fixed top-0 left-0 w-full z-50 bg-[#f8fafc] border-b border-slate-200 shadow-sm pointer-events-auto">
-          <div className="flex flex-col items-center py-3">
+        {/* Navigation - Transparent, Centered on Mobile */}
+        <nav className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-8 md:py-10 flex flex-col md:flex-row justify-center md:justify-between items-center pointer-events-auto gap-4 md:gap-0">
+          <div className="flex items-center">
             <ScrambleText text="SERVIN" />
-            <span className="text-[9px] tracking-[0.35em] uppercase font-mono text-slate-400 mt-0.5">
-              Santa Fe, Argentina
-            </span>
+          </div>
+          
+          <div className="text-[10px] md:text-[11px] tracking-[0.4em] uppercase font-mono text-slate-400 text-center md:text-right leading-relaxed">
+            SANTA FE, ARGENTINA
           </div>
         </nav>
 
         {/* Main Hero Area */}
-        <section className="w-full flex flex-col items-center justify-center px-6 pt-24 pb-6 md:p-12 md:pt-28 text-left min-h-[100svh]">
+        <section className="w-full flex flex-col items-center justify-center p-6 md:p-12 text-left min-h-[100svh]">
           <div className="max-w-5xl w-full flex flex-col items-start translate-y-0 md:translate-y-0 overflow-visible">
             {IS_MOBILE ? (
               <h1 className="font-display text-[clamp(3.7rem,15vw,7rem)] font-extrabold tracking-tight leading-[0.85] mb-6 text-slate-900">
