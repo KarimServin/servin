@@ -150,26 +150,6 @@ export default function App() {
                 Soluciones de software a medida, e-commerce y facturación automática para simplificar el día a día de PyMEs y emprendedores locales.
               </motion.p>
             )}
-
-            {/* Mobile: inline stats strip */}
-            {IS_MOBILE && (
-              <div className="flex gap-6 mt-2 mb-1">
-                <div className="flex flex-col">
-                  <span className="text-[22px] font-black text-slate-900 leading-none">9+</span>
-                  <span className="text-[9px] tracking-widest uppercase text-slate-400 font-mono mt-0.5">Servicios</span>
-                </div>
-                <div className="w-px bg-slate-200" />
-                <div className="flex flex-col">
-                  <span className="text-[22px] font-black text-brand-green leading-none">ARCA</span>
-                  <span className="text-[9px] tracking-widest uppercase text-slate-400 font-mono mt-0.5">Integrado</span>
-                </div>
-                <div className="w-px bg-slate-200" />
-                <div className="flex flex-col">
-                  <span className="text-[22px] font-black text-slate-900 leading-none">SF</span>
-                  <span className="text-[9px] tracking-widest uppercase text-slate-400 font-mono mt-0.5">Local</span>
-                </div>
-              </div>
-            )}
           </div>
         </section>
 
