@@ -60,7 +60,7 @@ export default function App() {
       {IS_MOBILE ? (
         // Simple CSS gradient on mobile — no blur, zero GPU cost
         <div className="fixed top-0 right-0 w-[70vw] h-[40vh] pointer-events-none z-0"
-          style={{ background: 'radial-gradient(ellipse at top right, rgba(59,130,246,0.07) 0%, transparent 70%)' }}
+          style={{ background: 'radial-gradient(ellipse at top right, rgba(16,185,129,0.07) 0%, transparent 70%)' }}
         />
       ) : (
         <>
@@ -85,7 +85,7 @@ export default function App() {
         <nav className="fixed top-0 left-0 w-full z-50 pointer-events-auto">
           {/* Mobile nav: single compact bar with backdrop */}
           <div className="flex md:hidden items-center justify-between px-5 py-4
-            bg-[#f8fafc]/80 backdrop-blur-md border-b border-slate-200/60">
+            bg-white/80 backdrop-blur-md border-b border-slate-200/60">
             <ScrambleText text="SERVIN" />
             <span className="text-[9px] tracking-[0.3em] uppercase font-mono text-slate-400">
               Santa Fe
@@ -121,7 +121,7 @@ export default function App() {
                 ANALISTA
                 <br />
                 <span className="text-transparent bg-clip-text"
-                  style={{ backgroundImage: 'linear-gradient(135deg, #0f172a 30%, #3b82f6 100%)' }}>
+                  style={{ backgroundImage: 'linear-gradient(135deg, #0f172a 30%, #10B981 100%)' }}>
                   DE SISTEMAS
                 </span>
               </h1>
@@ -389,10 +389,10 @@ function ServiceCard({ title, desc, index }: { title: string, desc: string, inde
   // Curated premium accents grouped by category (Frontend/Digital, Backend/Systems, Data/AI/Advice)
   const getAccent = (idx: number) => {
     if (idx < 3) {
-      // Group 1: Frontend & Digital (Blue gradient)
+      // Group 1: Frontend & Digital (Green gradient)
       return {
         border: "hover:border-brand-cyan/30",
-        shadow: "hover:shadow-[0_0_30px_rgba(59,130,246,0.08)]",
+        shadow: "hover:shadow-[0_0_30px_rgba(52,211,153,0.08)]",
         bg: "hover:bg-brand-cyan/[0.015]",
         text: "group-hover:text-brand-cyan",
         dot: "bg-brand-cyan",
@@ -400,10 +400,10 @@ function ServiceCard({ title, desc, index }: { title: string, desc: string, inde
         tagColor: "text-brand-cyan/40 group-hover:text-brand-cyan/60"
       };
     } else if (idx < 6) {
-      // Group 2: Systems & Business (Blue/Teal gradient)
+      // Group 2: Systems & Business (Emerald gradient)
       return {
         border: "hover:border-brand-blue/30",
-        shadow: "hover:shadow-[0_0_30px_rgba(37,99,235,0.08)]",
+        shadow: "hover:shadow-[0_0_30px_rgba(16,185,129,0.08)]",
         bg: "hover:bg-brand-blue/[0.015]",
         text: "group-hover:text-brand-blue",
         dot: "bg-brand-blue",
@@ -411,10 +411,10 @@ function ServiceCard({ title, desc, index }: { title: string, desc: string, inde
         tagColor: "text-brand-blue/40 group-hover:text-brand-blue/60"
       };
     } else {
-      // Group 3: Data & Intelligence (Indigo/Violet gradient)
+      // Group 3: Data & Intelligence (Petroleum gradient)
       return {
         border: "hover:border-brand-indigo/30",
-        shadow: "hover:shadow-[0_0_30px_rgba(112,0,255,0.08)]",
+        shadow: "hover:shadow-[0_0_30px_rgba(15,23,42,0.08)]",
         bg: "hover:bg-brand-indigo/[0.015]",
         text: "group-hover:text-brand-indigo",
         dot: "bg-brand-indigo",
@@ -583,7 +583,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
 
         const currentOpacity = p.opacity * (0.7 + Math.sin(time / p.flickerSpeed) * 0.3);
         if (p.color === 'brand-blue') {
-          ctx.fillStyle = `rgba(59, 130, 246, ${currentOpacity * 1.5})`;
+          ctx.fillStyle = `rgba(16, 185, 129, ${currentOpacity * 1.5})`;
         } else {
           ctx.fillStyle = `rgba(15, 23, 42, ${currentOpacity * 0.4})`;
         }
@@ -686,7 +686,7 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
         {title ? (
           <motion.div 
             animate={{ 
-              borderColor: ["rgba(79,70,229,0.35)", "rgba(37,99,235,0.35)", "rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)"],
+              borderColor: ["rgba(15,23,42,0.35)", "rgba(16,185,129,0.35)", "rgba(52,211,153,0.35)", "rgba(15,23,42,0.35)"],
               backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
             }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -702,7 +702,7 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
         ) : Icon ? (
           <motion.div 
             animate={{ 
-              borderColor: ["rgba(37,99,235,0.35)", "rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)", "rgba(37,99,235,0.35)"],
+              borderColor: ["rgba(16,185,129,0.35)", "rgba(52,211,153,0.35)", "rgba(15,23,42,0.35)", "rgba(16,185,129,0.35)"],
               backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
             }}
             transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
@@ -713,7 +713,7 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
         ) : (
           <motion.span 
             animate={{ 
-              borderColor: ["rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)", "rgba(37,99,235,0.35)", "rgba(2,132,199,0.35)"],
+              borderColor: ["rgba(52,211,153,0.35)", "rgba(15,23,42,0.35)", "rgba(16,185,129,0.35)", "rgba(52,211,153,0.35)"],
               backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
             }}
             transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
