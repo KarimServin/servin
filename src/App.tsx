@@ -77,10 +77,10 @@ export default function App() {
         )}
 
         {/* Navigation - Solid, Centered */}
-        <nav className="fixed top-0 left-0 w-full z-50 bg-bg border-b border-slate-200/80 shadow-[0_1px_12px_rgba(0,0,0,0.04)] pointer-events-auto">
+        <nav className="fixed top-0 left-0 w-full z-50 bg-[#f8fafc] border-b border-slate-200 shadow-sm pointer-events-auto">
           <div className="flex flex-col items-center py-3">
             <ScrambleText text="SERVIN" />
-            <span className="text-[9px] tracking-[0.35em] uppercase font-mono text-muted mt-0.5">
+            <span className="text-[9px] tracking-[0.35em] uppercase font-mono text-slate-400 mt-0.5">
               Santa Fe, Argentina
             </span>
           </div>
