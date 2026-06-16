@@ -12,13 +12,17 @@ import {
 } from "lucide-react";
 
 const WHATSAPP_LINK = `https://wa.me/543424216870?text=Hola+Karim!+Me+gustaría+consultar+por+tus+servicios.`;
+
+// Detect mobile once at module level — avoids per-render detection
+const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(typeof navigator !== 'undefined' ? navigator.userAgent : '');
+
 export default function App() {
   const mouseX = useMotionValue(-1000);
   const mouseY = useMotionValue(-1000);
   const [effectsLoaded, setEffectsLoaded] = useState(false);
 
   useEffect(() => {
-    // Retrasar efectos pesados para priorizar FCP/LCP en moviles
+    if (IS_MOBILE) return; // Skip heavy deferred effects on mobile entirely
     const timer = setTimeout(() => {
       setEffectsLoaded(true);
     }, 100);
@@ -44,63 +48,75 @@ export default function App() {
       onTouchMove={handleTouchMove}
       className="min-h-screen w-full overflow-x-hidden pb-[env(safe-area-inset-bottom)] relative select-none font-sans bg-bg text-ink [isolation:isolate]"
     >
-      {/* Noise Overlay for Premium Texture */}
-      <div 
-        className="fixed inset-0 z-0 pointer-events-none opacity-[0.015] mix-blend-multiply"
-        style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
-      />
-      {/* Ambient Color Glows - Semantic Branding Scheme */}
-      <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-green/8 blur-[150px] pointer-events-none z-0" />
-      <div className="fixed top-[30%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-cyan/5 blur-[150px] pointer-events-none z-0" />
-      <div className="fixed bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-brand-indigo/8 blur-[180px] pointer-events-none z-0" />
+      {/* Noise Overlay — desktop only (GPU cost on mobile not worth it) */}
+      {!IS_MOBILE && (
+        <div 
+          className="fixed inset-0 z-0 pointer-events-none opacity-[0.015] mix-blend-multiply"
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
+        />
+      )}
+
+      {/* Ambient Color Glows — reduced blur on desktop, hidden on mobile */}
+      {!IS_MOBILE && (
+        <>
+          <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-green/8 blur-[80px] pointer-events-none z-0" />
+          <div className="fixed top-[30%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-cyan/5 blur-[80px] pointer-events-none z-0" />
+          <div className="fixed bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-brand-indigo/8 blur-[100px] pointer-events-none z-0" />
+        </>
+      )}
+
       {/* Content wrapper */}
       <div className="relative z-10 w-full min-h-screen pointer-events-none">
-        {/* Interactive Background Elements */}
-        {/* Usar div nativo con CSS transition en vez de motion.div:
-            Framer Motion puede agregar transforms internos durante la animación
-            de opacity, lo cual rompe el position:fixed de los hijos (canvas, glows) */}
-        <div
-          className={`absolute inset-0 z-0 pointer-events-none transition-opacity duration-[1500ms] ease-out ${effectsLoaded ? 'opacity-100' : 'opacity-0'}`}
-        >
-          {effectsLoaded && <AntigravityScene mouseX={mouseX} mouseY={mouseY} />}
-        </div>
-
-        {/* Navigation - Minimalist, Corners */}
-        <nav className="fixed top-0 left-0 w-full z-50 px-6 md:px-12 py-8 md:py-10 flex justify-between items-center pointer-events-auto">
-          {/* Brand Left */}
-          <div className="flex items-center gap-4">
-            <ScrambleText text="SERVIN" />
-            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-[10px] tracking-widest text-brand-green uppercase font-mono">
-              <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
-              Disponible
-            </div>
+        {/* Interactive Background Elements — desktop only */}
+        {!IS_MOBILE && (
+          <div
+            className={`absolute inset-0 z-0 pointer-events-none transition-opacity duration-[1500ms] ease-out ${effectsLoaded ? 'opacity-100' : 'opacity-0'}`}
+          >
+            {effectsLoaded && <AntigravityScene mouseX={mouseX} mouseY={mouseY} />}
           </div>
-          
-          {/* Location Right */}
-          <div className="text-[10px] md:text-[11px] tracking-[0.4em] uppercase font-mono text-muted text-right leading-relaxed">
-            SANTA FE, ARGENTINA
+        )}
+
+        {/* Navigation - Solid, Centered */}
+        <nav className="fixed top-0 left-0 w-full z-50 bg-bg border-b border-slate-200/80 shadow-[0_1px_12px_rgba(0,0,0,0.04)] pointer-events-auto">
+          <div className="flex flex-col items-center py-3">
+            <ScrambleText text="SERVIN" />
+            <span className="text-[9px] tracking-[0.35em] uppercase font-mono text-muted mt-0.5">
+              Santa Fe, Argentina
+            </span>
           </div>
         </nav>
 
         {/* Main Hero Area */}
-        <section className="w-full flex flex-col items-center justify-center p-6 md:p-12 text-left min-h-[100svh]">
+        <section className="w-full flex flex-col items-center justify-center px-6 pt-24 pb-6 md:p-12 md:pt-28 text-left min-h-[100svh]">
           <div className="max-w-5xl w-full flex flex-col items-start translate-y-0 md:translate-y-0 overflow-visible">
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
-              className="font-display text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-extrabold tracking-tight leading-[0.85] mb-6 text-slate-900 will-change-transform"
-            >
-              ANALISTA DE <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-brand-green">SISTEMAS</span> <span className="text-brand-green font-mono font-light text-[0.8em]">[ ]</span>
-            </motion.h1>
-                        <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
-              className="max-w-xl text-[12px] md:text-[14px] tracking-[0.1em] uppercase leading-relaxed text-slate-600 font-medium"
-            >
-              Soluciones de software a medida, e-commerce y facturación automática para simplificar el día a día de PyMEs y emprendedores locales.
-            </motion.p>
+            {IS_MOBILE ? (
+              <h1 className="font-display text-[clamp(3.7rem,15vw,7rem)] font-extrabold tracking-tight leading-[0.85] mb-6 text-slate-900">
+                ANALISTA DE <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-brand-green">SISTEMAS</span> <span className="text-brand-green font-mono font-light text-[0.8em]">[ ]</span>
+              </h1>
+            ) : (
+              <motion.h1 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
+                className="font-display text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-extrabold tracking-tight leading-[0.85] mb-6 text-slate-900 will-change-transform"
+              >
+                ANALISTA DE <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-brand-green">SISTEMAS</span> <span className="text-brand-green font-mono font-light text-[0.8em]">[ ]</span>
+              </motion.h1>
+            )}
+            {IS_MOBILE ? (
+              <p className="max-w-xl text-[12px] md:text-[14px] tracking-[0.1em] uppercase leading-relaxed text-slate-600 font-medium">
+                Soluciones de software a medida, e-commerce y facturación automática para simplificar el día a día de PyMEs y emprendedores locales.
+              </p>
+            ) : (
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
+                className="max-w-xl text-[12px] md:text-[14px] tracking-[0.1em] uppercase leading-relaxed text-slate-600 font-medium"
+              >
+                Soluciones de software a medida, e-commerce y facturación automática para simplificar el día a día de PyMEs y emprendedores locales.
+              </motion.p>
+            )}
           </div>
         </section>
 
@@ -164,7 +180,7 @@ export default function App() {
         </section>
 
         {/* Footer */}
-        <footer className="w-full px-12 py-20 mt-20 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] tracking-[0.2em] uppercase font-mono relative z-10">
+        <footer className="w-full px-6 md:px-12 py-14 md:py-20 mt-16 md:mt-20 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8 text-[10px] tracking-[0.2em] uppercase font-mono relative z-10">
           <div className="opacity-40">© 2026 KARIM SERVIN</div>
           <div className="flex items-center gap-2 text-brand-green font-bold">
             <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
@@ -377,14 +393,10 @@ function ServiceCard({ title, desc, index }: { title: string, desc: string, inde
 
   const accent = getAccent(index);
 
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      className={`p-10 rounded-2xl border border-slate-200/50 bg-white/40 shadow-[0_8px_30px_rgba(0,0,0,0.015)] backdrop-blur-lg md:backdrop-blur-3xl transition-all duration-500 group cursor-default pointer-events-auto flex flex-col justify-between min-h-[220px] hover:bg-white hover:border-slate-300 ${accent.border} ${accent.shadow} ${accent.bg}`}
-    >
+  const cardClass = `p-8 md:p-10 rounded-2xl border border-slate-200/50 bg-white/40 shadow-[0_8px_30px_rgba(0,0,0,0.015)] backdrop-blur-lg md:backdrop-blur-3xl transition-all duration-500 group cursor-default pointer-events-auto flex flex-col justify-between min-h-[200px] md:min-h-[220px] hover:bg-white hover:border-slate-300 ${accent.border} ${accent.shadow} ${accent.bg}`;
+
+  const cardContent = (
+    <>
       <div>
         <div className="flex justify-between items-start mb-6">
           <span className={`text-[9px] tracking-[0.25em] uppercase font-mono ${accent.tagColor} transition-colors duration-500`}>
@@ -399,6 +411,22 @@ function ServiceCard({ title, desc, index }: { title: string, desc: string, inde
       <p className="text-[11px] md:text-[12px] text-slate-500 leading-relaxed tracking-wider uppercase group-hover:text-slate-800 transition-colors duration-500">
         {desc}
       </p>
+    </>
+  );
+
+  if (IS_MOBILE) {
+    return <div className={cardClass}>{cardContent}</div>;
+  }
+
+  return (
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: index * 0.1 }}
+      viewport={{ once: true }}
+      className={cardClass}
+    >
+      {cardContent}
     </motion.div>
   );
 }
