@@ -60,11 +60,11 @@ export default function App() {
       {IS_MOBILE ? (
         // Simple CSS gradient on mobile — no blur, zero GPU cost
         <div className="fixed top-0 right-0 w-[70vw] h-[40vh] pointer-events-none z-0"
-          style={{ background: 'radial-gradient(ellipse at top right, rgba(5,150,105,0.07) 0%, transparent 70%)' }}
+          style={{ background: 'radial-gradient(ellipse at top right, rgba(37,99,235,0.07) 0%, transparent 70%)' }}
         />
       ) : (
         <>
-          <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-green/8 blur-[80px] pointer-events-none z-0" />
+          <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-blue/8 blur-[80px] pointer-events-none z-0" />
           <div className="fixed top-[30%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-cyan/5 blur-[80px] pointer-events-none z-0" />
           <div className="fixed bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-brand-indigo/8 blur-[100px] pointer-events-none z-0" />
         </>
@@ -107,9 +107,9 @@ export default function App() {
             {/* Mobile: label chip above title */}
             {IS_MOBILE && (
               <div className="flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full
-                bg-brand-green/10 border border-brand-green/20">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
-                <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-brand-green font-semibold">
+                bg-brand-blue/10 border border-brand-blue/20">
+                <span className="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse" />
+                <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-brand-blue font-semibold">
                   Disponible
                 </span>
               </div>
@@ -121,7 +121,7 @@ export default function App() {
                 ANALISTA
                 <br />
                 <span className="text-transparent bg-clip-text"
-                  style={{ backgroundImage: 'linear-gradient(135deg, #0f172a 30%, #059669 100%)' }}>
+                  style={{ backgroundImage: 'linear-gradient(135deg, #0f172a 30%, #2563eb 100%)' }}>
                   DE SISTEMAS
                 </span>
               </h1>
@@ -132,7 +132,7 @@ export default function App() {
                 transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
                 className="font-display text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-extrabold tracking-tight leading-[0.85] mb-6 text-slate-900 will-change-transform"
               >
-                ANALISTA DE <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-brand-green">SISTEMAS</span> <span className="text-brand-green font-mono font-light text-[0.8em]">[ ]</span>
+                ANALISTA DE <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-brand-blue">SISTEMAS</span> <span className="text-brand-blue font-mono font-light text-[0.8em]">[ ]</span>
               </motion.h1>
             )}
 
@@ -158,9 +158,9 @@ export default function App() {
           <div className="flex flex-col gap-6">
             <div className="flex items-center justify-between">
               <h2 className="text-[12px] tracking-[0.6em] uppercase text-muted font-mono">Servicios</h2>
-              <span className="text-[10px] tracking-widest text-brand-green uppercase font-mono">[ 9 soluciones ]</span>
+              <span className="text-[10px] tracking-widest text-brand-blue uppercase font-mono">[ 9 soluciones ]</span>
             </div>
-            <div className="h-[1px] w-full bg-gradient-to-r from-brand-green/30 via-slate-200 to-slate-100" />
+            <div className="h-[1px] w-full bg-gradient-to-r from-brand-blue/30 via-slate-200 to-slate-100" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -215,8 +215,8 @@ export default function App() {
         {/* Footer */}
         <footer className="w-full px-6 md:px-12 py-14 md:py-20 mt-16 md:mt-20 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8 text-[10px] tracking-[0.2em] uppercase font-mono relative z-10">
           <div className="opacity-40">© 2026 KARIM SERVIN</div>
-          <div className="flex items-center gap-2 text-brand-green font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-brand-green animate-pulse" />
+          <div className="flex items-center gap-2 text-brand-blue font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse" />
             Disponible para Proyectos
           </div>
           <div className="opacity-40">SANTA FE, ARGENTINA</div>
@@ -400,15 +400,15 @@ function ServiceCard({ title, desc, index }: { title: string, desc: string, inde
         tagColor: "text-brand-cyan/40 group-hover:text-brand-cyan/60"
       };
     } else if (idx < 6) {
-      // Group 2: Systems & Business (Teal/Emerald gradient)
+      // Group 2: Systems & Business (Blue/Teal gradient)
       return {
-        border: "hover:border-brand-green/30",
-        shadow: "hover:shadow-[0_0_30px_rgba(0,255,135,0.08)]",
-        bg: "hover:bg-brand-green/[0.015]",
-        text: "group-hover:text-brand-green",
-        dot: "bg-brand-green",
+        border: "hover:border-brand-blue/30",
+        shadow: "hover:shadow-[0_0_30px_rgba(37,99,235,0.08)]",
+        bg: "hover:bg-brand-blue/[0.015]",
+        text: "group-hover:text-brand-blue",
+        dot: "bg-brand-blue",
         tag: "Sistemas & AFIP",
-        tagColor: "text-brand-green/40 group-hover:text-brand-green/60"
+        tagColor: "text-brand-blue/40 group-hover:text-brand-blue/60"
       };
     } else {
       // Group 3: Data & Intelligence (Indigo/Violet gradient)
@@ -482,7 +482,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       opacity: number;
       shape: 'circle' | 'square';
       flickerSpeed: number;
-      color?: 'brand-green' | 'base';
+      color?: 'brand-blue' | 'base';
     }
 
     const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -504,7 +504,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
           opacity: Math.random() * 0.4 + 0.1,
           shape: Math.random() > 0.8 ? 'square' : 'circle',
           flickerSpeed: Math.random() * 0.05 + 0.01,
-          color: Math.random() > 0.8 ? 'brand-green' : 'base'
+          color: Math.random() > 0.8 ? 'brand-blue' : 'base'
         });
       }
     };
@@ -582,8 +582,8 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
         if (p.y > canvas.height) p.y = 0;
 
         const currentOpacity = p.opacity * (0.7 + Math.sin(time / p.flickerSpeed) * 0.3);
-        if (p.color === 'brand-green') {
-          ctx.fillStyle = `rgba(5, 150, 105, ${currentOpacity * 1.5})`;
+        if (p.color === 'brand-blue') {
+          ctx.fillStyle = `rgba(37, 99, 235, ${currentOpacity * 1.5})`;
         } else {
           ctx.fillStyle = `rgba(15, 23, 42, ${currentOpacity * 0.4})`;
         }
@@ -686,7 +686,7 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
         {title ? (
           <motion.div 
             animate={{ 
-              borderColor: ["rgba(79,70,229,0.35)", "rgba(5,150,105,0.35)", "rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)"],
+              borderColor: ["rgba(79,70,229,0.35)", "rgba(37,99,235,0.35)", "rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)"],
               backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
             }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -702,7 +702,7 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
         ) : Icon ? (
           <motion.div 
             animate={{ 
-              borderColor: ["rgba(5,150,105,0.35)", "rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)", "rgba(5,150,105,0.35)"],
+              borderColor: ["rgba(37,99,235,0.35)", "rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)", "rgba(37,99,235,0.35)"],
               backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
             }}
             transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
@@ -713,7 +713,7 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
         ) : (
           <motion.span 
             animate={{ 
-              borderColor: ["rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)", "rgba(5,150,105,0.35)", "rgba(2,132,199,0.35)"],
+              borderColor: ["rgba(2,132,199,0.35)", "rgba(79,70,229,0.35)", "rgba(37,99,235,0.35)", "rgba(2,132,199,0.35)"],
               backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
             }}
             transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
