@@ -60,7 +60,7 @@ export default function App() {
       {IS_MOBILE ? (
         // Simple CSS gradient on mobile — no blur, zero GPU cost
         <div className="fixed top-0 right-0 w-[70vw] h-[40vh] pointer-events-none z-0"
-          style={{ background: 'radial-gradient(ellipse at top right, rgba(37,99,235,0.07) 0%, transparent 70%)' }}
+          style={{ background: 'radial-gradient(ellipse at top right, rgba(59,130,246,0.07) 0%, transparent 70%)' }}
         />
       ) : (
         <>
@@ -121,7 +121,7 @@ export default function App() {
                 ANALISTA
                 <br />
                 <span className="text-transparent bg-clip-text"
-                  style={{ backgroundImage: 'linear-gradient(135deg, #0f172a 30%, #2563eb 100%)' }}>
+                  style={{ backgroundImage: 'linear-gradient(135deg, #0f172a 30%, #3b82f6 100%)' }}>
                   DE SISTEMAS
                 </span>
               </h1>
@@ -389,10 +389,10 @@ function ServiceCard({ title, desc, index }: { title: string, desc: string, inde
   // Curated premium accents grouped by category (Frontend/Digital, Backend/Systems, Data/AI/Advice)
   const getAccent = (idx: number) => {
     if (idx < 3) {
-      // Group 1: Frontend & Digital (Cyan/Blue gradient)
+      // Group 1: Frontend & Digital (Blue gradient)
       return {
         border: "hover:border-brand-cyan/30",
-        shadow: "hover:shadow-[0_0_30px_rgba(0,240,255,0.08)]",
+        shadow: "hover:shadow-[0_0_30px_rgba(59,130,246,0.08)]",
         bg: "hover:bg-brand-cyan/[0.015]",
         text: "group-hover:text-brand-cyan",
         dot: "bg-brand-cyan",
@@ -583,7 +583,7 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
 
         const currentOpacity = p.opacity * (0.7 + Math.sin(time / p.flickerSpeed) * 0.3);
         if (p.color === 'brand-blue') {
-          ctx.fillStyle = `rgba(37, 99, 235, ${currentOpacity * 1.5})`;
+          ctx.fillStyle = `rgba(59, 130, 246, ${currentOpacity * 1.5})`;
         } else {
           ctx.fillStyle = `rgba(15, 23, 42, ${currentOpacity * 0.4})`;
         }
