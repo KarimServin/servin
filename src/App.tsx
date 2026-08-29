@@ -2,36 +2,56 @@ import React, { useState, useEffect, useRef } from "react";
 import { 
   motion, 
   useMotionValue, 
-  useSpring, 
+  useSpring,
+  AnimatePresence
 } from "motion/react";
 import { 
-  MessageCircle, 
   Code2, 
   ShoppingBag, 
-  MoreHorizontal
+  MoreHorizontal,
+  Zap,
+  CheckCircle2,
+  ArrowUpRight,
+  ShieldCheck,
+  Cpu,
+  Layers,
+  TrendingUp,
+  Terminal,
+  Smartphone,
+  Database,
+  Sparkles,
+  ChevronDown,
+  MessageSquare,
+  Clock,
+  Calculator,
+  FileText,
+  HelpCircle,
+  X,
+  Server,
+  Workflow
 } from "lucide-react";
 
-const WHATSAPP_LINK = `https://wa.me/543424216870?text=Hola+Karim!+Me+gustaría+consultar+por+tus+servicios.`;
+const WHATSAPP_LINK = `https://wa.me/543424216870?text=Hola+Karim!+Me+gustaría+consultar+por+un+proyecto+de+software/web.`;
 
-// Detect mobile once at module level — avoids per-render detection
-const IS_MOBILE = /iPhone|iPad|iPod|Android/i.test(typeof navigator !== 'undefined' ? navigator.userAgent : '');
+// Detect mobile once at module level
+const IS_MOBILE = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
 export default function App() {
   const mouseX = useMotionValue(-1000);
   const mouseY = useMotionValue(-1000);
   const [effectsLoaded, setEffectsLoaded] = useState(false);
+  const [activeTab, setActiveTab] = useState<"all" | "web" | "afip" | "systems">("all");
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [showEstimator, setShowEstimator] = useState(false);
 
   useEffect(() => {
-    if (IS_MOBILE) return; // Skip heavy deferred effects on mobile entirely
+    if (IS_MOBILE) return;
     const timer = setTimeout(() => {
       setEffectsLoaded(true);
     }, 100);
     return () => clearTimeout(timer);
   }, []);
 
-  // Usar clientX/clientY directamente: el canvas y los elementos flotantes
-  // usan coordenadas de viewport, no de contenedor. Evita getBoundingClientRect
-  // (layout thrashing) y corrige el offset cuando el usuario hace scroll.
   const handleMouseMove = (e: React.MouseEvent) => {
     mouseX.set(e.clientX);
     mouseY.set(e.clientY);
@@ -46,190 +66,513 @@ export default function App() {
     <div 
       onMouseMove={handleMouseMove}
       onTouchMove={handleTouchMove}
-      className="min-h-screen w-full overflow-x-hidden pb-[env(safe-area-inset-bottom)] relative select-none font-sans bg-bg text-ink [isolation:isolate]"
+      className="min-h-screen w-full overflow-x-hidden relative font-sans bg-[#0A0A0A] text-white selection:bg-white selection:text-black [isolation:isolate]"
     >
-      {/* Noise Overlay — desktop only (GPU cost on mobile not worth it) */}
+      {/* Noise Overlay */}
       {!IS_MOBILE && (
         <div 
-          className="fixed inset-0 z-0 pointer-events-none opacity-[0.015] mix-blend-multiply"
-          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
+          className="fixed inset-0 z-0 pointer-events-none opacity-[0.035] mix-blend-overlay"
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
         />
       )}
 
-      {/* Ambient Color Glows — lightweight on mobile, full on desktop */}
-      {IS_MOBILE ? (
-        // Simple CSS gradient on mobile — no blur, zero GPU cost
-        <div className="fixed top-0 right-0 w-[70vw] h-[40vh] pointer-events-none z-0"
-          style={{ background: 'radial-gradient(ellipse at top right, rgba(16,185,129,0.07) 0%, transparent 70%)' }}
-        />
-      ) : (
-        <>
-          <div className="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-blue/8 blur-[80px] pointer-events-none z-0" />
-          <div className="fixed top-[30%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-brand-cyan/5 blur-[80px] pointer-events-none z-0" />
-          <div className="fixed bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-brand-indigo/8 blur-[100px] pointer-events-none z-0" />
-        </>
-      )}
+      {/* Grid Pattern Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none bg-grid-pattern opacity-60" />
 
-      {/* Content wrapper */}
-      <div className="relative z-10 w-full min-h-screen pointer-events-none">
-        {/* Interactive Background Elements — desktop only */}
+      {/* Radial Glass Spotlight */}
+      <div className="fixed top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-white/[0.07] via-white/[0.02] to-transparent rounded-full blur-3xl pointer-events-none z-0" />
+
+      {/* Main Content Wrapper */}
+      <div className="relative z-10 w-full min-h-screen">
+        
+        {/* Antigravity Interactive Scene */}
         {!IS_MOBILE && (
           <div
-            className={`absolute inset-0 z-0 pointer-events-none transition-opacity duration-[1500ms] ease-out ${effectsLoaded ? 'opacity-100' : 'opacity-0'}`}
+            className={`absolute inset-0 z-0 pointer-events-none transition-opacity duration-1000 ${effectsLoaded ? 'opacity-100' : 'opacity-0'}`}
           >
             {effectsLoaded && <AntigravityScene mouseX={mouseX} mouseY={mouseY} />}
           </div>
         )}
 
-        {/* Navigation — compact on mobile, spread on desktop */}
-        <nav className="fixed top-0 left-0 w-full z-50 pointer-events-auto">
-          {/* Mobile nav: single compact bar with backdrop */}
-          <div className="flex md:hidden items-center justify-between px-5 py-4
-            bg-white/80 backdrop-blur-md border-b border-slate-200/60">
-            <ScrambleText text="SERVIN" />
-            <span className="text-[9px] tracking-[0.3em] uppercase font-mono text-slate-400">
-              Santa Fe
-            </span>
-          </div>
-          {/* Desktop nav: transparent, full spread */}
-          <div className="hidden md:flex items-center justify-between px-12 py-10">
-            <ScrambleText text="SERVIN" />
-            <div className="text-[11px] tracking-[0.4em] uppercase font-mono text-slate-400">
-              SANTA FE, ARGENTINA
+        {/* Navigation — Glassmorphism Header */}
+        <nav className="fixed top-0 left-0 w-full z-50 pointer-events-auto glass-nav">
+          <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <a href="#" className="flex items-center gap-3 group">
+                <ScrambleText text="servin" />
+              </a>
+              <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full glass-badge">
+                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                <span className="text-[10px] tracking-[0.2em] uppercase font-mono text-neutral-400">
+                  Santa Fe, AR
+                </span>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-4 md:gap-8">
+              <a href="#servicios" className="text-[11px] font-medium tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors duration-300">
+                Servicios
+              </a>
+              <a href="#comparativa" className="hidden md:inline-block text-[11px] font-medium tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors duration-300">
+                Ventajas
+              </a>
+              <a href="#proceso" className="hidden lg:inline-block text-[11px] font-medium tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors duration-300">
+                Proceso
+              </a>
+              <button 
+                onClick={() => setShowEstimator(true)}
+                className="hidden md:flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.15em] uppercase px-3 py-1.5 rounded-md glass-button text-neutral-300 hover:text-white"
+              >
+                <Calculator size={13} className="text-neutral-400" />
+                <span>Cotizar</span>
+              </button>
+              <a 
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noreferrer"
+                className="text-[11px] font-semibold tracking-[0.2em] uppercase px-4 py-2 text-black bg-white hover:bg-neutral-200 transition-all duration-300 rounded-[6px] shadow-[0_0_20px_rgba(255,255,255,0.15)] hover:shadow-[0_0_25px_rgba(255,255,255,0.3)]"
+              >
+                Contacto
+              </a>
             </div>
           </div>
         </nav>
 
-        {/* Main Hero Area */}
-        <section className="w-full flex flex-col justify-center px-5 pt-20 pb-8 md:p-12 min-h-[100svh]">
-          <div className="max-w-5xl w-full flex flex-col items-start">
+        {/* Hero Section */}
+        <section className="w-full flex flex-col justify-center px-6 pt-32 pb-16 md:pt-40 md:pb-24 min-h-[90vh] relative z-10">
+          <div className="max-w-6xl w-full mx-auto flex flex-col items-start">
             
-            {/* Mobile: label chip above title */}
-            {IS_MOBILE && (
-              <div className="flex items-center gap-2 mb-5 px-3 py-1.5 rounded-full
-                bg-brand-blue/10 border border-brand-blue/20">
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse" />
-                <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-brand-blue font-semibold">
-                  Disponible
-                </span>
-              </div>
-            )}
+            {/* Live Availability Badge */}
+            <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full glass-badge mb-8">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+              </span>
+              <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-neutral-300 font-medium">
+                DISPONIBLE PARA NUEVOS PROYECTOS 2026
+              </span>
+            </div>
 
+            {/* Main Headline */}
             {IS_MOBILE ? (
-              <h1 className="font-display font-extrabold tracking-tight leading-[0.88] mb-5 text-slate-900"
-                style={{ fontSize: 'clamp(2.8rem, 13vw, 4.5rem)' }}>
-                ANALISTA
-                <br />
-                <span className="text-transparent bg-clip-text"
-                  style={{ backgroundImage: 'linear-gradient(135deg, #0f172a 30%, #10B981 100%)' }}>
-                  DE SISTEMAS
-                </span>
+              <h1 className="font-display font-black tracking-tighter leading-[0.92] mb-6 text-white text-[clamp(2.5rem,10vw,4.5rem)]">
+                SOFTWARE & WEB <br />
+                <span className="text-gradient-white">DE ALTO IMPACTO</span> <br />
+                PARA EMPRENDEDORES.
               </h1>
             ) : (
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
-                className="font-display text-[clamp(3.7rem,15vw,7rem)] md:text-[6.5vw] font-extrabold tracking-tight leading-[0.85] mb-6 text-slate-900 will-change-transform"
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                className="font-display text-[clamp(3.5rem,7.5vw,6.5rem)] font-black tracking-tighter leading-[0.92] mb-8 text-white max-w-5xl"
               >
-                ANALISTA DE <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-900 via-slate-800 to-brand-blue">SISTEMAS</span> <span className="text-brand-blue font-mono font-light text-[0.8em]">[ ]</span>
+                SOFTWARE & WEB <br />
+                <span className="text-gradient-white">DE ALTO IMPACTO</span> <br />
+                PARA EMPRENDEDORES.
               </motion.h1>
             )}
 
+            {/* Subtitle oriented to Marketing & Business Growth */}
             {IS_MOBILE ? (
-              <p className="text-[13px] leading-[1.7] text-slate-500 font-normal max-w-xs mb-6">
-                Software a medida, e-commerce y facturación automática para PyMEs y emprendedores de Santa Fe.
+              <p className="text-[14px] md:text-[16px] leading-relaxed text-neutral-400 font-normal max-w-2xl mb-10">
+                Diseñamos e implementamos ecosistemas digitales a medida: e-commerce de alta conversión, automatización de facturación ARCA/AFIP y software de gestión sin mensualidades excesivas.
               </p>
             ) : (
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, delay: 0.1, ease: [0.19, 1, 0.22, 1] }}
-                className="max-w-xl text-[12px] md:text-[14px] tracking-[0.1em] uppercase leading-relaxed text-slate-600 font-medium"
+                transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                className="max-w-2xl text-[15px] md:text-[17px] leading-relaxed text-neutral-400 font-normal mb-10"
               >
-                Soluciones de software a medida, e-commerce y facturación automática para simplificar el día a día de PyMEs y emprendedores locales.
+                Diseñamos e implementamos ecosistemas digitales a medida: e-commerce de alta conversión, automatización de facturación ARCA/AFIP y software de gestión sin mensualidades excesivas.
               </motion.p>
             )}
+
+            {/* Call To Actions */}
+            <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto pointer-events-auto">
+              <a 
+                href={WHATSAPP_LINK}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white text-black font-bold tracking-[0.15em] text-xs uppercase px-8 py-4 rounded-xl hover:bg-neutral-200 active:scale-[0.98] transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+              >
+                <span>Iniciar Proyecto</span>
+                <ArrowUpRight size={16} />
+              </a>
+
+              <button
+                onClick={() => setShowEstimator(true)}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 glass-button text-neutral-200 font-semibold tracking-[0.15em] text-xs uppercase px-7 py-4 rounded-xl hover:text-white active:scale-[0.98]"
+              >
+                <Calculator size={15} />
+                <span>Calculadora de Proyecto</span>
+              </button>
+            </div>
+
+            {/* Trust Metrics Grid — Glass Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full mt-16 pt-10 border-t border-white/10">
+              <div className="glass-card p-5 rounded-xl flex flex-col gap-1">
+                <span className="text-2xl md:text-3xl font-black tracking-tight text-white">100%</span>
+                <span className="text-[11px] text-neutral-400 font-mono uppercase tracking-wider">Código a Medida</span>
+              </div>
+              <div className="glass-card p-5 rounded-xl flex flex-col gap-1">
+                <span className="text-2xl md:text-3xl font-black tracking-tight text-white">ARCA / AFIP</span>
+                <span className="text-[11px] text-neutral-400 font-mono uppercase tracking-wider">Sync Automática</span>
+              </div>
+              <div className="glass-card p-5 rounded-xl flex flex-col gap-1">
+                <span className="text-2xl md:text-3xl font-black tracking-tight text-white">&lt; 24hs</span>
+                <span className="text-[11px] text-neutral-400 font-mono uppercase tracking-wider">Tiempo de Respuesta</span>
+              </div>
+              <div className="glass-card p-5 rounded-xl flex flex-col gap-1">
+                <span className="text-2xl md:text-3xl font-black tracking-tight text-white">0%</span>
+                <span className="text-[11px] text-neutral-400 font-mono uppercase tracking-wider">Comisiones de Venta</span>
+              </div>
+            </div>
+
           </div>
         </section>
 
         {/* Services Section */}
-        <section id="servicios" className="w-full max-w-7xl mx-auto px-5 md:px-6 py-10 md:py-32 flex flex-col gap-10 md:gap-24 relative z-10">
-          <div className="flex flex-col gap-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-[12px] tracking-[0.6em] uppercase text-muted font-mono">Servicios</h2>
-              <span className="text-[10px] tracking-widest text-brand-blue uppercase font-mono">[ 9 soluciones ]</span>
+        <section id="servicios" className="w-full max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10">
+          <div className="flex flex-col gap-6 mb-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+              <div>
+                <span className="text-[11px] tracking-[0.4em] uppercase text-neutral-500 font-mono block mb-2">Soluciones Digitales</span>
+                <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white">
+                  SERVICIOS Y CAPACIDADES
+                </h2>
+              </div>
+              
+              {/* Category Filter Tabs */}
+              <div className="flex flex-wrap gap-2 p-1 rounded-xl glass-panel">
+                <button
+                  onClick={() => setActiveTab("all")}
+                  className={`px-4 py-2 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all ${activeTab === 'all' ? 'bg-white text-black font-bold' : 'text-neutral-400 hover:text-white'}`}
+                >
+                  Todos (9)
+                </button>
+                <button
+                  onClick={() => setActiveTab("web")}
+                  className={`px-4 py-2 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all ${activeTab === 'web' ? 'bg-white text-black font-bold' : 'text-neutral-400 hover:text-white'}`}
+                >
+                  Web & E-Commerce
+                </button>
+                <button
+                  onClick={() => setActiveTab("afip")}
+                  className={`px-4 py-2 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all ${activeTab === 'afip' ? 'bg-white text-black font-bold' : 'text-neutral-400 hover:text-white'}`}
+                >
+                  AFIP & Integraciones
+                </button>
+                <button
+                  onClick={() => setActiveTab("systems")}
+                  className={`px-4 py-2 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all ${activeTab === 'systems' ? 'bg-white text-black font-bold' : 'text-neutral-400 hover:text-white'}`}
+                >
+                  Sistemas & IA
+                </button>
+              </div>
             </div>
-            <div className="h-[1px] w-full bg-gradient-to-r from-brand-blue/30 via-slate-200 to-slate-100" />
+            <div className="h-[1px] w-full bg-white/10" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <ServiceCard 
-              title="Desarrollo Web" 
-              desc="Sitios y aplicaciones web rápidas para posicionar tu marca y captar más clientes en la región."
-              index={0}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {(activeTab === 'all' || activeTab === 'web') && (
+              <>
+                <ServiceCard 
+                  title="Desarrollo Web de Alta Gama" 
+                  tag="Canal Digital"
+                  icon={Code2}
+                  desc="Sitios optimizados para SEO y conversión instantánea. Velocidad ultra rápida sin frameworks pesados ni plantillas genéricas."
+                  benefits={["Carga en < 1 segundo", "SEO Local Santa Fe", "Diseño Responsive UX/UI"]}
+                  index={0}
+                />
+                <ServiceCard 
+                  title="E-commerce Sin Comisiones" 
+                  tag="Ventas 24/7"
+                  icon={ShoppingBag}
+                  desc="Tu tienda online propia con catálogo dinámico, pasarelas de pago (Mercado Pago / Transferencia) y cálculo automático de envíos."
+                  benefits={["Sin comisiones por venta", "Gestión de Stock", "Checkout Optimizado"]}
+                  index={1}
+                />
+                <ServiceCard 
+                  title="Portales Institucionales" 
+                  tag="Imagen Corporativa"
+                  icon={Layers}
+                  desc="Presencia digital seria y elegante para empresas, consultoras e instituciones que necesitan generar máxima confianza."
+                  benefits={["Glassmorphism UI", "Seguridad Avanzada", "Multi-idioma listo"]}
+                  index={2}
+                />
+              </>
+            )}
+
+            {(activeTab === 'all' || activeTab === 'afip') && (
+              <>
+                <ServiceCard 
+                  title="Facturación ARCA / AFIP" 
+                  tag="Automatización Fiscal"
+                  icon={FileText}
+                  desc="Conexión directa por API con AFIP para generar Comprobantes Electrónicos (A, B, C) de forma automática con un click o desde tu web."
+                  benefits={["Ahorro de 10+ hs/mes", "Facturación en lote", "Cero errores manuales"]}
+                  index={3}
+                />
+                <ServiceCard 
+                  title="Integración de APIs & Mercado Pago" 
+                  tag="Ecosistema Digital"
+                  icon={Workflow}
+                  desc="Conectamos tu sistema actual con pasarelas de cobro, Webhooks, WhatsApp API, planillas de Google Sheets o CRMs externos."
+                  benefits={["Sincronización en tiempo real", "Notificaciones automáticas", "Flujos custom"]}
+                  index={4}
+                />
+                <ServiceCard 
+                  title="Tableros de Control & Business Intelligence" 
+                  tag="Analytics para PyMEs"
+                  icon={TrendingUp}
+                  desc="Visualizá tus métricas reales de venta, márgenes de ganancia y stock crítico en tableros gráficos en tiempo real."
+                  benefits={["Visualización clara", "Exportación a Excel/PDF", "Alertas de inventario"]}
+                  index={5}
+                />
+              </>
+            )}
+
+            {(activeTab === 'all' || activeTab === 'systems') && (
+              <>
+                <ServiceCard 
+                  title="Sistemas de Gestión a Medida" 
+                  tag="Software ERP/CRM"
+                  icon={Server}
+                  desc="Software diseñado a la medida exacta de tu PyME. Control de inventario, clientes, presupuestos y compras sin pagar licencias mensuales."
+                  benefits={["Multi-usuario con roles", "Panel 100% intuitivo", "Base de datos propia"]}
+                  index={6}
+                />
+                <ServiceCard 
+                  title="Agentes IA & RAG Corporativo" 
+                  tag="Inteligencia Artificial"
+                  icon={Sparkles}
+                  desc="Asistentes virtuales inteligentes entrenados con el catálogo y políticas de tu negocio para responder preguntas frecuentes y vender en WhatsApp."
+                  benefits={["Atención 24/7", "Respuestas precisas", "Reducción de soporte"]}
+                  index={7}
+                />
+                <ServiceCard 
+                  title="Consultoría & Infraestructura" 
+                  tag="Asesoramiento Técnico"
+                  icon={Cpu}
+                  desc="Diagnóstico técnico para equipar tu negocio con servidores, hardware y redes adecuadas sin malgastar presupuesto."
+                  benefits={["Inversión inteligente", "Optimización de costos", "Auditoría de software"]}
+                  index={8}
+                />
+              </>
+            )}
+          </div>
+        </section>
+
+        {/* Why Custom Code (Marketing & Entrepreneur Angle) */}
+        <section id="comparativa" className="w-full max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10">
+          <div className="glass-card p-8 md:p-14 rounded-3xl relative overflow-hidden border border-white/15">
+            <div className="shine-line" />
+            
+            <div className="max-w-3xl mb-12">
+              <span className="text-[11px] tracking-[0.4em] uppercase text-neutral-400 font-mono block mb-3">
+                Decisión Estratégica para Emprendedores
+              </span>
+              <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-6">
+                ¿POR QUÉ ELEGIR CÓDIGO PROPIO EN LUGAR DE PLANTILLAS GENÉRICAS?
+              </h2>
+              <p className="text-neutral-400 text-sm md:text-base leading-relaxed">
+                Muchas PyMEs pierden ventas diariamente por sitios lentos, plataformas cerradas que cobran comisiones excesivas o software enlatado que no se adapta a su forma de trabajar.
+              </p>
+            </div>
+
+            {/* Comparison Matrix */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Traditional Platforms */}
+              <div className="glass-panel p-6 md:p-8 rounded-2xl border border-red-500/20 bg-red-950/10">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-red-500/20">
+                  <h3 className="text-xl font-bold text-neutral-300">Plantillas Genéricas / Wix / Shopify</h3>
+                  <span className="text-xs font-mono text-red-400 px-2.5 py-1 rounded bg-red-500/10 border border-red-500/20">Lento & Limitado</span>
+                </div>
+                <ul className="space-y-4 text-sm text-neutral-400">
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 font-bold mt-0.5">✕</span>
+                    <span>Comisiones mensuales continuas por cada venta o plugin extra.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 font-bold mt-0.5">✕</span>
+                    <span>Carga lenta que perjudica el posicionamiento en Google (SEO).</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 font-bold mt-0.5">✕</span>
+                    <span>Imposible de integrar con facturación fiscal ARCA o sistemas locales.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="text-red-400 font-bold mt-0.5">✕</span>
+                    <span>El diseño se ve exactamente igual a cientos de competidores.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Servin Solution */}
+              <div className="glass-panel p-6 md:p-8 rounded-2xl border border-white/30 bg-white/[0.04]">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/20">
+                  <h3 className="text-xl font-bold text-white">Desarrollo Servin a Medida</h3>
+                  <span className="text-xs font-mono text-white px-2.5 py-1 rounded bg-white/10 border border-white/30">Vanguardia & Escalable</span>
+                </div>
+                <ul className="space-y-4 text-sm text-neutral-200">
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 size={16} className="text-white shrink-0 mt-0.5" />
+                    <span><strong>100% Tuyo:</strong> Sin comisiones por venta ni licencias ocultas.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 size={16} className="text-white shrink-0 mt-0.5" />
+                    <span><strong>Velocidad Extrema:</strong> Construido con React/Vite para carga instantánea.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 size={16} className="text-white shrink-0 mt-0.5" />
+                    <span><strong>Conexión ARCA/AFIP:</strong> Facturación automática en segundos sin salir de tu panel.</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <CheckCircle2 size={16} className="text-white shrink-0 mt-0.5" />
+                    <span><strong>Diseño Vanguardista:</strong> Estilo glassmorphic exclusivo que destaca tu marca.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* Development Workflow / Process */}
+        <section id="proceso" className="w-full max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10">
+          <div className="mb-14">
+            <span className="text-[11px] tracking-[0.4em] uppercase text-neutral-500 font-mono block mb-2">Metodología Ágil</span>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white">
+              DE LA IDEA AL CÓDIGO EN 4 PASOS
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <ProcessStep 
+              step="01"
+              title="Diagnóstico & Estrategia"
+              desc="Analizamos tus flujos de trabajo, requerimientos fiscales y objetivos de venta para definir la arquitectura perfecta."
             />
-            <ServiceCard 
-              title="E-commerce" 
-              desc="Tu local abierto las 24 horas. Tiendas online integradas con medios de pago y logística de envíos."
-              index={1}
+            <ProcessStep 
+              step="02"
+              title="Diseño UX/UI Glass"
+              desc="Creamos prototipos interactivos vanguardistas centrados en la experiencia del usuario y en maximizar la conversión."
             />
-            <ServiceCard 
-              title="Páginas Institucionales" 
-              desc="Presencia profesional, limpia y confiable para empresas, cooperativas e instituciones locales."
-              index={2}
+            <ProcessStep 
+              step="03"
+              title="Desarrollo & Integración"
+              desc="Escribimos código limpio, rápido y seguro. Conectamos pasarelas de pago, bases de datos y APIs de ARCA/AFIP."
             />
-            <ServiceCard 
-              title="Sistemas de Gestión" 
-              desc="Automatizá tu stock, tus ventas y tus clientes con un software a medida diseñado según tu flujo diario."
-              index={3}
-            />
-            <ServiceCard 
-              title="Facturación (ARCA)" 
-              desc="Facturá en segundos sin entrar a la web de AFIP. Conectamos tus sistemas para emitir comprobantes de forma automática."
-              index={4}
-            />
-            <ServiceCard 
-              title="Integraciones" 
-              desc="Unimos tus sistemas existentes con Mercado Pago, APIs externas o planillas de cálculo. Todo coordinado en un solo lugar."
-              index={5}
-            />
-            <ServiceCard 
-              title="Análisis de Datos" 
-              desc="Entendé tus ventas, tus gastos y tus márgenes reales con tableros de control simples, interactivos y automatizados."
-              index={6}
-            />
-            <ServiceCard 
-              title="Aplicaciones IA y RAG" 
-              desc="Asistentes virtuales entrenados con tus manuales de producto para automatizar la atención al cliente sin perder ventas."
-              index={7}
-            />
-            <ServiceCard 
-              title="Asesoramiento Técnico" 
-              desc="Te ayudamos a elegir computadoras, servidores o infraestructura de red adecuada sin gastar de más. Inversión inteligente."
-              index={8}
+            <ProcessStep 
+              step="04"
+              title="Lanzamiento & Soporte"
+              desc="Desplegamos el sistema en servidores optimizados y te brindamos capacitación y soporte técnico constante."
             />
           </div>
         </section>
 
-        {/* Footer */}
-        <footer className="w-full px-6 md:px-12 py-14 md:py-20 mt-16 md:mt-20 border-t border-slate-200 flex flex-col md:flex-row justify-between items-center gap-6 md:gap-8 text-[10px] tracking-[0.2em] uppercase font-mono relative z-10">
-          <div className="opacity-40">© 2026 KARIM SERVIN</div>
-          <div className="flex items-center gap-2 text-brand-blue font-bold">
-            <span className="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse" />
-            Disponible para Proyectos
+        {/* FAQ Section */}
+        <section className="w-full max-w-5xl mx-auto px-6 md:px-12 py-20 relative z-10">
+          <div className="text-center mb-14">
+            <span className="text-[11px] tracking-[0.4em] uppercase text-neutral-500 font-mono block mb-2">Preguntas Frecuentes</span>
+            <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white">
+              DUDAS COMUNES DE EMPRENDEDORES
+            </h2>
           </div>
-          <div className="opacity-40">SANTA FE, ARGENTINA</div>
+
+          <div className="space-y-4">
+            <FaqItem 
+              question="¿Cuánto tiempo tarda el desarrollo de un sitio o sistema a medida?"
+              answer="Dependiendo de la complejidad, una página institucional o landing page toma entre 5 a 10 días hábiles. Un e-commerce completo o sistema con facturación ARCA suele demorar entre 2 a 4 semanas. Trabajamos con entregas semanales para que puedas ver el avance real."
+              isOpen={activeFaq === 0}
+              onClick={() => setActiveFaq(activeFaq === 0 ? null : 0)}
+            />
+            <FaqItem 
+              question="¿Cómo funciona la integración de facturación automática con AFIP / ARCA?"
+              answer="Conectamos tu sistema o tienda mediante Web Services oficiales de AFIP (WSAA / WSFE). Cuando tu cliente realiza una compra o vos emitís una venta en tu panel, el sistema genera la factura electrónica automáticamente y le adjunta el CAE y QR de AFIP."
+              isOpen={activeFaq === 1}
+              onClick={() => setActiveFaq(activeFaq === 1 ? null : 1)}
+            />
+            <FaqItem 
+              question="¿Tengo que pagar licencias o mensualidades por el software desarrollado?"
+              answer="No. El código desarrollado es 100% de tu propiedad. Únicamente abonás el costo del hosting/dominio (que suele ser mínimo) y los servicios opcionales de mantenimiento o actualización que quieras contratar a futuro."
+              isOpen={activeFaq === 2}
+              onClick={() => setActiveFaq(activeFaq === 2 ? null : 2)}
+            />
+            <FaqItem 
+              question="¿Puedo actualizar los productos y precios de mi tienda yo mismo?"
+              answer="Totalmente. Diseñamos paneles de administración muy intuitivos o incluso conectamos la tienda con planillas de Google Sheets para que puedas actualizar precios y stock en segundos desde tu celular."
+              isOpen={activeFaq === 3}
+              onClick={() => setActiveFaq(activeFaq === 3 ? null : 3)}
+            />
+          </div>
+        </section>
+
+        {/* High Conversion CTA Section */}
+        <section className="w-full max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10">
+          <div className="glass-card p-10 md:p-20 rounded-3xl text-center relative overflow-hidden border border-white/20">
+            <div className="shine-line" />
+            <div className="max-w-3xl mx-auto flex flex-col items-center">
+              <span className="text-[11px] tracking-[0.4em] uppercase text-neutral-400 font-mono block mb-4">
+                Hablemos de tu negocio
+              </span>
+              <h2 className="text-3xl md:text-6xl font-black tracking-tight text-white mb-6 leading-tight">
+                ¿LISTO PARA LLEVAR TU PROYECTO AL SIGUIENTE NIVEL?
+              </h2>
+              <p className="text-neutral-400 text-sm md:text-base leading-relaxed mb-10 max-w-2xl">
+                Contanos tu idea o necesidad técnica y te preparamos una propuesta detallada con presupuesto y plazos claros sin compromiso.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                <a 
+                  href={WHATSAPP_LINK}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white text-black font-bold tracking-[0.15em] text-xs uppercase px-10 py-5 rounded-xl hover:bg-neutral-200 transition-all duration-300 shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:scale-[1.02]"
+                >
+                  <MessageSquare size={18} />
+                  <span>Consultar por WhatsApp</span>
+                </a>
+                
+                <button
+                  onClick={() => setShowEstimator(true)}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 glass-button text-white font-semibold tracking-[0.15em] text-xs uppercase px-8 py-5 rounded-xl hover:border-white/40"
+                >
+                  <Calculator size={16} />
+                  <span>Calcular Presupuesto</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* Footer */}
+        <footer className="w-full px-6 md:px-12 py-12 border-t border-white/10 relative z-10 bg-[#080808]">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] tracking-[0.2em] uppercase font-mono text-neutral-500">
+            <div>© 2026 KARIM SERVIN — ANALISTA DE SISTEMAS</div>
+            <div className="flex items-center gap-2 text-white font-bold">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+              SANTA FE, ARGENTINA & REMOTO
+            </div>
+            <div className="flex gap-6">
+              <a href="#servicios" className="hover:text-white transition-colors">Servicios</a>
+              <a href="#comparativa" className="hover:text-white transition-colors">Ventajas</a>
+              <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Contacto</a>
+            </div>
+          </div>
         </footer>
+
       </div>
 
-      {/* WhatsApp Floating Button - Green Background and Pop design */}
+      {/* Floating Glass WhatsApp Pill */}
       <div 
         className="fixed z-50 pointer-events-none"
         style={{ 
-          bottom: 'max(2.5rem, calc(1.5rem + env(safe-area-inset-bottom)))',
-          left: '50%',
-          transform: 'translateX(-50%)'
+          bottom: 'max(2rem, calc(1.5rem + env(safe-area-inset-bottom)))',
+          right: 'max(1.5rem, calc(1rem + env(safe-area-inset-right)))'
         }}
       >
         <MagneticButton 
@@ -237,31 +580,256 @@ export default function App() {
           id="btn-contacto-whatsapp"
           aria-label="Contactar a Karim Servin por WhatsApp"
           title="Contactar a Karim Servin por WhatsApp"
-          className="flex items-center justify-center gap-3 bg-[#25D366] text-white px-8 py-4 md:px-10 md:py-5 rounded-full shadow-[0_15px_40px_rgba(37,211,102,0.3)] pointer-events-auto group transition-all duration-300 hover:bg-[#22c35e] hover:shadow-[0_20px_50px_rgba(37,211,102,0.5)] hover:scale-[1.03] border border-white/10"
+          className="flex items-center gap-3 bg-neutral-900/90 text-white px-6 py-4 rounded-full border border-white/20 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.8)] pointer-events-auto group transition-all duration-300 hover:border-white/50 hover:bg-black hover:scale-[1.05]"
         >
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24" 
-            className="w-5 h-5 text-white transition-transform duration-300 group-hover:scale-110"
-          >
-            {/* White speech bubble */}
-            <path 
-              fill="currentColor" 
-              d="M12.004 2C6.48 2 2.004 6.48 2.004 12c0 1.73.44 3.36 1.21 4.8l-1.28 4.78c-.06.24.03.49.22.65.13.11.3.17.47.17.06 0 .12-.01.18-.03l4.9-1.31c1.39.73 2.96 1.14 4.6 1.14 5.52 0 10-4.48 10-10S17.524 2 12.004 2z" 
-            />
-            {/* Handset shape filled with green to carve it out perfectly */}
-            <path 
-              fill="#25D366" 
-              className="group-hover:fill-[#22c35e] transition-colors duration-300"
-              d="M16.564 14.87c-.22.62-1.12 1.14-1.64 1.19-.46.04-.93.04-2.74-.61-2.28-.83-3.76-3.1-3.88-3.25-.11-.15-.93-1.21-.93-2.3 0-1.1.57-1.63.78-1.86.21-.22.45-.28.6-.28.15 0 .3.01.43.01.14 0 .31-.05.49.37.18.44.63 1.53.69 1.64.06.11.09.24.02.39-.07.15-.11.24-.22.37l-.34.39c-.11.13-.23.27-.1.49.13.22.58.95.82 1.37.81 1.39 1.49 1.83 1.74 1.95.25.13.4.1.55-.07.15-.17.64-.74.81-.99.17-.25.34-.21.57-.13.23.08 1.46.69 1.72.82.25.13.42.19.48.29.06.1.06.6-.17 1.22z"
-            />
-          </svg>
-          <span className="text-[13px] md:text-[14px] font-black tracking-[0.3em] uppercase mt-[2px]">Contacto</span>
+          <div className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+          </div>
+          <span className="text-[12px] font-bold tracking-[0.2em] uppercase">Contacto Directo</span>
         </MagneticButton>
+      </div>
+
+      {/* Interactive Project Estimator Modal */}
+      <AnimatePresence>
+        {showEstimator && (
+          <InteractiveEstimatorModal onClose={() => setShowEstimator(false)} />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+/* Service Card Component */
+function ServiceCard({ title, tag, icon: Icon, desc, benefits, index }: { title: string, tag: string, icon: any, desc: string, benefits: string[], index: number }) {
+  const cardContent = (
+    <div className="glass-card p-8 rounded-2xl flex flex-col justify-between h-full min-h-[300px] border border-white/10 relative overflow-hidden group">
+      <div className="shine-line" />
+      <div>
+        <div className="flex justify-between items-start mb-6">
+          <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-neutral-400">
+            {tag}
+          </span>
+          <div className="p-2.5 rounded-xl glass-badge text-neutral-300 group-hover:text-white group-hover:border-white/30 transition-all">
+            <Icon size={18} />
+          </div>
+        </div>
+
+        <h3 className="text-xl font-bold tracking-tight mb-3 text-white group-hover:translate-x-0.5 transition-transform">
+          {title}
+        </h3>
+
+        <p className="text-xs text-neutral-400 leading-relaxed mb-6">
+          {desc}
+        </p>
+      </div>
+
+      <div className="pt-4 border-t border-white/10 space-y-2">
+        {benefits.map((b, i) => (
+          <div key={i} className="flex items-center gap-2 text-[11px] text-neutral-300 font-mono">
+            <span className="w-1 h-1 rounded-full bg-white" />
+            <span>{b}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  if (IS_MOBILE) {
+    return cardContent;
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: index * 0.05 }}
+      viewport={{ once: true }}
+      className="h-full"
+    >
+      {cardContent}
+    </motion.div>
+  );
+}
+
+/* Development Step Component */
+function ProcessStep({ step, title, desc }: { step: string, title: string, desc: string }) {
+  return (
+    <div className="glass-card p-8 rounded-2xl border border-white/10 flex flex-col justify-between">
+      <div>
+        <span className="text-3xl font-mono font-bold text-neutral-500 block mb-6">{step}</span>
+        <h3 className="text-lg font-bold text-white mb-3 tracking-tight">{title}</h3>
+        <p className="text-xs text-neutral-400 leading-relaxed">{desc}</p>
       </div>
     </div>
   );
 }
+
+/* FAQ Item Component */
+function FaqItem({ question, answer, isOpen, onClick }: { question: string, answer: string, isOpen: boolean, onClick: () => void }) {
+  return (
+    <div className="glass-card rounded-2xl border border-white/10 overflow-hidden transition-all">
+      <button 
+        onClick={onClick}
+        className="w-full p-6 text-left flex justify-between items-center gap-4 text-sm md:text-base font-bold text-white hover:text-neutral-200"
+      >
+        <span>{question}</span>
+        <ChevronDown size={18} className={`shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-white' : 'text-neutral-400'}`} />
+      </button>
+      {isOpen && (
+        <div className="px-6 pb-6 text-xs md:text-sm text-neutral-400 leading-relaxed border-t border-white/10 pt-4">
+          {answer}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* Interactive Project Estimator Modal */
+function InteractiveEstimatorModal({ onClose }: { onClose: () => void }) {
+  const [projectType, setProjectType] = useState<string>("ecommerce");
+  const [hasAfip, setHasAfip] = useState<boolean>(true);
+  const [urgent, setUrgent] = useState<boolean>(false);
+
+  const calculateEstimate = () => {
+    let baseTime = "2 a 3 semanas";
+    let scope = "Intermedio";
+    
+    if (projectType === 'web') {
+      baseTime = urgent ? "3 a 5 días" : "1 a 2 semanas";
+      scope = "Landing / Institucional";
+    } else if (projectType === 'ecommerce') {
+      baseTime = urgent ? "1 a 2 semanas" : "2 a 3 semanas";
+      scope = "E-Commerce + Mercado Pago";
+    } else {
+      baseTime = urgent ? "2 a 3 semanas" : "3 a 4 semanas";
+      scope = "Sistema a Medida ERP/CRM";
+    }
+
+    return { baseTime, scope };
+  };
+
+  const est = calculateEstimate();
+
+  const handleWhatsAppQuote = () => {
+    const text = `Hola Karim! Estuve usando la calculadora de tu web:%0A- Tipo de proyecto: ${projectType.toUpperCase()}%0A- Integración AFIP/ARCA: ${hasAfip ? 'SÍ' : 'NO'}%0A- Entrega prioritaria: ${urgent ? 'SÍ' : 'NO'}%0AMe gustaría profundizar en el presupuesto.`;
+    window.open(`https://wa.me/543424216870?text=${text}`, '_blank');
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl"
+    >
+      <motion.div
+        initial={{ scale: 0.95, y: 20 }}
+        animate={{ scale: 1, y: 0 }}
+        exit={{ scale: 0.95, y: 20 }}
+        className="glass-card max-w-lg w-full p-8 rounded-3xl border border-white/20 relative"
+      >
+        <button 
+          onClick={onClose}
+          className="absolute top-6 right-6 p-2 rounded-full glass-badge text-neutral-400 hover:text-white"
+        >
+          <X size={18} />
+        </button>
+
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-2 text-xs font-mono uppercase tracking-widest text-neutral-400">
+            <Calculator size={14} />
+            <span>Estimador de Proyecto</span>
+          </div>
+          <h3 className="text-2xl font-black text-white">Configura tu Alcance</h3>
+        </div>
+
+        <div className="space-y-5 mb-8">
+          <div>
+            <label className="text-xs font-mono uppercase text-neutral-400 block mb-2">Tipo de Proyecto</label>
+            <div className="grid grid-cols-3 gap-2">
+              <button 
+                onClick={() => setProjectType('web')} 
+                className={`p-3 rounded-xl text-xs font-bold border text-center transition-all ${projectType === 'web' ? 'bg-white text-black border-white' : 'glass-button text-neutral-300'}`}
+              >
+                Sitio Web
+              </button>
+              <button 
+                onClick={() => setProjectType('ecommerce')} 
+                className={`p-3 rounded-xl text-xs font-bold border text-center transition-all ${projectType === 'ecommerce' ? 'bg-white text-black border-white' : 'glass-button text-neutral-300'}`}
+              >
+                E-Commerce
+              </button>
+              <button 
+                onClick={() => setProjectType('system')} 
+                className={`p-3 rounded-xl text-xs font-bold border text-center transition-all ${projectType === 'system' ? 'bg-white text-black border-white' : 'glass-button text-neutral-300'}`}
+              >
+                Sistema
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs font-mono uppercase text-neutral-400 block mb-2">Integración AFIP / ARCA</label>
+            <div className="grid grid-cols-2 gap-2">
+              <button 
+                onClick={() => setHasAfip(true)} 
+                className={`p-3 rounded-xl text-xs font-bold border text-center transition-all ${hasAfip ? 'bg-white text-black border-white' : 'glass-button text-neutral-300'}`}
+              >
+                Sí (Factura Auto)
+              </button>
+              <button 
+                onClick={() => setHasAfip(false)} 
+                className={`p-3 rounded-xl text-xs font-bold border text-center transition-all ${!hasAfip ? 'bg-white text-black border-white' : 'glass-button text-neutral-300'}`}
+              >
+                No Requerido
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label className="text-xs font-mono uppercase text-neutral-400 block mb-2">Plazo de Entrega</label>
+            <div className="grid grid-cols-2 gap-2">
+              <button 
+                onClick={() => setUrgent(false)} 
+                className={`p-3 rounded-xl text-xs font-bold border text-center transition-all ${!urgent ? 'bg-white text-black border-white' : 'glass-button text-neutral-300'}`}
+              >
+                Estándar
+              </button>
+              <button 
+                onClick={() => setUrgent(true)} 
+                className={`p-3 rounded-xl text-xs font-bold border text-center transition-all ${urgent ? 'bg-white text-black border-white' : 'glass-button text-neutral-300'}`}
+              >
+                Prioritario (Express)
+              </button>
+            </div>
+          </div>
+
+          <div className="p-4 rounded-xl glass-panel border border-white/10 space-y-2">
+            <div className="flex justify-between text-xs font-mono">
+              <span className="text-neutral-400">Alcance Estimado:</span>
+              <span className="text-white font-bold">{est.scope}</span>
+            </div>
+            <div className="flex justify-between text-xs font-mono">
+              <span className="text-neutral-400">Tiempo Estimado:</span>
+              <span className="text-white font-bold">{est.baseTime}</span>
+            </div>
+          </div>
+        </div>
+
+        <button
+          onClick={handleWhatsAppQuote}
+          className="w-full py-4 rounded-xl bg-white text-black font-bold text-xs uppercase tracking-widest hover:bg-neutral-200 transition-all flex items-center justify-center gap-2"
+        >
+          <MessageSquare size={16} />
+          <span>Solicitar Cotización Exacta</span>
+        </button>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* Magnetic Button Component */
 function MagneticButton({ children, className, href, ...props }: { children: React.ReactNode, className: string, href: string, [key: string]: any }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -273,7 +841,7 @@ function MagneticButton({ children, className, href, ...props }: { children: Rea
     const { height, width, left, top } = e.currentTarget.getBoundingClientRect();
     const xPos = clientX - (left + width / 2);
     const yPos = clientY - (top + height / 2);
-    x.set(xPos * 0.3); // Fuerza magnética
+    x.set(xPos * 0.3);
     y.set(yPos * 0.3);
   };
 
@@ -290,11 +858,8 @@ function MagneticButton({ children, className, href, ...props }: { children: Rea
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ x: springX, y: springY }}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 1.2, delay: 0.2, ease: [0.19, 1, 0.22, 1] }}
+      whileHover={{ scale: 1.03 }}
+      whileTap={{ scale: 0.97 }}
       className={className}
       {...props}
     >
@@ -303,6 +868,7 @@ function MagneticButton({ children, className, href, ...props }: { children: Rea
   );
 }
 
+/* Scramble Text Effect for Brand Logo */
 function ScrambleText({ text }: { text: string }) {
   const [displayText, setDisplayText] = useState(text);
   const [isHovering, setIsHovering] = useState(false);
@@ -340,13 +906,24 @@ function ScrambleText({ text }: { text: string }) {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       translate="no" 
-      className="font-mono text-[20px] md:text-[24px] tracking-[0.2em] uppercase whitespace-nowrap text-ink font-bold leading-none cursor-crosshair min-w-[120px] inline-block"
+      className="font-sans text-[26px] md:text-[30px] tracking-[-0.04em] whitespace-nowrap text-white font-black leading-none cursor-crosshair inline-block select-none"
     >
-      {displayText}
+      {displayText.split("").map((char, index) => {
+        if (char.toLowerCase() === "i") {
+          return (
+            <span key={index} className="relative inline-block">
+              ı
+              <span className="absolute top-[0.14em] left-[50%] -translate-x-1/2 w-[0.16em] h-[0.16em] rounded-full bg-white shadow-[0_0_8px_#ffffff]" />
+            </span>
+          );
+        }
+        return char;
+      })}
     </span>
   );
 }
 
+/* Antigravity Floating Scene */
 function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
@@ -357,12 +934,11 @@ function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
   }, []);
 
   const elements = [
-    { id: 1, type: 'text', content: 'E-commerce', x: 15, y: 8, mass: 1 },
-    { id: 2, type: 'icon', icon: ShoppingBag, x: 80, y: 12, mass: 1.5 },
-    { id: 5, type: 'icon', icon: Code2, x: 85, y: 28, mass: 0.8 },
+    { id: 1, type: 'text', content: 'E-commerce ARCA', x: 15, y: 14, mass: 1 },
+    { id: 2, type: 'icon', icon: ShoppingBag, x: 82, y: 18, mass: 1.5 },
+    { id: 3, type: 'icon', icon: Code2, x: 86, y: 38, mass: 0.8 },
   ];
 
-  // On mobile, hide text elements to prevent overlap with the title
   const visibleElements = isMobile ? elements.filter(el => el.type !== 'text') : elements;
 
   return (
@@ -370,8 +946,6 @@ function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       <div className="fixed inset-0 z-0 pointer-events-none">
         <ParticleField mouseX={mouseX} mouseY={mouseY} />
       </div>
-      
-
       
       {visibleElements.map((el) => (
         <PhysicsElement 
@@ -385,85 +959,7 @@ function AntigravityScene({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
   );
 }
 
-function ServiceCard({ title, desc, index }: { title: string, desc: string, index: number }) {
-  // Curated premium accents grouped by category (Frontend/Digital, Backend/Systems, Data/AI/Advice)
-  const getAccent = (idx: number) => {
-    if (idx < 3) {
-      // Group 1: Frontend & Digital (Green gradient)
-      return {
-        border: "hover:border-brand-cyan/30",
-        shadow: "hover:shadow-[0_0_30px_rgba(52,211,153,0.08)]",
-        bg: "hover:bg-brand-cyan/[0.015]",
-        text: "group-hover:text-brand-cyan",
-        dot: "bg-brand-cyan",
-        tag: "Canal Digital",
-        tagColor: "text-brand-cyan/40 group-hover:text-brand-cyan/60"
-      };
-    } else if (idx < 6) {
-      // Group 2: Systems & Business (Emerald gradient)
-      return {
-        border: "hover:border-brand-blue/30",
-        shadow: "hover:shadow-[0_0_30px_rgba(16,185,129,0.08)]",
-        bg: "hover:bg-brand-blue/[0.015]",
-        text: "group-hover:text-brand-blue",
-        dot: "bg-brand-blue",
-        tag: "Sistemas & AFIP",
-        tagColor: "text-brand-blue/40 group-hover:text-brand-blue/60"
-      };
-    } else {
-      // Group 3: Data & Intelligence (Petroleum gradient)
-      return {
-        border: "hover:border-brand-indigo/30",
-        shadow: "hover:shadow-[0_0_30px_rgba(15,23,42,0.08)]",
-        bg: "hover:bg-brand-indigo/[0.015]",
-        text: "group-hover:text-brand-indigo",
-        dot: "bg-brand-indigo",
-        tag: "Datos & Automatización",
-        tagColor: "text-brand-indigo/40 group-hover:text-brand-indigo/60"
-      };
-    }
-  };
-
-  const accent = getAccent(index);
-
-  const cardClass = `p-8 md:p-10 rounded-2xl border border-slate-200/50 bg-white/40 shadow-[0_8px_30px_rgba(0,0,0,0.015)] backdrop-blur-lg md:backdrop-blur-3xl transition-all duration-500 group cursor-default pointer-events-auto flex flex-col justify-between min-h-[200px] md:min-h-[220px] hover:bg-white hover:border-slate-300 ${accent.border} ${accent.shadow} ${accent.bg}`;
-
-  const cardContent = (
-    <>
-      <div>
-        <div className="flex justify-between items-start mb-6">
-          <span className={`text-[9px] tracking-[0.25em] uppercase font-mono ${accent.tagColor} transition-colors duration-500`}>
-            {accent.tag}
-          </span>
-          <span className={`w-1.5 h-1.5 rounded-full ${accent.dot} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-        </div>
-        <h3 className={`text-xl md:text-2xl font-black tracking-tighter transition-all duration-500 group-hover:translate-x-1 mb-4 text-slate-900 ${accent.text}`}>
-          {title}
-        </h3>
-      </div>
-      <p className="text-[11px] md:text-[12px] text-slate-500 leading-relaxed tracking-wider uppercase group-hover:text-slate-800 transition-colors duration-500">
-        {desc}
-      </p>
-    </>
-  );
-
-  if (IS_MOBILE) {
-    return <div className={cardClass}>{cardContent}</div>;
-  }
-
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, delay: index * 0.1 }}
-      viewport={{ once: true }}
-      className={cardClass}
-    >
-      {cardContent}
-    </motion.div>
-  );
-}
-
+/* Background Particle Field */
 function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -480,37 +976,29 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       speedX: number;
       speedY: number;
       opacity: number;
-      shape: 'circle' | 'square';
       flickerSpeed: number;
-      color?: 'brand-blue' | 'base';
     }
 
-    const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     let particles: Particle[] = [];
 
     const init = () => {
       particles = [];
       const area = canvas.width * canvas.height;
-      const pixelRatio = canvas.width < 768 ? 11000 : 25000;
-      const dynamicParticleCount = Math.max(12, Math.min(80, Math.floor(area / pixelRatio)));
+      const dynamicParticleCount = Math.max(15, Math.min(60, Math.floor(area / 30000)));
 
       for (let i = 0; i < dynamicParticleCount; i++) {
         particles.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 1.5 + 0.2,
-          speedX: (Math.random() - 0.5) * 0.1,
-          speedY: (Math.random() - 0.5) * 0.1,
-          opacity: Math.random() * 0.4 + 0.1,
-          shape: Math.random() > 0.8 ? 'square' : 'circle',
+          size: Math.random() * 1.5 + 0.3,
+          speedX: (Math.random() - 0.5) * 0.12,
+          speedY: (Math.random() - 0.5) * 0.12,
+          opacity: Math.random() * 0.5 + 0.1,
           flickerSpeed: Math.random() * 0.05 + 0.01,
-          color: Math.random() > 0.8 ? 'brand-blue' : 'base'
         });
       }
     };
 
-    // Debounce resize para evitar recrear particulas repetidamente
-    // (ej: rotacion de pantalla en movil dispara multiples resize)
     let resizeTimeout: ReturnType<typeof setTimeout>;
     const resize = () => {
       clearTimeout(resizeTimeout);
@@ -521,56 +1009,20 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
       }, 150);
     };
 
-    // Inicializar inmediatamente la primera vez
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     init();
 
     let animationId: number;
     let time = 0;
-    let lastTime = 0;
-    const fpsLimit = isMobileDevice ? 30 : 60;
-    const frameInterval = 1000 / fpsLimit;
-    const MOUSE_RADIUS = 150;
-    const MOUSE_RADIUS_SQ = MOUSE_RADIUS * MOUSE_RADIUS;
 
-    const animate = (now: number) => {
+    const animate = () => {
       animationId = requestAnimationFrame(animate);
-      
-      const delta = now - lastTime;
-      if (delta < frameInterval) return;
-      lastTime = now - (delta % frameInterval);
-
       time += 0.01;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       const curMouseX = mouseX.get();
       const curMouseY = mouseY.get();
-
-      const dynamicConnectionDist = Math.min(250, Math.max(110, canvas.width * 0.15));
-      const connectionDistSq = dynamicConnectionDist * dynamicConnectionDist;
-      const currentLineWidth = canvas.width < 768 ? 1.1 : 1.2;
-      const currentMaxOpacity = canvas.width < 768 ? 0.85 : 0.9;
-      const mouseForceMult = isMobileDevice ? 0.5 : 1;
-
-      ctx.lineWidth = currentLineWidth;
-      for (let i = 0; i < particles.length; i++) {
-        const p1 = particles[i];
-        
-        // Mouse interaction - usar distancia al cuadrado para evitar sqrt
-        const mdx = p1.x - curMouseX;
-        const mdy = p1.y - curMouseY;
-        const mdistSq = mdx * mdx + mdy * mdy;
-        
-        if (mdistSq < MOUSE_RADIUS_SQ && mdistSq > 0) {
-          const mdist = Math.sqrt(mdistSq);
-          const force = (MOUSE_RADIUS - mdist) / MOUSE_RADIUS;
-          p1.x += (mdx / mdist) * force * mouseForceMult;
-          p1.y += (mdy / mdist) * force * mouseForceMult;
-        }
-
-        // Las conexiones entre partículas fueron eliminadas para un efecto de "polvo estelar" más limpio
-      }
 
       particles.forEach(p => {
         p.x += p.speedX;
@@ -582,18 +1034,10 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
         if (p.y > canvas.height) p.y = 0;
 
         const currentOpacity = p.opacity * (0.7 + Math.sin(time / p.flickerSpeed) * 0.3);
-        if (p.color === 'brand-blue') {
-          ctx.fillStyle = `rgba(16, 185, 129, ${currentOpacity * 1.5})`;
-        } else {
-          ctx.fillStyle = `rgba(15, 23, 42, ${currentOpacity * 0.4})`;
-        }
+        ctx.fillStyle = `rgba(255, 255, 255, ${currentOpacity * 0.5})`;
         
         ctx.beginPath();
-        if (p.shape === 'square') {
-          ctx.rect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
-        } else {
-          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        }
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
         ctx.fill();
       });
     };
@@ -611,29 +1055,25 @@ function ParticleField({ mouseX, mouseY }: { mouseX: any, mouseY: any }) {
   return (
     <canvas 
       ref={canvasRef} 
-      className="absolute inset-0 z-0 pointer-events-none will-change-transform"
+      className="absolute inset-0 z-0 pointer-events-none"
     />
   );
 }
 
-function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY }: any) {
+/* Physics Floating Element */
+function PhysicsElement({ x, y, content, icon: Icon, mass, mouseX, mouseY }: any) {
   const elementRef = useRef<HTMLDivElement>(null);
-  
   const mX = useMotionValue(0);
   const mY = useMotionValue(0);
 
-  // Viscous drag for a heavier, premium feel
   const springConfig = { damping: 80, stiffness: 40, mass: 3 };
   const springX = useSpring(mX, springConfig);
   const springY = useSpring(mY, springConfig);
 
-  const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
   useEffect(() => {
-    if (isMobileDevice) return; // Disable interactive physics on mobile for performance
+    if (IS_MOBILE) return;
 
     const unsubscribeX = mouseX.on("change", (latestX: number) => {
-      // Use cached/estimated position to avoid getBoundingClientRect reflows
       const elCenterX = (x / 100) * window.innerWidth;
       const elCenterY = (y / 100) * window.innerHeight;
       
@@ -658,13 +1098,10 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
     return () => unsubscribeX();
   }, [mouseX, mouseY, mass, mX, mY, x, y]);
 
-  // Use a deterministic seed for the delay based on x and y
-  const animationDelay = (x + y) % 3;
-
   return (
     <motion.div
       ref={elementRef}
-      drag={!isMobileDevice}
+      drag={!IS_MOBILE}
       dragConstraints={{ left: -100, right: 100, top: -100, bottom: 100 }}
       style={{ 
         left: `${x}%`, 
@@ -677,50 +1114,19 @@ function PhysicsElement({ x, y, content, icon: Icon, title, mass, mouseX, mouseY
       <motion.div 
         animate={{ y: [-8, 8, -8] }}
         transition={{ 
-          duration: 3 + (x % 2), 
+          duration: 4, 
           repeat: Infinity, 
-          ease: "easeInOut",
-          delay: animationDelay
+          ease: "easeInOut"
         }}
       >
-        {title ? (
-          <motion.div 
-            animate={{ 
-              borderColor: ["rgba(15,23,42,0.35)", "rgba(16,185,129,0.35)", "rgba(52,211,153,0.35)", "rgba(15,23,42,0.35)"],
-              backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
-            }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="p-6 w-64 shadow-xl backdrop-blur-xl rounded-2xl border"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <span className="text-[10px] tracking-widest uppercase opacity-40 text-slate-900">Core Concept</span>
-              <MoreHorizontal size={12} className="opacity-40 text-slate-900" />
-            </div>
-            <h3 className="text-sm font-bold mb-2 tracking-tight text-slate-900">{title}</h3>
-            <p className="text-[11px] opacity-60 leading-relaxed text-slate-600">{content}</p>
-          </motion.div>
-        ) : Icon ? (
-          <motion.div 
-            animate={{ 
-              borderColor: ["rgba(16,185,129,0.35)", "rgba(52,211,153,0.35)", "rgba(15,23,42,0.35)", "rgba(16,185,129,0.35)"],
-              backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
-            }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            className="p-4 flex items-center justify-center backdrop-blur-xl rounded-2xl border"
-          >
-            <Icon size={24} className="opacity-80 text-slate-800" />
-          </motion.div>
+        {Icon ? (
+          <div className="p-3.5 glass-card rounded-2xl flex items-center justify-center border border-white/20">
+            <Icon size={22} className="text-white" />
+          </div>
         ) : (
-          <motion.span 
-            animate={{ 
-              borderColor: ["rgba(52,211,153,0.35)", "rgba(15,23,42,0.35)", "rgba(16,185,129,0.35)", "rgba(52,211,153,0.35)"],
-              backgroundColor: ["rgba(255,255,255,0.7)", "rgba(255,255,255,0.7)"]
-            }}
-            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            className="text-[11px] font-medium tracking-[0.2em] uppercase py-2 px-4 inline-block whitespace-nowrap backdrop-blur-xl rounded-2xl border text-slate-800"
-          >
+          <span className="text-[11px] font-mono font-medium tracking-[0.2em] uppercase py-2.5 px-5 glass-card rounded-xl text-white inline-block border border-white/20">
             {content}
-          </motion.span>
+          </span>
         )}
       </motion.div>
     </motion.div>
