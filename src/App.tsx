@@ -35,10 +35,12 @@ import {
   GraduationCap,
   Briefcase,
   Users,
-  Building2
+  Building2,
+  Linkedin
 } from "lucide-react";
 
 const WHATSAPP_LINK = `https://wa.me/543424216870?text=Hola+Karim!+Me+gustaría+consultar+por+un+proyecto+de+software/web.`;
+const LINKEDIN_LINK = `https://www.linkedin.com/in/karim-servin/`;
 
 // Detect mobile once at module level
 const IS_MOBILE = typeof navigator !== 'undefined' && /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -305,66 +307,48 @@ export default function App() {
                     </p>
                   </div>
 
-                  <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-4">
+                  <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-4 items-center">
                     <a
                       href={WHATSAPP_LINK}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-2.5 bg-white text-black font-bold tracking-[0.15em] text-xs uppercase px-6 py-3.5 rounded-xl hover:bg-neutral-200 transition-all"
+                      className="inline-flex items-center gap-2.5 bg-white text-black font-bold tracking-[0.15em] text-xs uppercase px-6 py-3.5 rounded-xl hover:bg-neutral-200 transition-all shadow-[0_0_20px_rgba(255,255,255,0.15)]"
                     >
                       <MessageSquare size={15} />
-                      <span>Conversar con Karim</span>
+                      <span>Conversar por WhatsApp</span>
+                    </a>
+                    <a
+                      href={LINKEDIN_LINK}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2.5 glass-button text-white font-semibold tracking-[0.15em] text-xs uppercase px-6 py-3.5 rounded-xl hover:bg-white/10 hover:border-white/40 transition-all"
+                    >
+                      <Linkedin size={15} className="text-white" />
+                      <span>Ver LinkedIn</span>
+                      <ArrowUpRight size={14} className="text-neutral-400" />
                     </a>
                   </div>
                 </div>
 
-                {/* Right Column: 4 Strategic Pillars */}
-                <div className="w-full lg:w-[420px] shrink-0 grid grid-cols-1 gap-4">
-                  <div className="glass-panel p-6 rounded-2xl border border-white/15 flex items-start gap-4">
-                    <div className="p-3 rounded-xl glass-badge text-white shrink-0 mt-1">
-                      <GraduationCap size={22} />
-                    </div>
-                    <div>
-                      <h3 className="text-base font-bold text-white mb-1">Formación Rigurosa UTN</h3>
-                      <p className="text-xs text-neutral-400 leading-relaxed">
-                        Formación universitaria sólida en ingeniería de software, bases de datos y diseño de arquitecturas robustas.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="glass-panel p-6 rounded-2xl border border-white/15 flex items-start gap-4">
-                    <div className="p-3 rounded-xl glass-badge text-white shrink-0 mt-1">
-                      <Briefcase size={22} />
-                    </div>
-                    <div>
-                      <h3 className="text-base font-bold text-white mb-1">Experiencia Institucional Real</h3>
-                      <p className="text-xs text-neutral-400 leading-relaxed">
-                        Trabajo diario en relación de dependencia desarrollando y manteniendo sistemas institucionales de alta exigencia.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="glass-panel p-6 rounded-2xl border border-white/15 flex items-start gap-4">
-                    <div className="p-3 rounded-xl glass-badge text-white shrink-0 mt-1">
-                      <Building2 size={22} />
-                    </div>
-                    <div>
-                      <h3 className="text-base font-bold text-white mb-1">Digitalización de Procesos</h3>
-                      <p className="text-xs text-neutral-400 leading-relaxed">
-                        Transformación de flujos manuales e ineficientes en sistemas ágiles que aumentan la rentabilidad del negocio.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="glass-panel p-6 rounded-2xl border border-white/15 flex items-start gap-4">
-                    <div className="p-3 rounded-xl glass-badge text-white shrink-0 mt-1">
-                      <Users size={22} />
-                    </div>
-                    <div>
-                      <h3 className="text-base font-bold text-white mb-1">Empoderamiento de Equipos</h3>
-                      <p className="text-xs text-neutral-400 leading-relaxed">
-                        Herramientas diseñadas para que los empleados las adopten fácilmente y potencien su productividad diaria.
-                      </p>
+                {/* Right Column: Photo Showcase */}
+                <div className="w-full lg:w-[440px] shrink-0 relative group">
+                  <div className="glass-card p-3 rounded-3xl border border-white/20 overflow-hidden relative shadow-[0_25px_60px_rgba(0,0,0,0.7)]">
+                    <div className="shine-line" />
+                    <img 
+                      src="/karim.jpg" 
+                      alt="Karim Servin - Analista en Sistemas UTN" 
+                      className="w-full h-[480px] md:h-[520px] object-cover object-center rounded-2xl filter brightness-[0.95] contrast-[1.03] group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                    />
+                    
+                    {/* Overlay Glass Tag on Photo */}
+                    <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl glass-panel border border-white/20 backdrop-blur-xl bg-black/60 shadow-lg">
+                      <div className="flex items-center gap-3">
+                        <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse shrink-0" />
+                        <div>
+                          <span className="text-xs font-bold text-white block tracking-wide">Karim Servin</span>
+                          <span className="text-[10px] font-mono text-neutral-300 uppercase tracking-wider block">Analista Desarrollador en Sistemas — UTN</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
