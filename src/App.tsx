@@ -243,11 +243,7 @@ export default function App() {
               </div>
 
               {/* Trust Metrics Grid — Glass Cards */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full mt-16 pt-10 border-t border-white/10">
-                <div className="glass-card p-5 rounded-xl flex flex-col gap-1">
-                  <span className="text-2xl md:text-3xl font-black tracking-tight text-white">UTN</span>
-                  <span className="text-[11px] text-neutral-400 font-mono uppercase tracking-wider">Analista en Sistemas</span>
-                </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full mt-16 pt-10 border-t border-white/10">
                 <div className="glass-card p-5 rounded-xl flex flex-col gap-1">
                   <span className="text-2xl md:text-3xl font-black tracking-tight text-white">100%</span>
                   <span className="text-[11px] text-neutral-400 font-mono uppercase tracking-wider">Garantía Devolución</span>
@@ -291,13 +287,13 @@ export default function App() {
                   <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-6 leading-tight">
                     KARIM SERVIN
                     <span className="block text-lg md:text-2xl font-mono font-semibold text-neutral-400 mt-2">
-                      Analista en Sistemas — UTN Santa Fe
+                      Analista de Sistemas — UTN Santa Fe
                     </span>
                   </h2>
 
                   <div className="space-y-4 text-neutral-300 text-sm md:text-base leading-relaxed font-normal">
                     <p>
-                      Soy Analista en Sistemas egresado de la <strong className="text-white">Universidad Tecnológica Nacional (UTN)</strong>. Actualmente trabajo en <strong className="text-white">relación de dependencia como Analista Desarrollador de Sistemas en una institución</strong>, lo que me brinda una práctica diaria constante en el diseño, desarrollo y mantenimiento de sistemas con altos estándares de calidad, seguridad y escalabilidad.
+                      Soy Analista de Sistemas egresado de la <strong className="text-white">Universidad Tecnológica Nacional (UTN)</strong>. Actualmente trabajo en <strong className="text-white">relación de dependencia como Analista Desarrollador de Sistemas en una institución</strong>, lo que me brinda una práctica diaria constante en el diseño, desarrollo y mantenimiento de sistemas con altos estándares de calidad, seguridad y escalabilidad.
                     </p>
                     <p>
                       De forma paralela, colaboro de manera independiente con diversas <strong className="text-white">empresas, PyMEs y emprendedores</strong> para digitalizar sus procesos operativos clave, eliminar cuellos de botella y potenciar sus márgenes de beneficio.
@@ -336,20 +332,9 @@ export default function App() {
                     <div className="shine-line" />
                     <img 
                       src="/karim.jpg" 
-                      alt="Karim Servin - Analista en Sistemas UTN" 
+                      alt="Karim Servin - Analista de Sistemas UTN" 
                       className="w-full h-[480px] md:h-[520px] object-cover object-center rounded-2xl filter brightness-[0.95] contrast-[1.03] group-hover:scale-[1.02] transition-transform duration-700 ease-out"
                     />
-                    
-                    {/* Overlay Glass Tag on Photo */}
-                    <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl glass-panel border border-white/20 backdrop-blur-xl bg-black/60 shadow-lg">
-                      <div className="flex items-center gap-3">
-                        <div className="w-2.5 h-2.5 rounded-full bg-white animate-pulse shrink-0" />
-                        <div>
-                          <span className="text-xs font-bold text-white block tracking-wide">Karim Servin</span>
-                          <span className="text-[10px] font-mono text-neutral-300 uppercase tracking-wider block">Analista Desarrollador en Sistemas — UTN</span>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
 
@@ -742,7 +727,7 @@ export default function App() {
             <div className="space-y-4">
               <FaqItem 
                 question="¿Cuál es la formación y trayectoria de Karim Servin?"
-                answer="Soy Analista en Sistemas graduado de la UTN (Universidad Tecnológica Nacional). Trabajo en relación de dependencia en el sector corporativo de TI y de forma independiente ayudo a PyMEs y emprendedores a digitalizar sus procesos, brindando herramientas que potencian a sus equipos."
+                answer="Soy Analista de Sistemas graduado de la UTN (Universidad Tecnológica Nacional). Trabajo en relación de dependencia como Analista Desarrollador de Sistemas en una institución y de forma independiente ayudo a PyMEs y emprendedores a digitalizar sus procesos, brindando herramientas que potencian a sus equipos."
                 isOpen={activeFaq === 0}
                 onClick={() => setActiveFaq(activeFaq === 0 ? null : 0)}
               />
