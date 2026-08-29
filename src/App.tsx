@@ -31,7 +31,11 @@ import {
   RotateCcw,
   CreditCard,
   Lock,
-  BadgeCheck
+  BadgeCheck,
+  GraduationCap,
+  Briefcase,
+  Users,
+  Building2
 } from "lucide-react";
 
 const WHATSAPP_LINK = `https://wa.me/543424216870?text=Hola+Karim!+Me+gustaría+consultar+por+un+proyecto+de+software/web.`;
@@ -62,6 +66,17 @@ export default function App() {
   const handleTouchMove = (e: React.TouchEvent) => {
     mouseX.set(e.touches[0].clientX);
     mouseY.set(e.touches[0].clientY);
+  };
+
+  // Helper for smooth scrolling without ugly # in URL
+  const scrollToSection = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      if (typeof window !== "undefined" && window.history.pushState) {
+        window.history.pushState(null, "", window.location.pathname);
+      }
+    }
   };
 
   return (
@@ -100,9 +115,13 @@ export default function App() {
         <header className="fixed top-0 left-0 w-full z-50 pointer-events-auto glass-nav">
           <nav aria-label="Navegación principal" className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <a href="#" className="flex items-center gap-3 group" aria-label="Ir al inicio de Servin">
+              <button 
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} 
+                className="flex items-center gap-3 group text-left cursor-pointer" 
+                aria-label="Ir al inicio de Servin"
+              >
                 <ScrambleText text="servin" />
-              </a>
+              </button>
               <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full glass-badge">
                 <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                 <span className="text-[10px] tracking-[0.2em] uppercase font-mono text-neutral-400">
@@ -111,19 +130,31 @@ export default function App() {
               </div>
             </div>
             
-            <div className="flex items-center gap-4 md:gap-7">
-              <a href="#servicios" className="text-[11px] font-medium tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors duration-300">
+            <div className="flex items-center gap-3 sm:gap-6 md:gap-7">
+              <button 
+                onClick={() => scrollToSection("sobre-mi")} 
+                className="text-[11px] font-medium tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors duration-300 cursor-pointer"
+              >
+                Sobre Mí
+              </button>
+              <button 
+                onClick={() => scrollToSection("servicios")} 
+                className="text-[11px] font-medium tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors duration-300 cursor-pointer"
+              >
                 Servicios
-              </a>
-              <a href="#comparativa" className="hidden md:inline-block text-[11px] font-medium tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors duration-300">
-                Ventajas
-              </a>
-              <a href="#garantia" className="text-[11px] font-medium tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors duration-300">
+              </button>
+              <button 
+                onClick={() => scrollToSection("garantia")} 
+                className="hidden md:inline-block text-[11px] font-medium tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors duration-300 cursor-pointer"
+              >
                 Garantía & Pagos
-              </a>
-              <a href="#proceso" className="hidden lg:inline-block text-[11px] font-medium tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors duration-300">
+              </button>
+              <button 
+                onClick={() => scrollToSection("proceso")} 
+                className="hidden lg:inline-block text-[11px] font-medium tracking-[0.2em] uppercase text-neutral-400 hover:text-white transition-colors duration-300 cursor-pointer"
+              >
                 Proceso
-              </a>
+              </button>
               <a 
                 href={WHATSAPP_LINK}
                 target="_blank"
@@ -200,20 +231,20 @@ export default function App() {
                   <ArrowUpRight size={16} />
                 </a>
 
-                <a
-                  href="#garantia"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 glass-button text-neutral-200 font-semibold tracking-[0.15em] text-xs uppercase px-7 py-4 rounded-xl hover:text-white active:scale-[0.98]"
+                <button
+                  onClick={() => scrollToSection("sobre-mi")}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 glass-button text-neutral-200 font-semibold tracking-[0.15em] text-xs uppercase px-7 py-4 rounded-xl hover:text-white active:scale-[0.98] cursor-pointer"
                 >
-                  <ShieldCheck size={16} className="text-white" />
-                  <span>Ver Garantía & Pagos</span>
-                </a>
+                  <GraduationCap size={16} className="text-white" />
+                  <span>Conocer a Karim (UTN)</span>
+                </button>
               </div>
 
               {/* Trust Metrics Grid — Glass Cards */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full mt-16 pt-10 border-t border-white/10">
                 <div className="glass-card p-5 rounded-xl flex flex-col gap-1">
-                  <span className="text-2xl md:text-3xl font-black tracking-tight text-white">100%</span>
-                  <span className="text-[11px] text-neutral-400 font-mono uppercase tracking-wider">Código a Medida</span>
+                  <span className="text-2xl md:text-3xl font-black tracking-tight text-white">UTN</span>
+                  <span className="text-[11px] text-neutral-400 font-mono uppercase tracking-wider">Analista en Sistemas</span>
                 </div>
                 <div className="glass-card p-5 rounded-xl flex flex-col gap-1">
                   <span className="text-2xl md:text-3xl font-black tracking-tight text-white">100%</span>
@@ -232,6 +263,116 @@ export default function App() {
             </div>
           </section>
 
+          {/* About Me Section (Sobre Mí) */}
+          <section id="sobre-mi" className="w-full max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10">
+            <div className="glass-card p-8 md:p-14 rounded-3xl relative overflow-hidden border border-white/20">
+              <div className="shine-line" />
+
+              <div className="flex flex-col lg:flex-row gap-12 items-start justify-between">
+                
+                {/* Left Column: Bio & Identity */}
+                <div className="flex-1 max-w-2xl">
+                  <div className="flex flex-wrap items-center gap-3 mb-6">
+                    <span className="text-[11px] tracking-[0.4em] uppercase text-neutral-400 font-mono block">
+                      Perfil Profesional
+                    </span>
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-[10px] font-mono tracking-wider font-bold">
+                      <GraduationCap size={13} />
+                      <span>EGRESADO UTN</span>
+                    </div>
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass-badge text-neutral-300 text-[10px] font-mono tracking-wider">
+                      <Briefcase size={12} />
+                      <span>RELACIÓN DE DEPENDENCIA & CONSULTOR</span>
+                    </div>
+                  </div>
+
+                  <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-6 leading-tight">
+                    KARIM SERVIN
+                    <span className="block text-lg md:text-2xl font-mono font-semibold text-neutral-400 mt-2">
+                      Analista en Sistemas — UTN Santa Fe
+                    </span>
+                  </h2>
+
+                  <div className="space-y-4 text-neutral-300 text-sm md:text-base leading-relaxed font-normal">
+                    <p>
+                      Soy Analista en Sistemas egresado de la <strong className="text-white">Universidad Tecnológica Nacional (UTN)</strong>. Actualmente trabajo en <strong className="text-white">relación de dependencia</strong> dentro del sector corporativo de TI, lo que me brinda una visión diaria y profunda de las mejores prácticas en arquitectura, seguridad y escalabilidad tecnológica.
+                    </p>
+                    <p>
+                      De forma paralela, colaboro de manera independiente con diversas <strong className="text-white">empresas, PyMEs y emprendedores</strong> para digitalizar sus procesos operativos clave, eliminar cuellos de botella y potenciar sus márgenes de beneficio.
+                    </p>
+                    <p>
+                      Mi objetivo principal no es solo escribir código, sino proveer <strong className="text-white">herramientas estratégicas e intuitivas</strong> que capaciten a los equipos de trabajo, agilicen las tareas del personal y transformen la tecnología en un motor real de crecimiento para tu negocio.
+                    </p>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-4">
+                    <a
+                      href={WHATSAPP_LINK}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2.5 bg-white text-black font-bold tracking-[0.15em] text-xs uppercase px-6 py-3.5 rounded-xl hover:bg-neutral-200 transition-all"
+                    >
+                      <MessageSquare size={15} />
+                      <span>Conversar con Karim</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Right Column: 4 Strategic Pillars */}
+                <div className="w-full lg:w-[420px] shrink-0 grid grid-cols-1 gap-4">
+                  <div className="glass-panel p-6 rounded-2xl border border-white/15 flex items-start gap-4">
+                    <div className="p-3 rounded-xl glass-badge text-white shrink-0 mt-1">
+                      <GraduationCap size={22} />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-white mb-1">Formación Rigurosa UTN</h3>
+                      <p className="text-xs text-neutral-400 leading-relaxed">
+                        Formación universitaria sólida en ingeniería de software, bases de datos y diseño de arquitecturas robustas.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="glass-panel p-6 rounded-2xl border border-white/15 flex items-start gap-4">
+                    <div className="p-3 rounded-xl glass-badge text-white shrink-0 mt-1">
+                      <Briefcase size={22} />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-white mb-1">Experiencia Corporativa Real</h3>
+                      <p className="text-xs text-neutral-400 leading-relaxed">
+                        Trabajo diario en relación de dependencia aplicando estándares empresariales a proyectos de cualquier escala.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="glass-panel p-6 rounded-2xl border border-white/15 flex items-start gap-4">
+                    <div className="p-3 rounded-xl glass-badge text-white shrink-0 mt-1">
+                      <Building2 size={22} />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-white mb-1">Digitalización de Procesos</h3>
+                      <p className="text-xs text-neutral-400 leading-relaxed">
+                        Transformación de flujos manuales e ineficientes en sistemas ágiles que aumentan la rentabilidad del negocio.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="glass-panel p-6 rounded-2xl border border-white/15 flex items-start gap-4">
+                    <div className="p-3 rounded-xl glass-badge text-white shrink-0 mt-1">
+                      <Users size={22} />
+                    </div>
+                    <div>
+                      <h3 className="text-base font-bold text-white mb-1">Empoderamiento de Equipos</h3>
+                      <p className="text-xs text-neutral-400 leading-relaxed">
+                        Herramientas diseñadas para que los empleados las adopten fácilmente y potencien su productividad diaria.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </section>
+
           {/* Services Section */}
           <section id="servicios" className="w-full max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10">
             <div className="flex flex-col gap-6 mb-12">
@@ -247,25 +388,25 @@ export default function App() {
                 <div className="flex flex-wrap gap-2 p-1 rounded-xl glass-panel">
                   <button
                     onClick={() => setActiveTab("all")}
-                    className={`px-4 py-2 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all ${activeTab === 'all' ? 'bg-white text-black font-bold' : 'text-neutral-400 hover:text-white'}`}
+                    className={`px-4 py-2 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'all' ? 'bg-white text-black font-bold' : 'text-neutral-400 hover:text-white'}`}
                   >
                     Todos (9)
                   </button>
                   <button
                     onClick={() => setActiveTab("web")}
-                    className={`px-4 py-2 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all ${activeTab === 'web' ? 'bg-white text-black font-bold' : 'text-neutral-400 hover:text-white'}`}
+                    className={`px-4 py-2 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'web' ? 'bg-white text-black font-bold' : 'text-neutral-400 hover:text-white'}`}
                   >
                     Web & E-Commerce
                   </button>
                   <button
                     onClick={() => setActiveTab("afip")}
-                    className={`px-4 py-2 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all ${activeTab === 'afip' ? 'bg-white text-black font-bold' : 'text-neutral-400 hover:text-white'}`}
+                    className={`px-4 py-2 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'afip' ? 'bg-white text-black font-bold' : 'text-neutral-400 hover:text-white'}`}
                   >
                     AFIP & Integraciones
                   </button>
                   <button
                     onClick={() => setActiveTab("systems")}
-                    className={`px-4 py-2 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all ${activeTab === 'systems' ? 'bg-white text-black font-bold' : 'text-neutral-400 hover:text-white'}`}
+                    className={`px-4 py-2 rounded-lg text-[11px] font-mono uppercase tracking-wider transition-all cursor-pointer ${activeTab === 'systems' ? 'bg-white text-black font-bold' : 'text-neutral-400 hover:text-white'}`}
                   >
                     Sistemas & IA
                   </button>
@@ -439,7 +580,7 @@ export default function App() {
             </div>
           </section>
 
-          {/* Guarantee & Payment Flexibility Section (New Request) */}
+          {/* Guarantee & Payment Flexibility Section */}
           <section id="garantia" className="w-full max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10">
             <div className="flex flex-col gap-4 mb-12">
               <span className="text-[11px] tracking-[0.4em] uppercase text-neutral-500 font-mono block">
@@ -616,32 +757,32 @@ export default function App() {
 
             <div className="space-y-4">
               <FaqItem 
-                question="¿Cómo funciona la garantía de satisfacción y devolución del dinero?"
-                answer="Fijamos los objetivos y diseño en la propuesta previa. Si al momento del desarrollo el producto entregado no cumple exactamente con las especificaciones acordadas y no estás conforme con los ajustes, te devolvemos el 100% de lo abonado sin demoras."
+                question="¿Cuál es la formación y trayectoria de Karim Servin?"
+                answer="Soy Analista en Sistemas graduado de la UTN (Universidad Tecnológica Nacional). Trabajo en relación de dependencia en el sector corporativo de TI y de forma independiente ayudo a PyMEs y emprendedores a digitalizar sus procesos, brindando herramientas que potencian a sus equipos."
                 isOpen={activeFaq === 0}
                 onClick={() => setActiveFaq(activeFaq === 0 ? null : 0)}
               />
               <FaqItem 
-                question="¿Qué flexibilidades y métodos de pago tienen disponibles?"
-                answer="Ofrecemos esquemas de pago fraccionados por hitos de avance (ejemplo: 50% al inicio y 50% al finalizar contra entrega), o cuotas acordadas según el tamaño del proyecto. Aceptamos transferencia bancaria y Mercado Pago."
+                question="¿Cómo funciona la garantía de satisfacción y devolución del dinero?"
+                answer="Fijamos los objetivos y diseño en la propuesta previa. Si al momento del desarrollo el producto entregado no cumple exactamente con las especificaciones acordadas y no estás conforme con los ajustes, te devolvemos el 100% de lo abonado sin demoras."
                 isOpen={activeFaq === 1}
                 onClick={() => setActiveFaq(activeFaq === 1 ? null : 1)}
               />
               <FaqItem 
-                question="¿Cuánto tiempo tarda el desarrollo de un sitio o sistema a medida?"
-                answer="Dependiendo de la complejidad, una página institucional o landing page toma entre 5 a 10 días hábiles. Un e-commerce completo o sistema con facturación ARCA suele demorar entre 2 a 4 semanas. Trabajamos con entregas semanales para que puedas ver el avance real."
+                question="¿Qué flexibilidades y métodos de pago tienen disponibles?"
+                answer="Ofrecemos esquemas de pago fraccionados por hitos de avance (ejemplo: 50% al inicio y 50% al finalizar contra entrega), o cuotas acordadas según el tamaño del proyecto. Aceptamos transferencia bancaria y Mercado Pago."
                 isOpen={activeFaq === 2}
                 onClick={() => setActiveFaq(activeFaq === 2 ? null : 2)}
               />
               <FaqItem 
-                question="¿Cómo funciona la integración de facturación automática con AFIP / ARCA?"
-                answer="Conectamos tu sistema o tienda mediante Web Services oficiales de AFIP (WSAA / WSFE). Cuando tu cliente realiza una compra o vos emitís una venta en tu panel, el sistema genera la factura electrónica automáticamente y le adjunta el CAE y QR de AFIP."
+                question="¿Cuánto tiempo tarda el desarrollo de un sitio o sistema a medida?"
+                answer="Dependiendo de la complejidad, una página institucional o landing page toma entre 5 a 10 días hábiles. Un e-commerce completo o sistema con facturación ARCA suele demorar entre 2 a 4 semanas. Trabajamos con entregas semanales para que puedas ver el avance real."
                 isOpen={activeFaq === 3}
                 onClick={() => setActiveFaq(activeFaq === 3 ? null : 3)}
               />
               <FaqItem 
-                question="¿Tengo que pagar licencias o mensualidades por el software desarrollado?"
-                answer="No. El código desarrollado es 100% de tu propiedad. Únicamente abonás el costo del hosting/dominio (que suele ser mínimo) y los servicios opcionales de mantenimiento o actualización que quieras contratar a futuro."
+                question="¿Cómo funciona la integración de facturación automática con AFIP / ARCA?"
+                answer="Conectamos tu sistema o tienda mediante Web Services oficiales de AFIP (WSAA / WSFE). Cuando tu cliente realiza una compra o vos emitís una venta en tu panel, el sistema genera la factura electrónica automáticamente y le adjunta el CAE y QR de AFIP."
                 isOpen={activeFaq === 4}
                 onClick={() => setActiveFaq(activeFaq === 4 ? null : 4)}
               />
@@ -674,13 +815,13 @@ export default function App() {
                     <span>Consultar por WhatsApp</span>
                   </a>
 
-                  <a 
-                    href="#garantia"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 glass-button text-neutral-200 font-semibold tracking-[0.15em] text-xs uppercase px-8 py-5 rounded-xl hover:text-white"
+                  <button 
+                    onClick={() => scrollToSection("garantia")}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 glass-button text-neutral-200 font-semibold tracking-[0.15em] text-xs uppercase px-8 py-5 rounded-xl hover:text-white cursor-pointer"
                   >
                     <ShieldCheck size={16} className="text-white" />
                     <span>Conocer Garantías</span>
-                  </a>
+                  </button>
                 </div>
 
               </div>
@@ -691,15 +832,15 @@ export default function App() {
         {/* Footer */}
         <footer className="w-full px-6 md:px-12 py-12 border-t border-white/10 relative z-10 bg-[#080808]">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] tracking-[0.2em] uppercase font-mono text-neutral-500">
-            <div>© 2026 KARIM SERVIN — ANALISTA DE SISTEMAS</div>
+            <div>© 2026 KARIM SERVIN — ANALISTA DE SISTEMAS (UTN)</div>
             <div className="flex items-center gap-2 text-white font-bold">
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
               SANTA FE, ARGENTINA & REMOTO
             </div>
-            <div className="flex gap-6">
-              <a href="#servicios" className="hover:text-white transition-colors">Servicios</a>
-              <a href="#comparativa" className="hover:text-white transition-colors">Ventajas</a>
-              <a href="#garantia" className="hover:text-white transition-colors">Garantía</a>
+            <div className="flex flex-wrap justify-center gap-6">
+              <button onClick={() => scrollToSection("sobre-mi")} className="hover:text-white transition-colors cursor-pointer">Sobre Mí</button>
+              <button onClick={() => scrollToSection("servicios")} className="hover:text-white transition-colors cursor-pointer">Servicios</button>
+              <button onClick={() => scrollToSection("garantia")} className="hover:text-white transition-colors cursor-pointer">Garantía</button>
               <a href={WHATSAPP_LINK} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Contacto</a>
             </div>
           </div>
@@ -805,7 +946,7 @@ function FaqItem({ question, answer, isOpen, onClick }: { question: string, answ
     <div className="glass-card rounded-2xl border border-white/10 overflow-hidden transition-all">
       <button 
         onClick={onClick}
-        className="w-full p-6 text-left flex justify-between items-center gap-4 text-sm md:text-base font-bold text-white hover:text-neutral-200"
+        className="w-full p-6 text-left flex justify-between items-center gap-4 text-sm md:text-base font-bold text-white hover:text-neutral-200 cursor-pointer"
       >
         <span>{question}</span>
         <ChevronDown size={18} className={`shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-white' : 'text-neutral-400'}`} />
