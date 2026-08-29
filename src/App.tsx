@@ -295,7 +295,7 @@ export default function App() {
 
                   <div className="space-y-4 text-neutral-300 text-sm md:text-base leading-relaxed font-normal">
                     <p>
-                      Soy Analista en Sistemas egresado de la <strong className="text-white">Universidad Tecnológica Nacional (UTN)</strong>. Actualmente trabajo en <strong className="text-white">relación de dependencia</strong> dentro del sector corporativo de TI, lo que me brinda una visión diaria y profunda de las mejores prácticas en arquitectura, seguridad y escalabilidad tecnológica.
+                      Soy Analista en Sistemas egresado de la <strong className="text-white">Universidad Tecnológica Nacional (UTN)</strong>. Actualmente trabajo en <strong className="text-white">relación de dependencia como Analista Desarrollador de Sistemas en una institución</strong>, lo que me brinda una práctica diaria constante en el diseño, desarrollo y mantenimiento de sistemas con altos estándares de calidad, seguridad y escalabilidad.
                     </p>
                     <p>
                       De forma paralela, colaboro de manera independiente con diversas <strong className="text-white">empresas, PyMEs y emprendedores</strong> para digitalizar sus procesos operativos clave, eliminar cuellos de botella y potenciar sus márgenes de beneficio.
@@ -337,9 +337,9 @@ export default function App() {
                       <Briefcase size={22} />
                     </div>
                     <div>
-                      <h3 className="text-base font-bold text-white mb-1">Experiencia Corporativa Real</h3>
+                      <h3 className="text-base font-bold text-white mb-1">Experiencia Institucional Real</h3>
                       <p className="text-xs text-neutral-400 leading-relaxed">
-                        Trabajo diario en relación de dependencia aplicando estándares empresariales a proyectos de cualquier escala.
+                        Trabajo diario en relación de dependencia desarrollando y manteniendo sistemas institucionales de alta exigencia.
                       </p>
                     </div>
                   </div>
