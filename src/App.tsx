@@ -287,6 +287,13 @@ export default function App() {
                   <span>Iniciar Proyecto</span>
                   <ArrowUpRight size={16} />
                 </a>
+
+                <button
+                  onClick={() => scrollToSection("sobre-mi")}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 glass-button text-neutral-200 font-semibold tracking-[0.15em] text-xs uppercase px-7 py-4 rounded-xl hover:text-white active:scale-[0.98] cursor-pointer"
+                >
+                  <span>¿Quién soy?</span>
+                </button>
               </div>
 
             </div>
@@ -351,14 +358,11 @@ export default function App() {
 
                 {/* Right Column: Photo Showcase */}
                 <div className="w-full lg:w-[440px] shrink-0 relative group">
-                  <div className="glass-card p-3 rounded-3xl border border-white/20 overflow-hidden relative shadow-[0_25px_60px_rgba(0,0,0,0.7)]">
-                    <div className="shine-line" />
-                    <img 
-                      src="/karim.jpg" 
-                      alt="Karim Servin - Analista de Sistemas UTN" 
-                      className="w-full h-[480px] md:h-[520px] object-cover object-center rounded-2xl filter brightness-[0.95] contrast-[1.03] group-hover:scale-[1.02] transition-transform duration-700 ease-out"
-                    />
-                  </div>
+                  <img 
+                    src="/karim.jpg" 
+                    alt="Karim Servin - Analista de Sistemas UTN" 
+                    className="w-full h-[480px] md:h-[520px] object-cover object-center rounded-2xl filter brightness-[0.95] contrast-[1.03] group-hover:scale-[1.02] transition-transform duration-700 ease-out"
+                  />
                 </div>
 
               </div>
