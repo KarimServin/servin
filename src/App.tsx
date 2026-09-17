@@ -8,34 +8,22 @@ import {
 import { 
   Code2, 
   ShoppingBag, 
-  MoreHorizontal,
-  Zap,
   CheckCircle2,
   ArrowUpRight,
   ShieldCheck,
   Cpu,
   Layers,
   TrendingUp,
-  Terminal,
-  Smartphone,
-  Database,
   Sparkles,
   ChevronDown,
   MessageSquare,
-  Clock,
   FileText,
-  HelpCircle,
   X,
   Server,
   Workflow,
   RotateCcw,
   CreditCard,
-  Lock,
   BadgeCheck,
-  GraduationCap,
-  Briefcase,
-  Users,
-  Building2,
   Linkedin,
   Menu
 } from "lucide-react";
@@ -135,12 +123,6 @@ export default function App() {
               >
                 <ScrambleText text="servin" />
               </button>
-              <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full glass-badge">
-                <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                <span className="text-[10px] tracking-[0.2em] uppercase font-mono text-neutral-400">
-                  Santa Fe, AR
-                </span>
-              </div>
             </div>
             
             {/* Desktop Navigation Links */}
@@ -257,16 +239,6 @@ export default function App() {
           <section className="w-full flex flex-col justify-center px-6 pt-32 pb-16 md:pt-40 md:pb-24 min-h-[90vh] relative z-10">
             <div className="max-w-6xl w-full mx-auto flex flex-col items-start">
               
-              {/* Live Availability Badge */}
-              <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full glass-badge mb-8">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-                </span>
-                <span className="text-[10px] tracking-[0.25em] uppercase font-mono text-neutral-300 font-medium">
-                  DISPONIBLE PARA NUEVOS PROYECTOS 2026
-                </span>
-              </div>
 
               {/* Main Headline (H1 for SEO) */}
               {IS_MOBILE ? (
@@ -315,30 +287,6 @@ export default function App() {
                   <span>Iniciar Proyecto</span>
                   <ArrowUpRight size={16} />
                 </a>
-
-                <button
-                  onClick={() => scrollToSection("sobre-mi")}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 glass-button text-neutral-200 font-semibold tracking-[0.15em] text-xs uppercase px-7 py-4 rounded-xl hover:text-white active:scale-[0.98] cursor-pointer"
-                >
-                  <GraduationCap size={16} className="text-white" />
-                  <span>Conocer a Karim (UTN)</span>
-                </button>
-              </div>
-
-              {/* Trust Metrics Grid — Glass Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full mt-16 pt-10 border-t border-white/10">
-                <div className="glass-card p-5 rounded-xl flex flex-col gap-1">
-                  <span className="text-2xl md:text-3xl font-black tracking-tight text-white">100%</span>
-                  <span className="text-[11px] text-neutral-400 font-mono uppercase tracking-wider">Garantía Devolución</span>
-                </div>
-                <div className="glass-card p-5 rounded-xl flex flex-col gap-1">
-                  <span className="text-2xl md:text-3xl font-black tracking-tight text-white">Flexibles</span>
-                  <span className="text-[11px] text-neutral-400 font-mono uppercase tracking-wider">Pagos por Hitos</span>
-                </div>
-                <div className="glass-card p-5 rounded-xl flex flex-col gap-1">
-                  <span className="text-2xl md:text-3xl font-black tracking-tight text-white">ARCA / AFIP</span>
-                  <span className="text-[11px] text-neutral-400 font-mono uppercase tracking-wider">Sync Automática</span>
-                </div>
               </div>
 
             </div>
@@ -357,14 +305,6 @@ export default function App() {
                     <span className="text-[11px] tracking-[0.4em] uppercase text-neutral-400 font-mono block">
                       Perfil Profesional
                     </span>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-white text-[10px] font-mono tracking-wider font-bold">
-                      <GraduationCap size={13} />
-                      <span>EGRESADO UTN</span>
-                    </div>
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full glass-badge text-neutral-300 text-[10px] font-mono tracking-wider">
-                      <Briefcase size={12} />
-                      <span>RELACIÓN DE DEPENDENCIA & CONSULTOR</span>
-                    </div>
                   </div>
 
                   <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-6 leading-tight">
@@ -471,11 +411,11 @@ export default function App() {
               {(activeTab === 'all' || activeTab === 'web') && (
                 <>
                   <ServiceCard 
-                    title="Desarrollo Web de Alta Gama" 
+                    title="Desarrollo Web" 
                     tag="Canal Digital"
                     icon={Code2}
                     desc="Sitios optimizados para SEO local y conversión instantánea. Velocidad ultra rápida sin frameworks pesados ni plantillas genéricas."
-                    benefits={["Carga en < 1 segundo", "SEO Local Santa Fe", "Diseño Responsive UX/UI"]}
+                    benefits={["Carga en < 1 segundo", "SEO Local", "Diseño Responsive UX/UI"]}
                     index={0}
                   />
                   <ServiceCard 
@@ -491,7 +431,7 @@ export default function App() {
                     tag="Imagen Corporativa"
                     icon={Layers}
                     desc="Presencia digital seria y elegante para empresas, consultoras e instituciones que necesitan generar máxima confianza."
-                    benefits={["Glassmorphism UI", "Seguridad Avanzada", "Multi-idioma listo"]}
+                    benefits={["Diseño Exclusivo", "Seguridad Avanzada", "Multi-idioma listo"]}
                     index={2}
                   />
                 </>
@@ -554,81 +494,6 @@ export default function App() {
                   />
                 </>
               )}
-            </div>
-          </section>
-
-          {/* Why Custom Code Section */}
-          <section id="comparativa" className="w-full max-w-7xl mx-auto px-6 md:px-12 py-20 relative z-10">
-            <div className="glass-card p-8 md:p-14 rounded-3xl relative overflow-hidden border border-white/15">
-              <div className="shine-line" />
-              
-              <div className="max-w-3xl mb-12">
-                <span className="text-[11px] tracking-[0.4em] uppercase text-neutral-400 font-mono block mb-3">
-                  Decisión Estratégica para PyMEs y Emprendedores
-                </span>
-                <h2 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-6">
-                  ¿POR QUÉ ELEGIR CÓDIGO PROPIO EN LUGAR DE PLANTILLAS GENÉRICAS?
-                </h2>
-                <p className="text-neutral-400 text-sm md:text-base leading-relaxed">
-                  Muchas PyMEs pierden ventas diariamente por sitios lentos, plataformas cerradas que cobran comisiones excesivas o software enlatado que no se adapta a su forma de trabajar.
-                </p>
-              </div>
-
-              {/* Comparison Matrix */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Traditional Platforms */}
-                <div className="glass-panel p-6 md:p-8 rounded-2xl border border-red-500/20 bg-red-950/10">
-                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-red-500/20">
-                    <h3 className="text-xl font-bold text-neutral-300">Plantillas Genéricas / Wix / Tiendanube</h3>
-                    <span className="text-xs font-mono text-red-400 px-2.5 py-1 rounded bg-red-500/10 border border-red-500/20">Lento & Limitado</span>
-                  </div>
-                  <ul className="space-y-4 text-sm text-neutral-400">
-                    <li className="flex items-start gap-3">
-                      <span className="text-red-400 font-bold mt-0.5">✕</span>
-                      <span>Comisiones mensuales continuas por cada venta o plugin extra.</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-red-400 font-bold mt-0.5">✕</span>
-                      <span>Carga lenta que perjudica el posicionamiento en Google (SEO).</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-red-400 font-bold mt-0.5">✕</span>
-                      <span>Imposible de integrar con facturación fiscal ARCA o sistemas locales.</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <span className="text-red-400 font-bold mt-0.5">✕</span>
-                      <span>El diseño se ve exactamente igual a cientos de competidores.</span>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Servin Solution */}
-                <div className="glass-panel p-6 md:p-8 rounded-2xl border border-white/30 bg-white/[0.04]">
-                  <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/20">
-                    <h3 className="text-xl font-bold text-white">Desarrollo Servin a Medida</h3>
-                    <span className="text-xs font-mono text-white px-2.5 py-1 rounded bg-white/10 border border-white/30">Vanguardia & Escalable</span>
-                  </div>
-                  <ul className="space-y-4 text-sm text-neutral-200">
-                    <li className="flex items-start gap-3">
-                      <CheckCircle2 size={16} className="text-white shrink-0 mt-0.5" />
-                      <span><strong>100% Tuyo:</strong> Sin comisiones por venta ni licencias ocultas.</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <CheckCircle2 size={16} className="text-white shrink-0 mt-0.5" />
-                      <span><strong>Velocidad Extrema:</strong> Construido con React/Vite para carga instantánea.</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <CheckCircle2 size={16} className="text-white shrink-0 mt-0.5" />
-                      <span><strong>Conexión ARCA/AFIP:</strong> Facturación automática en segundos sin salir de tu panel.</span>
-                    </li>
-                    <li className="flex items-start gap-3">
-                      <CheckCircle2 size={16} className="text-white shrink-0 mt-0.5" />
-                      <span><strong>Diseño Vanguardista:</strong> Estilo glassmorphic exclusivo que destaca tu marca.</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
             </div>
           </section>
 
@@ -885,10 +750,6 @@ export default function App() {
         <footer className="w-full px-6 md:px-12 py-12 border-t border-white/10 relative z-10 bg-[#080808]">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-[11px] tracking-[0.2em] uppercase font-mono text-neutral-500">
             <div>© 2026 KARIM SERVIN — ANALISTA DE SISTEMAS (UTN)</div>
-            <div className="flex items-center gap-2 text-white font-bold">
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-              SANTA FE, ARGENTINA & REMOTO
-            </div>
             <div className="flex flex-wrap justify-center gap-6">
               <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} className="hover:text-white transition-colors cursor-pointer">Inicio</button>
               <button onClick={() => scrollToSection("sobre-mi")} className="hover:text-white transition-colors cursor-pointer">Sobre Mí</button>
